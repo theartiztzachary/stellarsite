@@ -34,11 +34,13 @@ export default function WordleTool() {
     // Functions! //
     async function getWord(wordToSearch: string, currentPage: number): Promise<WordResponse> {
         var apiCall = 'https://wordsapiv1.p.rapidapi.com/words/?letterPattern=^' + wordToSearch + '$&page=' + currentPage;
-        console.log(apiCall)
+        //console.log(apiCall)
 
+        console.log('Before setting headers...');
         const headers: Headers = new Headers();
         headers.set('Accept', 'application/json');
         headers.set('X-RapidAPI-Key', import.meta.env.VITE_REACT_APP_WORD_API_TOKEN);
+        console.log('After setting headers...');
 
         console.log('Exposing the token for debugging...');
         console.log(import.meta.env.VITE_REACT_APP_WORD_API_TOKEN);
