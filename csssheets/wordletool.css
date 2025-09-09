@@ -1,0 +1,123 @@
+/* ----- GENERAL CSS ----- */
+
+/* ----- CLASS-BASED CSS ----- */
+
+.header_section {
+	width: 100%;
+	overflow: auto;
+}
+
+.title_links {
+	width: 90%;
+	float: left;
+}
+
+.title_section {
+	display: flex;
+	justify-content: center;
+}
+
+.navlinks {
+	display: flex;
+	justify-content: center;
+	margin: auto;
+
+}
+
+.dropdown {
+	float: left;
+	display: inline-block;
+	overflow: hidden;
+}
+
+.dropdown_button {
+	background-color: #04AA6D;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	width: 140px;
+}
+
+.dropdown_content {
+	display: none;
+	position: absolute;
+	background-color: #F1F1F1;
+	width: 140px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+.dropdown_content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.dropdown_content a:hover {
+	background-color: #ddd;
+}
+
+.dropdown:hover .dropdown_content {
+	display: block;
+}
+
+.dropdown:hover .dropdown_button {
+	background-color: #3E8E41;
+}
+
+.login_section {
+	width: 10%;
+	float: left;
+}
+
+.page_section {
+	width: 100%;
+	overflow: auto;
+}
+
+.main_section {
+	width: 90%;
+	float: left;
+}
+
+.external_links {
+	width: 10%;
+	float: left;
+}
+
+.footer_section {
+	width: 100%
+}
+
+/* ----- ID-BASED CSS -----*/
+#words_list {
+	white-space: pre-wrap;
+}
+
+#home_button {
+	background-color: #04AA6D;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	width: 140px;
+}
+
+#home_button:hover {
+	background-image: url("../images/sakurapetals.png");
+}
+
+#blog_button {
+	background-color: #04AA6D;
+	color: white;
+	padding: 16px;
+	font-size: 16px;
+	border: none;
+	width: 140px;
+}
+
+#blog_button:hover {
+	background-image: url("../images/nebula.jpg");
+}
