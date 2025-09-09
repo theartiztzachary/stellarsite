@@ -47,9 +47,6 @@ export default function WordleTool() {
 
         const response = await fetch(request);
         const data = await response.json();
-        //console.log('In getWord fucntion...');
-        //console.log(data);
-        //console.log(data.results);
         return data;
 
         //return fetch(request)
