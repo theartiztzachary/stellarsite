@@ -36,14 +36,9 @@ export default function WordleTool() {
         var apiCall = 'https://wordsapiv1.p.rapidapi.com/words/?letterPattern=^' + wordToSearch + '$&page=' + currentPage;
         //console.log(apiCall)
 
-        console.log('Before setting headers...');
         const headers: Headers = new Headers();
         headers.set('Accept', 'application/json');
         headers.set('X-RapidAPI-Key', import.meta.env.VITE_REACT_APP_WORD_API_TOKEN);
-        console.log('After setting headers...');
-
-        console.log('Exposing the token for debugging...');
-        console.log(import.meta.env.VITE_REACT_APP_WORD_API_TOKEN);
 
         const request: RequestInfo = new Request(apiCall, {
             method: 'GET',
