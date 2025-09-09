@@ -40,6 +40,9 @@ export default function WordleTool() {
         headers.set('Accept', 'application/json');
         headers.set('X-RapidAPI-Key', import.meta.env.VITE_REACT_APP_WORD_API_TOKEN);
 
+        console.log('Exposing the token for debugging...');
+        console.log(import.meta.env.VITE_REACT_APP_WORD_API_TOKEN);
+
         const request: RequestInfo = new Request(apiCall, {
             method: 'GET',
             headers: headers
