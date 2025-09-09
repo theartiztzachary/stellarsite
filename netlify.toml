@@ -1,5 +1,5 @@
 [build]
-command = "VITE_REACT_APP_WORD_API_TOKEN=$VITE_REACT_APP_WORD_API_TOKEN react-router build"
+command = "react-router build"
 publish = "build/client"
 
 [dev]
