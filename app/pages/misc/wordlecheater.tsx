@@ -133,7 +133,7 @@ export default function WordleTool() {
 
         //string.split('') effectively returns an array of characters from the string 
         //array.includes(item) returns a bool if the item is or is not in the array
-        console.log(wordList);
+        //console.log(wordList);
 
         //i'm going to need to figure out pagnation for this api call...
         
