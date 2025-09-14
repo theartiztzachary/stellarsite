@@ -34,7 +34,6 @@ export default function WordleTool() {
     // Functions! //
     async function getWord(wordToSearch: string, currentPage: number): Promise<WordResponse> {
         var apiCall = 'https://wordsapiv1.p.rapidapi.com/words/?letterPattern=^' + wordToSearch + '$&page=' + currentPage;
-        //console.log(apiCall)
 
         const headers: Headers = new Headers();
         headers.set('Accept', 'application/json');
@@ -49,18 +48,9 @@ export default function WordleTool() {
         const data = await response.json();
         return data;
 
-        //return fetch(request)
-        //    .then(res => res.json());
-
     } //end of get word function
 
     async function processResult(results: WordResponse, goodLetters: string, badLetters: string, currentPage: number) {
-        //console.log('In the processReults function...')
-        //console.log(results);
-        //console.log(results.results.data[0]);
-        //console.log(goodLetters);
-        //console.log('currentPage at the beginning of processResult...: ' + currentPage); //WHY ARE YOU UNDEFINED >:I
-        //console.log('Total words at the beginning of processResult...: ' + results.results.total);
 
         if (results.results.total >= 500) {
             needToPagenate = false;
@@ -68,8 +58,6 @@ export default function WordleTool() {
             currentPage = 6
             return
         }
-
-        //console.log('I have gotten past the kill switch in processResult.');
 
         var goodLettersArray: [];
         if (goodLetters != "") {
@@ -87,28 +75,22 @@ export default function WordleTool() {
 
         var wordCount: number = 0;
         var goodWord: boolean = true;
+
         for (const word in results.results.data) {
             goodWord = true;
-            //console.log('In the for loop...')
-            //console.log(results.results.data[word])
 
             const currentWordArray = results.results.data[word].split('');
             for (const index in currentWordArray) {
                 if (badLettersArray.includes(currentWordArray[index])) {
-                    //console.log('Bad letter detectd!');
                     goodWord = false;
                     break;
                 }
             }
 
-            //console.log('I have checked for bad letters. goodWord boolean is; ' + goodWord);
-
             var goodLetterDetected = false;
             if (goodWord && (goodLettersArray[0] != "")) {
-                //console.log('Checking for good letters...');
                 for (const index in currentWordArray) {
                     if (goodLettersArray.includes(currentWordArray[index])) {
-                        //console.log('Good letter detected!');
                         goodLetterDetected = true;
                     } 
                 }
@@ -117,7 +99,6 @@ export default function WordleTool() {
             }
 
             if (goodWord && goodLetterDetected) {
-                //console.log(currentPage);
                 wordList = wordList + (((currentPage - 1) * 100) + wordCount + 1).toString() + '. ' + results.results.data[word] + '\n';
                 wordCount += 1;
             }
@@ -127,12 +108,6 @@ export default function WordleTool() {
         if (wordCount != 99) { //theoretically if wordCount is 99, that means 100 words were pulled, which means we need to check pagnations n stuff
             needToPagenate = false;
         }
-
-        //string.split('') effectively returns an array of characters from the string 
-        //array.includes(item) returns a bool if the item is or is not in the array
-        //console.log(wordList);
-
-        //i'm going to need to figure out pagnation for this api call...
         
     } //end of process results function
 
@@ -144,22 +119,14 @@ export default function WordleTool() {
         const data = e.target;
         const formedData = new FormData(data);
         const formedJson = Object.fromEntries(formedData.entries());
-        //console.log(formedJson);
-        //console.log(formedJson.firstLetter);
-
-        //https://wordsapiv1.p.rapidapi.com/words/?letterPattern=^a.{1}.{0}.t.{1}$
-        //REACT_APP_WORD_API_TOKEN
 
         var wordToSearch: string = "";
         var goodLetters: string = "";
         var badLetters: string = "";
 
-        //this is gonna need some uh data validation .3.
         //first five are the known letter/positions, then is other known letters, then is bad letters (7 total)
         var dataCount: number = 0;
         for (const data in formedJson) {
-            //console.log(data);
-            //console.log(formedJson[data]);
             if (dataCount < 5) {
                 if (wordToSearch == "") {
                     if (formedJson[data] == "") {
@@ -183,12 +150,8 @@ export default function WordleTool() {
             dataCount += 1;
         }
 
-        //console.log(wordToSearch);
-
         var currentPage = 1;
         while (needToPagenate) {
-            //console.log('Current page in while loop...: ' + currentPage);
-
             const results = await getWord(wordToSearch, currentPage)
             await processResult(results, goodLetters, badLetters, currentPage);
 
@@ -205,6 +168,28 @@ export default function WordleTool() {
         }
 
     } //end of submit function
+
+    const [yellowRows, setYellowRows] = useState([]);
+    var yellowCount = 1;
+    var subArray = [];
+
+    function addYellowRow (e) {
+        e.preventDefault();
+
+        const currentLabel = 'yellowLetter' + yellowCount.toString();
+
+        for (let i : number = 0; i < 5; i++) {
+            const Component = () => { <label className = "letter_input">
+                                        <input name = "currentLabel" />
+                                      </label>
+            } 
+            yellowCount += 1;
+            subArray.push(<Component />);
+        }
+        
+        setYellowRows([subArray]);
+
+    } //end of add yellow row function
     
     // "HTML" code //
 
@@ -239,36 +224,44 @@ export default function WordleTool() {
                         </div>
 
                         {/* Stories */}
+                        {/*
                         <div className = "dropdown">
                             <button className = "dropdown_button"> Stories </button>
                             <div className = "dropdown_content">
                                 <Link to = '/stories/crescendo/overview'> Crescendo </Link>
                             </div>
                         </div>
+                        */}
 
                         {/* Zenith and Nadir */}
+                        {/*}
                         <div className = "dropdown">
                         <button className = "dropdown_button"> Zenith &amp; Nadir </button>
                             <div className = "dropdown_content">
                                 <Link to = '/zenithnadir/overview'> Overview </Link>
                             </div>
                         </div>
+                        */}
 
                         {/* Warframe */}
+                        {/*
                         <div className = "dropdown">
                         <button className = "dropdown_button"> Warframe </button>
                             <div className = "dropdown_content">
                                 <Link to = '/warframe/tracker'> Tracker </Link>
                             </div>
                         </div>
+                        */}
 
                         {/* Mabinogi */}
+                        {/*
                         <div className = "dropdown">
                         <button className = "dropdown_button"> Mabinogi </button>
                             <div className = "dropdown_content">
                                 <Link to = '/mabinogi/tracker'> Tracker </Link>
                             </div>
                         </div>
+                        /*}
 
                         {/* Misc */}
                         <div className = "dropdown">
@@ -282,7 +275,7 @@ export default function WordleTool() {
                 </div>
 
                 <div className = "login_area">
-                    <p> blep </p>
+                    <p> TBD </p>
                     {/* eventual goal will have people using Google's auth to login to their google account to access their drive
 			            for object storage */}
                     {/* light background dark text vs dark background light text */}
@@ -291,21 +284,16 @@ export default function WordleTool() {
             </div>
             {/* ending of header section */}
 
-            {/* beginning of page section */}{" "}
+            {/* beginning of page section */}
             <div className = "page_section">
 
                 <div className = "main_section">
                     <h1>Wordle Cheating Tool</h1>
                     <p>Built this for fun. As of right now, you can't really insert yellow letters, and you need to know some letter positions for it to work the most effecitvely.</p>
+                    <div id = 'nytwordle'>
+                        <Link to = {{ pathname : 'https://www.nytimes.com/games/wordle/index.html'}} target = '_blank'>Play Wordle!</Link>
+                    </div>
 
-                    {/* so the idea is that there are five slots you can slot in the letters you know and see possible words based on that
-                        at least to start
-                        
-                        so we need five input fields, a button to capture them, and then a small script to take that and fashion and api call,
-                        and then of course show the results of the API call
-                        
-                        hopefully eventually we can have the system know what letters aren't available or what are yellow but we'll start
-                        small*/}
                     <form onSubmit = {handleSubmit}>
                         <h5>Known Letters + Positions:</h5>
                         <label className = "letter_input">
@@ -328,19 +316,46 @@ export default function WordleTool() {
                             <input name = "fifthLetter" />
                         </label>
 
+                        {/* button for Add Yellow Letter Combonation
+                            this will give you a new row of five input fields that allow you to input yellow letters directly
+                            so this would put an unknown amount of new data points betwen the five green letters and the grey letters
+                            and possibly create more api calls - but as long as it's just like me and one friend and i keep an eye on things
+                            i should be fine lol
+                            
+                            so then the first five data points would be the green letters
+                            of the json object from submit, it would be 
+                            if we can get length/amount of points in a json object...
+                            that length divided by five and then minus one would be the amount of yellow word combos we get (since counting starts at zero)
+                            so then 0 - 5 would be the green letters in order,
+                            0 + (5 * x) through 5 + (5 * x) where x the number of yellow combo we're on would be yellow numbers
+                            and then the final number would be the gray letters
+                            though x = 0 would also be the green letters in that formula... */}
+
+
+                        <h5>Yellow Letter Combinations</h5>
+                        <p>Click the button to add a new row, and then place letters in locations where they were yellow.</p>
+                        <button id = "add_yellow_row" onClick = {addYellowRow}>
+                            Add Yellow Letter Combination
+                        </button>
+                        <div id = "added_yellow_rows">
+                            {yellowRows}
+                        </div>
+
+                        {/*}
                         <h5>Other Known Letters:</h5>
                         <p>List letters without spaces or other delimiters.</p>
                         <label>
                             <input name = "goodLetters" />
                         </label>
+                        */}
 
-                        <h5>Letters Not In Word:</h5>
+                        <h5>Letters Not In Word (aka Gray Letters):</h5>
                         <p>List letters without spaces or other delimiters.</p>
                         <label>
                             <input name = "badLetters" />
                         </label>
-
-                        <button id = "findbutton" type = "submit">
+                        <br />
+                        <button id = "find_button" type = "submit">
                             Find Words
                         </button>
 
