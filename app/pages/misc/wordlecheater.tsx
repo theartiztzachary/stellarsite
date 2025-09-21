@@ -1,6 +1,7 @@
 import type { Route } from "./+types/home";
 import '../../../csssheets/wordletool.css';
-import React, { useState} from 'react';
+import React, { useState } from 'react';
+import ReactDom from 'react-dom';
 import { Link } from 'react-router-dom';
 
 export function meta({}: Route.MetaArgs) {
@@ -169,27 +170,71 @@ export default function WordleTool() {
 
     } //end of submit function
 
+    {/*
     const [yellowRows, setYellowRows] = useState([]);
     var yellowCount = 1;
+    var yellowRowCount = 1;
     var subArray = [];
 
     function addYellowRow (e) {
-        e.preventDefault();
+        //e.preventDefault();
 
-        const currentLabel = 'yellowLetter' + yellowCount.toString();
+        const currentLabel = 'yellowLetter' + yellowRowCount.toString() + '.' + yellowCount.toString();
 
         for (let i : number = 0; i < 5; i++) {
-            const Component = () => { <label className = "letter_input">
-                                        <input name = "currentLabel" />
+            const Component = () => { <label key = {currentLabel} className = "letter_input">
+                                        <input name = {currentLabel} />
                                       </label>
             } 
             yellowCount += 1;
             subArray.push(<Component />);
+            console.log(Component);
         }
         
         setYellowRows([subArray]);
+        console.log(subArray);
+        yellowRowCount += 1;
+        yellowCount = 1;
 
     } //end of add yellow row function
+    */}
+
+    var yellowRowCount = 1;
+    const [yellowRows, setYellowRows] = useState([]);
+
+    const YellowRow = () => {
+        return (
+            <div className = 'yellow_row'>
+                <label className = "letter_input">
+                    <input name = "firstLetter" />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = "secondLetter" />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = "thirdLetter" />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = "fourthLetter" />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = "fifthLetter" />
+                </label>
+            </div>
+        );
+    };
+
+    const addYellowRow = event => {
+        console.log(yellowRowCount);
+        setYellowRows(yellowRows.concat(<YellowRow key = {yellowRowCount} />));
+
+        yellowRowCount += 1;
+        console.log(yellowRowCount)
+    };
     
     // "HTML" code //
 
@@ -379,6 +424,8 @@ export default function WordleTool() {
         </>
 
 	);
+
+    ReactDom.render(<getYellowRow />, document.getElementById("getyellowyow"));
   
 }
 
