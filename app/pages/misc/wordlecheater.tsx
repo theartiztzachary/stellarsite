@@ -112,6 +112,55 @@ export default function WordleTool() {
         
     } //end of process results function
 
+    const [yellowRowCount, setRowCount] = useState(1);
+    const [yellowRows, setYellowRows] = useState([]);
+
+    const YellowRow = () => {
+        return (
+            <div className = 'yellow_row'>
+                <label className = "letter_input">
+                    <input name = {`yellowRow${yellowRowCount}FirstLetter`} />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = {`yellowRow${yellowRowCount}SecondLetter`} />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = {`yellowRow${yellowRowCount}ThirdLetter`} />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = {`yellowRow${yellowRowCount}FourthLetter`} />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = {`yellowRow${yellowRowCount}FifthLetter`} />
+                </label>
+            </div>
+        );
+    }; // end of YellowRow component
+
+    const addYellowRow = event => {
+        setYellowRows(yellowRows.concat(<YellowRow key = {yellowRowCount} />));
+
+        setRowCount(prevCount => prevCount + 1);
+    }; //end of add yellow row function
+
+    const [fullWord, isFullWord] = useState(false);
+    const [yellowWord, buildYellowWord] = useState("");
+
+    function processYellowRow(letter: string) {
+        var placeholderYellow = yellowWord;
+        placeholderYellow = placeholderYellow + letter;
+        buildYellowWord(placeholderYellow);
+        console.log(yellowWord);
+
+        if (yellowWord.length == 5) {
+            isFullWord(true)
+        }
+    };
+
     async function handleSubmit(e) {
         e.preventDefault();
         setPossibleWords('Loading...');
@@ -120,15 +169,16 @@ export default function WordleTool() {
         const data = e.target;
         const formedData = new FormData(data);
         const formedJson = Object.fromEntries(formedData.entries());
+        //console.log(formedJson);
 
         var wordToSearch: string = "";
-        var goodLetters: string = "";
+        var yellowRows : [string] = [];
         var badLetters: string = "";
 
-        //first five are the known letter/positions, then is other known letters, then is bad letters (7 total)
+        //first five are the known letter/positions, yellow should be... 6 through 5 + count * 5, then is bad letters
         var dataCount: number = 0;
         for (const data in formedJson) {
-            if (dataCount < 5) {
+            if (dataCount < 5) { // 1 - 5 (0 - 4)
                 if (wordToSearch == "") {
                     if (formedJson[data] == "") {
                         wordToSearch = '.{1}';
@@ -142,19 +192,28 @@ export default function WordleTool() {
                         wordToSearch = wordToSearch + formedJson[data];
                     }
                 }
-            } else if (dataCount < 6) {
-                goodLetters = formedJson[data];
-            } else {
+            } else if ((dataCount < 6) && (dataCount < (5 + (yellowRowCount * 5)))) { // 6 - 5 + count * 5 (5 - (5 + count * 5 - 1))
+                    processYellowRow(formedJson[data]);
+                if (fullWord) {
+                    yellowRows.concat(yellowWord);
+                    buildYellowWord("");
+                    isFullWord(false);
+                } else {
+                    continue
+                }
+            } else { // the rest
                 badLetters = formedJson[data];
             }
 
             dataCount += 1;
         }
 
+        console.log(yellowRows);
+        const goodLetters = ['']; //temp variable so processResults doesn't throw error while testing if basic setup is working
         var currentPage = 1;
         while (needToPagenate) {
             const results = await getWord(wordToSearch, currentPage)
-            await processResult(results, goodLetters, badLetters, currentPage);
+            await processResult(results, goodLetters, badLetters, currentPage); 
 
             currentPage += 1;
             if (currentPage == 6) { //kill switch
@@ -167,45 +226,7 @@ export default function WordleTool() {
         } else {
             setPossibleWords(wordList);
         }
-
     } //end of submit function
-
-    const [yellowRowCount, setCount] = useState(1);
-    const [yellowRows, setYellowRows] = useState([]);
-
-    const YellowRow = () => {
-        return (
-            <div className = 'yellow_row'>
-                <label className = "letter_input">
-                    <input name = "firstLetter" />
-                </label>
-
-                <label className = "letter_input">
-                    <input name = "secondLetter" />
-                </label>
-
-                <label className = "letter_input">
-                    <input name = "thirdLetter" />
-                </label>
-
-                <label className = "letter_input">
-                    <input name = "fourthLetter" />
-                </label>
-
-                <label className = "letter_input">
-                    <input name = "fifthLetter" />
-                </label>
-            </div>
-        );
-    };
-
-    const addYellowRow = event => {
-        console.log(yellowRowCount);
-        setYellowRows(yellowRows.concat(<YellowRow key = {yellowRowCount} />));
-
-        setCount(prevCount => prevCount + 1);
-        console.log(yellowRowCount);
-    };
     
     // "HTML" code //
 
