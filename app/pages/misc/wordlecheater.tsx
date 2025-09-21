@@ -170,36 +170,7 @@ export default function WordleTool() {
 
     } //end of submit function
 
-    {/*
-    const [yellowRows, setYellowRows] = useState([]);
-    var yellowCount = 1;
-    var yellowRowCount = 1;
-    var subArray = [];
-
-    function addYellowRow (e) {
-        //e.preventDefault();
-
-        const currentLabel = 'yellowLetter' + yellowRowCount.toString() + '.' + yellowCount.toString();
-
-        for (let i : number = 0; i < 5; i++) {
-            const Component = () => { <label key = {currentLabel} className = "letter_input">
-                                        <input name = {currentLabel} />
-                                      </label>
-            } 
-            yellowCount += 1;
-            subArray.push(<Component />);
-            console.log(Component);
-        }
-        
-        setYellowRows([subArray]);
-        console.log(subArray);
-        yellowRowCount += 1;
-        yellowCount = 1;
-
-    } //end of add yellow row function
-    */}
-
-    var yellowRowCount = 1;
+    const [yellowRowCount, setCount] = useState(1);
     const [yellowRows, setYellowRows] = useState([]);
 
     const YellowRow = () => {
@@ -232,8 +203,8 @@ export default function WordleTool() {
         console.log(yellowRowCount);
         setYellowRows(yellowRows.concat(<YellowRow key = {yellowRowCount} />));
 
-        yellowRowCount += 1;
-        console.log(yellowRowCount)
+        setCount(prevCount => prevCount + 1);
+        console.log(yellowRowCount);
     };
     
     // "HTML" code //
