@@ -112,7 +112,7 @@ export default function WordleTool() {
         
     } //end of process results function
 
-    const [yellowRowCount, setRowCount] = useState(1);
+    const [yellowRowCount, setRowCount] = useState(0);
     const [yellowRows, setYellowRows] = useState([]);
 
     const YellowRow = () => {
@@ -145,18 +145,20 @@ export default function WordleTool() {
         setYellowRows(yellowRows.concat(<YellowRow key = {yellowRowCount} />));
 
         setRowCount(prevCount => prevCount + 1);
+        //console.log('Yellow Rows: ' + yellowRowCount);
     }; //end of add yellow row function
 
     const [fullWord, isFullWord] = useState(false);
     const [yellowWord, buildYellowWord] = useState("");
 
     function processYellowRow(letter: string) {
-        var placeholderYellow = yellowWord;
-        placeholderYellow = placeholderYellow + letter;
-        buildYellowWord(placeholderYellow);
-        console.log(yellowWord);
+        console.log(letter);
+        buildYellowWord(yellowWord + letter);
+        //console.log(yellowWord);
+        //console.log(yellowWord.length);
 
         if (yellowWord.length == 5) {
+            console.log('A yellow word!')
             isFullWord(true)
         }
     };
@@ -169,15 +171,20 @@ export default function WordleTool() {
         const data = e.target;
         const formedData = new FormData(data);
         const formedJson = Object.fromEntries(formedData.entries());
-        //console.log(formedJson);
+        console.log(formedJson);
 
         var wordToSearch: string = "";
         var yellowRows : [string] = [];
         var badLetters: string = "";
 
         //first five are the known letter/positions, yellow should be... 6 through 5 + count * 5, then is bad letters
+        //console.log('Yellow Rows: ' + yellowRowCount);
+        //console.log(yellowRowCount * 5);
+        //console.log(4 + (yellowRowCount * 5));
         var dataCount: number = 0;
         for (const data in formedJson) {
+            //console.log(formedJson[data]);
+            //console.log(dataCount);
             if (dataCount < 5) { // 1 - 5 (0 - 4)
                 if (wordToSearch == "") {
                     if (formedJson[data] == "") {
@@ -192,16 +199,17 @@ export default function WordleTool() {
                         wordToSearch = wordToSearch + formedJson[data];
                     }
                 }
-            } else if ((dataCount < 6) && (dataCount < (5 + (yellowRowCount * 5)))) { // 6 - 5 + count * 5 (5 - (5 + count * 5 - 1))
-                    processYellowRow(formedJson[data]);
+            } else if ((dataCount >= 5) && (dataCount < (5 + (yellowRowCount * 5)))) { // 6 - 5 + count * 5 (5 - (5 + count * 5 - 1))
+                //console.log('beep');
+                processYellowRow(formedJson[data]);
                 if (fullWord) {
                     yellowRows.concat(yellowWord);
+                    console.log(yellowRows);
                     buildYellowWord("");
                     isFullWord(false);
-                } else {
-                    continue
                 }
             } else { // the rest
+                //console.log('boop');
                 badLetters = formedJson[data];
             }
 
@@ -371,7 +379,7 @@ export default function WordleTool() {
 
                         <h5>Yellow Letter Combinations</h5>
                         <p>Click the button to add a new row, and then place letters in locations where they were yellow.</p>
-                        <button id = "add_yellow_row" onClick = {addYellowRow}>
+                        <button type = "button" id = "add_yellow_row" onClick = {addYellowRow}>
                             Add Yellow Letter Combination
                         </button>
                         <div id = "added_yellow_rows">
