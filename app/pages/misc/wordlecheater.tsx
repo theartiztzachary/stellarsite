@@ -152,14 +152,20 @@ export default function WordleTool() {
     const [yellowWord, buildYellowWord] = useState("");
 
     function processYellowRow(letter: string) {
-        console.log(letter);
-        buildYellowWord(yellowWord + letter);
-        //console.log(yellowWord);
-        //console.log(yellowWord.length);
+        if (letter == '') {
+            console.log('Blank letter...');
+            buildYellowWord(yellowWord.concat('.'));
+            console.log(yellowWord);
+        } else {
+            console.log('Actual letter...');    
+            buildYellowWord(yellowWord.concat(letter));
+            console.log(yellowWord);
+        }
 
         if (yellowWord.length == 5) {
             console.log('A yellow word!')
             isFullWord(true)
+            console.log(fullWord);
         }
     };
 
@@ -167,11 +173,12 @@ export default function WordleTool() {
         e.preventDefault();
         setPossibleWords('Loading...');
         wordList = ""; //set word list to be empty with a fresh submit
+        buildYellowWord(''); //set yellowWord to be blank...?
 
         const data = e.target;
         const formedData = new FormData(data);
         const formedJson = Object.fromEntries(formedData.entries());
-        console.log(formedJson);
+        //console.log(formedJson);
 
         var wordToSearch: string = "";
         var yellowRows : [string] = [];
@@ -203,6 +210,7 @@ export default function WordleTool() {
                 //console.log('beep');
                 processYellowRow(formedJson[data]);
                 if (fullWord) {
+                    console.log('We have a full word!');
                     yellowRows.concat(yellowWord);
                     console.log(yellowRows);
                     buildYellowWord("");
