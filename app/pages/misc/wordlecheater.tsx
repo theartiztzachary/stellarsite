@@ -1,7 +1,7 @@
 //KNOWN MINOR ISSUES
 //1. There is a space in front of the first word in the possible word list. Might be due to starting with an empty string and building on it.
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { Route } from './+types/home';
 import ReactDom from 'react-dom';
 import { Link } from 'react-router-dom';
@@ -41,13 +41,13 @@ export default function WordleTool() {
     //constants and variables//
     var wordList: string = '';
     var needToPagenate: boolean = true;
+    var currentYellowWord: string = ''; //hopefully this works...
+    var isFullWord = false;
 
     //useState variables//
     const [possibleWords, setPossibleWords] = useState('Possible words will appear here after searching.');
     const [yellowRowCount, setYellowRowCount] = useState(0);
     const [yellowRows, setYellowRows] = useState(['']);
-    const [isFullWord, setIsFullWord] = useState(false);
-    const [yellowWord, setYellowWord] = useState('');
 
     //internal components
     const YellowRow = () => {
@@ -96,30 +96,31 @@ export default function WordleTool() {
 
     const addYellowRow = event => {
         setYellowRows(yellowRows.concat(<YellowRow key = {yellowRowCount} />));
-        setRowCount(prevCount => prevCount + 1);
+        setYellowRowCount(prevCount => prevCount + 1);
     }; //end of addYellowRow function
 
     function processYellowRow(letter: string) {
-        //yahoo
-        //putting previous state of this function here but it needs to be re-written
+        console.log('Yellow Row Count: ' + yellowRowCount);
         if (letter == '') {
-            console.log('Blank letter...');
-            buildYellowWord(yellowWord.concat('.'));
-            console.log(yellowWord);
+            if (currentYellowWord == '') {
+                currentYellowWord = '.';
+            } else {
+                currentYellowWord = currentYellowWord + '.';
+            }
         } else {
-            console.log('Actual letter...');    
-            buildYellowWord(yellowWord.concat(letter));
-            console.log(yellowWord);
+            if (currentYellowWord == '') {
+                currentYellowWord = letter;
+            } else {
+                currentYellowWord = currentYellowWord + letter;
+            } 
         }
 
-        if (yellowWord.length == 5) {
-            console.log('A yellow word!')
-            isFullWord(true)
-            console.log(fullWord);
+        if (currentYellowWord.length == 5) {
+            isFullWord = true;
         }
     }; //end of procesYellowRow function
 
-    async function processResult(results: WordResponse, grayLetters: string, currentPage: number) {
+    async function processResult(results: WordResponse, yellowWords: [string], grayLetters: string, currentPage: number) {
         if (results.results.total >= 500) { //checks if there is too much data to comb through, mostly to limit amount of api calls
             needToPagenate = false;
             setPossibleWords('I need more information to narrow down my search.');
@@ -141,20 +142,38 @@ export default function WordleTool() {
             returnedWordCount += 1;
             goodWord = true; //reset goodWord
 
-            const currentWordArray = results.results.data[word].split(''); //split the current word into an array for processing
-            for (const index in currentWordArray) {
-                if (grayLettersArray.includes(currentWordArray[index])) {
+            for (let index: number = 0; index < 5; index++) {
+                if (grayLettersArray.includes(results.results.data[word][index])) {
                     goodWord = false;
-                    break; //if the letter is a known gray letter, set goodWord to false and end current for loop
+                    break; //if the letter is a known gray letter
+                }
+            }
+            
+            if (goodWord) {
+                if (yellowRowCount == 0) {
+                    console.log('No yellow words.');
+                    wordList = wordList + (((currentPage - 1) * 100) + displayWordCount).toString() + '. ' + results.results.data[word] + '\n';
+                    displayWordCount += 1;
+                } else {
+                    for (const yWord in yellowWords) {
+                        for (let index: number = 0; index < 5; index++) {
+                            console.log('Current results letter: ' + results.results.data[word][index]);
+                            console.log('Current yellow word letter: ' + yellowWords[yWord][index])
+                            if (results.results.data[word][index] == yellowWords[yWord][index]) {
+                                goodWord = false;
+                                break; //if the letter is the same and in the same position as a yellow letter
+                            }
+                        }
+                    }
+                    if (goodWord) {
+                        wordList = wordList + (((currentPage - 1) * 100) + displayWordCount).toString() + '. ' + results.results.data[word] + '\n';
+                        displayWordCount += 1;
+                    }
                 }
             }
 
-            //process using yellow words
-
-            if (goodWord) {
-                wordList = wordList + (((currentPage - 1) * 100) + displayWordCount).toString() + '. ' + results.results.data[word] + '\n';
-                displayWordCount += 1;
-            }
+           
+               
         }
 
         if (returnedWordCount != 100) {
@@ -173,12 +192,14 @@ export default function WordleTool() {
         const formedJson = Object.fromEntries(formedData.entries());
 
         var wordToSearch: string = '';
+        var greenWord: string = '';
         var yellowWords: [string] = [];
         var grayLetters: string = '';
 
         //the first five data points are known letters with relevant positions
         //yellow letters are data points six through 5 + yellow row count * 5
         //the rest are gray letters (together as a single string)
+        console.log('Yellow row count: ' + yellowRowCount);
         var dataCount: number = 0;
         for (const data in formedJson) {
             if (dataCount < 5) {
@@ -186,7 +207,7 @@ export default function WordleTool() {
                     if (formedJson[data] == '') {
                         wordToSearch = '.{1}';
                     } else {
-                        wordToSearch = formedJson[data]
+                        wordToSearch = formedJson[data];
                     };
                 } else {
                     if (formedJson[data] == '') {
@@ -196,10 +217,11 @@ export default function WordleTool() {
                     };
                 };
             } else if ((dataCount >= 5 && (dataCount < (5 + (yellowRowCount * 5))))) {
-                //yellow row processing is called here as part of submit since we are going through the letters
-                //processYellowRow(formedJson[data]);
+                processYellowRow(formedJson[data]);
                 if (isFullWord) {
-                    //add the current word to yellow word array and reset yellow word we are building and isFullWord var
+                    yellowWords.push(currentYellowWord);
+                    isFullWord = false;
+                    currentYellowWord = '';
                 };
             } else {
                 grayLetters = formedJson[data];
@@ -211,7 +233,7 @@ export default function WordleTool() {
         var currentPage = 1;
         while (needToPagenate) {
             const results = await getWord(wordToSearch, currentPage);
-            await processResult(results, grayLetters, currentPage);
+            await processResult(results, yellowWords, grayLetters, currentPage);
             currentPage += 1;
         };
 
@@ -292,7 +314,3 @@ export default function WordleTool() {
     ReactDom.render(<getYellowRow />, document.getElementById("getyellowrow"));
 
 } //end of page function
-
-
-
-
