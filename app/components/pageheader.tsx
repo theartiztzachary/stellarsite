@@ -83,7 +83,7 @@ const PageHeader = () => {
              </div>
 
         </div>
-    )
+    );
 };
 
 export default PageHeader;
