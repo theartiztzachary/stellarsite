@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import type { Route } from './+types/home';
 import ReactDom from 'react-dom';
 import { Link } from 'react-router-dom';
+import { isNumericString } from '../../util.tsx';
 
 import '../../../csssheets/wordletool.css';
 
@@ -41,7 +42,7 @@ export default function WordleTool() {
     //constants and variables//
     var wordList: string = '';
     var needToPagenate: boolean = true;
-    var currentYellowWord: string = ''; //hopefully this works...
+    var currentYellowWord: string = '';
     var isFullWord = false;
 
     //useState variables//
@@ -100,7 +101,7 @@ export default function WordleTool() {
     }; //end of addYellowRow function
 
     function processYellowRow(letter: string) {
-        console.log('Yellow Row Count: ' + yellowRowCount);
+        //console.log('Yellow Row Count: ' + yellowRowCount);
         if (letter == '') {
             if (currentYellowWord == '') {
                 currentYellowWord = '.';
@@ -131,6 +132,11 @@ export default function WordleTool() {
         var grayLettersArray : [];
         if (grayLetters != '') { //if there are gray letters
             grayLettersArray = grayLetters.split('');
+            for (let index: number = 0; index < grayLettersArray.length; index++) {
+                if (!isNumericString(grayLettersArray[index])) { //if the letter is actually a letter
+                    grayLettersArray[index] = grayLettersArray[index].toLowerCase();
+                };
+            };
         } else { //if there are no gray letters
             grayLettersArray = [''];
         }
@@ -144,6 +150,7 @@ export default function WordleTool() {
 
             for (let index: number = 0; index < 5; index++) {
                 if (grayLettersArray.includes(results.results.data[word][index])) {
+                    //console.log('There is a gray letter in this word.')
                     goodWord = false;
                     break; //if the letter is a known gray letter
                 }
@@ -151,29 +158,53 @@ export default function WordleTool() {
             
             if (goodWord) {
                 if (yellowRowCount == 0) {
-                    console.log('No yellow words.');
+                    //console.log('No yellow words.');
                     wordList = wordList + (((currentPage - 1) * 100) + displayWordCount).toString() + '. ' + results.results.data[word] + '\n';
                     displayWordCount += 1;
                 } else {
+                    var yellowLetters: [string] = [];
+                    for (const yWord in yellowWords) {
+                        //console.log('Yellow word is: ' + yellowWords[yWord]);
+                        yellowLetters.push(...yellowWords[yWord].split(''));
+                        //console.log('Yellow letters now are now... ' + yellowLetters);
+                    };
+
+                    //console.log('Yellow letters before: ' + yellowLetters)
+                    for (let index: number = 0; index < yellowLetters.length; index++) {
+                        yellowLetters[index] = yellowLetters[index].toLowerCase();
+                    };
+                    //console.log('Yellow letters after: ' + yellowLetters)
+
                     for (const yWord in yellowWords) {
                         for (let index: number = 0; index < 5; index++) {
-                            console.log('Current results letter: ' + results.results.data[word][index]);
-                            console.log('Current yellow word letter: ' + yellowWords[yWord][index])
-                            if (results.results.data[word][index] == yellowWords[yWord][index]) {
+                            //console.log('Current results letter: ' + results.results.data[word][index]);
+                            //console.log('Current yellow word letter: ' + yellowWords[yWord][index]);
+
+                            if (results.results.data[word][index] == yellowWords[yWord][index].toLowerCase()) {
+                                //console.log('The letters are the same. This word is bad.');
                                 goodWord = false;
                                 break; //if the letter is the same and in the same position as a yellow letter
-                            }
-                        }
-                    }
+                            };
+
+                            if (index == 4) { //on the last check if we haven't broken yet
+                                //console.log('We are on the final check for this word...');
+                                //console.log('Returned word: ' + results.results.data[word]);
+                                const exclude = '.';
+                                const filteredYellowLetters = yellowLetters.filter(item => item !== exclude); //this should have the yellow letters without the periods
+                                const wordAsArray = results.results.data[word].split('');
+                                if (!filteredYellowLetters.every(value => wordAsArray.includes(value))) { //if the word doesn't have all yellow letters in it
+                                    goodWord = false;
+                                    break;
+                                }
+                            };
+                        };
+                    };
                     if (goodWord) {
                         wordList = wordList + (((currentPage - 1) * 100) + displayWordCount).toString() + '. ' + results.results.data[word] + '\n';
                         displayWordCount += 1;
                     }
                 }
             }
-
-           
-               
         }
 
         if (returnedWordCount != 100) {
@@ -199,7 +230,7 @@ export default function WordleTool() {
         //the first five data points are known letters with relevant positions
         //yellow letters are data points six through 5 + yellow row count * 5
         //the rest are gray letters (together as a single string)
-        console.log('Yellow row count: ' + yellowRowCount);
+        //console.log('Yellow row count: ' + yellowRowCount);
         var dataCount: number = 0;
         for (const data in formedJson) {
             if (dataCount < 5) {
@@ -207,17 +238,31 @@ export default function WordleTool() {
                     if (formedJson[data] == '') {
                         wordToSearch = '.{1}';
                     } else {
-                        wordToSearch = formedJson[data];
+                        if (!isNumericString(formedJson[data])) {
+                            const letter = formedJson[data].toLowerCase();
+                            wordToSearch = letter;
+                        } else {
+                            wordToSearch = '.{1}';
+                        };
                     };
                 } else {
                     if (formedJson[data] == '') {
                         wordToSearch = wordToSearch + '.{1}';
                     } else {
-                        wordToSearch = wordToSearch + formedJson[data];
+                        if (!isNumericString(formedJson[data])) {
+                            const letter = formedJson[data].toLowerCase();
+                            wordToSearch = wordToSearch + letter;
+                        } else {
+                            wordToSearch = wordToSearch + '.{1}';
+                        };
                     };
                 };
             } else if ((dataCount >= 5 && (dataCount < (5 + (yellowRowCount * 5))))) {
-                processYellowRow(formedJson[data]);
+                if (!isNumericString(formedJson[data])) {
+                    processYellowRow(formedJson[data]);
+                } else {
+                    processYellowRow('');
+                }
                 if (isFullWord) {
                     yellowWords.push(currentYellowWord);
                     isFullWord = false;
@@ -238,7 +283,11 @@ export default function WordleTool() {
         };
 
         if (wordList != '') {
+            //console.log('Word list has something.');
             setPossibleWords(wordList);
+        } else {
+            //console.log('Word list is empty!');
+            setPossibleWords('Something went wrong. Please double check your inputs or, if you are certain your inputs are correct,log an issue on our GitHub page. https://github.com/theartiztzachary/stellarsite/issues');
         };
     }; //end of handleSubmit function
 
