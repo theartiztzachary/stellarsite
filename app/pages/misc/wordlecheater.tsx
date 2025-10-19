@@ -1,23 +1,34 @@
-import type { Route } from "./+types/home";
-import '../../../csssheets/wordletool.css';
-import React, { useState} from 'react';
+//KNOWN MINOR ISSUES
+//1. There is a space in front of the first word in the possible word list. Might be due to starting with an empty string and building on it.
+
+import React, { useState, useEffect } from 'react';
+import type { Route } from './+types/home';
+import ReactDom from 'react-dom';
 import { Link } from 'react-router-dom';
+
+import '../../../csssheets/wordletool.css';
+
+import PageHeader from '../../components/pageheader.tsx';
+import '../../../csssheets/pageheader.css';
+//import PageFooter from '../../../components/pagefooter.tsx';
+//import '../../../cssheets/pagefooter.css';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Stellar Sakura - Home" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Stellar Sakura - Wordle Tool" },
+    { name: "description", content: "beep" },
   ];
 }
 
 export default function WordleTool() {
 
+    //interfaces for the API call//
     interface WordQuery {
         limit: number;
         page: number;
     }
 
-    interface WordResults { 
+    interface WordResults {
         data: [string];
         total: number;
     }
@@ -27,14 +38,47 @@ export default function WordleTool() {
         results: WordResults;
     }
 
-    const [possibleWords, setPossibleWords] = useState("Possible words will appear here after searching.");
-    var wordList: string = "";
+    //constants and variables//
+    var wordList: string = '';
     var needToPagenate: boolean = true;
+    var currentYellowWord: string = ''; //hopefully this works...
+    var isFullWord = false;
 
-    // Functions! //
-    async function getWord(wordToSearch: string, currentPage: number): Promise<WordResponse> {
+    //useState variables//
+    const [possibleWords, setPossibleWords] = useState('Possible words will appear here after searching.');
+    const [yellowRowCount, setYellowRowCount] = useState(0);
+    const [yellowRows, setYellowRows] = useState(['']);
+
+    //internal components
+    const YellowRow = () => {
+        return (
+            <div className = 'yellow_row'>
+                <label className = "letter_input">
+                    <input name = {`yellowRow${yellowRowCount}FirstLetter`} />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = {`yellowRow${yellowRowCount}SecondLetter`} />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = {`yellowRow${yellowRowCount}ThirdLetter`} />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = {`yellowRow${yellowRowCount}FourthLetter`} />
+                </label>
+
+                <label className = "letter_input">
+                    <input name = {`yellowRow${yellowRowCount}FifthLetter`} />
+                </label>
+            </div>
+        );
+    }; // end of YellowRow component
+
+    //functions//
+    async function getWord(wordToSearch: string, currentPage: number): Promise<WordResponse> { //actually makes the API call itself
         var apiCall = 'https://wordsapiv1.p.rapidapi.com/words/?letterPattern=^' + wordToSearch + '$&page=' + currentPage;
-        //console.log(apiCall)
 
         const headers: Headers = new Headers();
         headers.set('Accept', 'application/json');
@@ -43,333 +87,230 @@ export default function WordleTool() {
         const request: RequestInfo = new Request(apiCall, {
             method: 'GET',
             headers: headers
-        })  
+        })
 
         const response = await fetch(request);
         const data = await response.json();
-        //console.log('In getWord fucntion...');
-        //console.log(data);
-        //console.log(data.results);
         return data;
+    } //end of getWord function
 
-        //return fetch(request)
-        //    .then(res => res.json());
+    const addYellowRow = event => {
+        setYellowRows(yellowRows.concat(<YellowRow key = {yellowRowCount} />));
+        setYellowRowCount(prevCount => prevCount + 1);
+    }; //end of addYellowRow function
 
-    } //end of get word function
+    function processYellowRow(letter: string) {
+        console.log('Yellow Row Count: ' + yellowRowCount);
+        if (letter == '') {
+            if (currentYellowWord == '') {
+                currentYellowWord = '.';
+            } else {
+                currentYellowWord = currentYellowWord + '.';
+            }
+        } else {
+            if (currentYellowWord == '') {
+                currentYellowWord = letter;
+            } else {
+                currentYellowWord = currentYellowWord + letter;
+            } 
+        }
 
-    async function processResult(results: WordResponse, goodLetters: string, badLetters: string, currentPage: number) {
-        //console.log('In the processReults function...')
-        //console.log(results);
-        //console.log(results.results.data[0]);
-        //console.log(goodLetters);
-        //console.log('currentPage at the beginning of processResult...: ' + currentPage); //WHY ARE YOU UNDEFINED >:I
-        //console.log('Total words at the beginning of processResult...: ' + results.results.total);
+        if (currentYellowWord.length == 5) {
+            isFullWord = true;
+        }
+    }; //end of procesYellowRow function
 
-        if (results.results.total >= 500) {
+    async function processResult(results: WordResponse, yellowWords: [string], grayLetters: string, currentPage: number) {
+        if (results.results.total >= 500) { //checks if there is too much data to comb through, mostly to limit amount of api calls
             needToPagenate = false;
-            wordList = "";
-            currentPage = 6
+            setPossibleWords('I need more information to narrow down my search.');
+            wordList = '';
             return
         }
 
-        //console.log('I have gotten past the kill switch in processResult.');
-
-        var goodLettersArray: [];
-        if (goodLetters != "") {
-            goodLettersArray = goodLetters.split('');
-        } else {
-            goodLettersArray = [""];
+        var grayLettersArray : [];
+        if (grayLetters != '') { //if there are gray letters
+            grayLettersArray = grayLetters.split('');
+        } else { //if there are no gray letters
+            grayLettersArray = [''];
         }
 
-        var badLettersArray : [];
-        if (badLetters != "") {
-            badLettersArray = badLetters.split('');
-        } else {
-            badLettersArray = [""];
-        }
-
-        var wordCount: number = 0;
-        var goodWord: boolean = true;
+        var returnedWordCount: number = 0; //used to keeep track of how many words are in the response
+        var displayWordCount: number = 1; //used to keep track of how many words we have pulled to display
+        var goodWord: boolean = true; //used to confirm if the current word in the call is valid
         for (const word in results.results.data) {
-            goodWord = true;
-            //console.log('In the for loop...')
-            //console.log(results.results.data[word])
+            returnedWordCount += 1;
+            goodWord = true; //reset goodWord
 
-            const currentWordArray = results.results.data[word].split('');
-            for (const index in currentWordArray) {
-                if (badLettersArray.includes(currentWordArray[index])) {
-                    //console.log('Bad letter detectd!');
+            for (let index: number = 0; index < 5; index++) {
+                if (grayLettersArray.includes(results.results.data[word][index])) {
                     goodWord = false;
-                    break;
+                    break; //if the letter is a known gray letter
+                }
+            }
+            
+            if (goodWord) {
+                if (yellowRowCount == 0) {
+                    console.log('No yellow words.');
+                    wordList = wordList + (((currentPage - 1) * 100) + displayWordCount).toString() + '. ' + results.results.data[word] + '\n';
+                    displayWordCount += 1;
+                } else {
+                    for (const yWord in yellowWords) {
+                        for (let index: number = 0; index < 5; index++) {
+                            console.log('Current results letter: ' + results.results.data[word][index]);
+                            console.log('Current yellow word letter: ' + yellowWords[yWord][index])
+                            if (results.results.data[word][index] == yellowWords[yWord][index]) {
+                                goodWord = false;
+                                break; //if the letter is the same and in the same position as a yellow letter
+                            }
+                        }
+                    }
+                    if (goodWord) {
+                        wordList = wordList + (((currentPage - 1) * 100) + displayWordCount).toString() + '. ' + results.results.data[word] + '\n';
+                        displayWordCount += 1;
+                    }
                 }
             }
 
-            //console.log('I have checked for bad letters. goodWord boolean is; ' + goodWord);
-
-            var goodLetterDetected = false;
-            if (goodWord && (goodLettersArray[0] != "")) {
-                //console.log('Checking for good letters...');
-                for (const index in currentWordArray) {
-                    if (goodLettersArray.includes(currentWordArray[index])) {
-                        //console.log('Good letter detected!');
-                        goodLetterDetected = true;
-                    } 
-                }
-            } else if (goodWord && (goodLettersArray[0] == "")) {
-                goodLetterDetected = true;
-            }
-
-            if (goodWord && goodLetterDetected) {
-                //console.log(currentPage);
-                wordList = wordList + (((currentPage - 1) * 100) + wordCount + 1).toString() + '. ' + results.results.data[word] + '\n';
-                wordCount += 1;
-            }
-
+           
+               
         }
 
-        if (wordCount != 99) { //theoretically if wordCount is 99, that means 100 words were pulled, which means we need to check pagnations n stuff
-            needToPagenate = false;
+        if (returnedWordCount != 100) {
+            needToPagenate = false; //the api returns 100 words per page, so if we don't get 100 then we don't need to keep going
         }
 
-        //string.split('') effectively returns an array of characters from the string 
-        //array.includes(item) returns a bool if the item is or is not in the array
-        //console.log(wordList);
-
-        //i'm going to need to figure out pagnation for this api call...
-        
-    } //end of process results function
+    } //end of processResult function
 
     async function handleSubmit(e) {
         e.preventDefault();
         setPossibleWords('Loading...');
-        wordList = ""; //set word list to be empty with a fresh submit
-
+        wordList = '';
+        
         const data = e.target;
         const formedData = new FormData(data);
         const formedJson = Object.fromEntries(formedData.entries());
-        //console.log(formedJson);
-        //console.log(formedJson.firstLetter);
 
-        //https://wordsapiv1.p.rapidapi.com/words/?letterPattern=^a.{1}.{0}.t.{1}$
-        //REACT_APP_WORD_API_TOKEN
+        var wordToSearch: string = '';
+        var greenWord: string = '';
+        var yellowWords: [string] = [];
+        var grayLetters: string = '';
 
-        var wordToSearch: string = "";
-        var goodLetters: string = "";
-        var badLetters: string = "";
-
-        //this is gonna need some uh data validation .3.
-        //first five are the known letter/positions, then is other known letters, then is bad letters (7 total)
+        //the first five data points are known letters with relevant positions
+        //yellow letters are data points six through 5 + yellow row count * 5
+        //the rest are gray letters (together as a single string)
+        console.log('Yellow row count: ' + yellowRowCount);
         var dataCount: number = 0;
         for (const data in formedJson) {
-            //console.log(data);
-            //console.log(formedJson[data]);
             if (dataCount < 5) {
-                if (wordToSearch == "") {
-                    if (formedJson[data] == "") {
+                if (wordToSearch == '') { //if this is the first data point
+                    if (formedJson[data] == '') {
                         wordToSearch = '.{1}';
                     } else {
-                        wordToSearch = formedJson[data]
-                    }
+                        wordToSearch = formedJson[data];
+                    };
                 } else {
-                    if (formedJson[data] == "") {
+                    if (formedJson[data] == '') {
                         wordToSearch = wordToSearch + '.{1}';
                     } else {
                         wordToSearch = wordToSearch + formedJson[data];
-                    }
-                }
-            } else if (dataCount < 6) {
-                goodLetters = formedJson[data];
+                    };
+                };
+            } else if ((dataCount >= 5 && (dataCount < (5 + (yellowRowCount * 5))))) {
+                processYellowRow(formedJson[data]);
+                if (isFullWord) {
+                    yellowWords.push(currentYellowWord);
+                    isFullWord = false;
+                    currentYellowWord = '';
+                };
             } else {
-                badLetters = formedJson[data];
-            }
+                grayLetters = formedJson[data];
+            };
 
             dataCount += 1;
         }
 
-        //console.log(wordToSearch);
-
         var currentPage = 1;
         while (needToPagenate) {
-            //console.log('Current page in while loop...: ' + currentPage);
-
-            const results = await getWord(wordToSearch, currentPage)
-            await processResult(results, goodLetters, badLetters, currentPage);
-
+            const results = await getWord(wordToSearch, currentPage);
+            await processResult(results, yellowWords, grayLetters, currentPage);
             currentPage += 1;
-            if (currentPage == 6) { //kill switch
-                break;
-            }
-        }
+        };
 
-        if ((wordList == "") || (currentPage == 6)) {
-            setPossibleWords('I need more information to narrow down my search.');
-        } else {
+        if (wordList != '') {
             setPossibleWords(wordList);
-        }
+        };
+    }; //end of handleSubmit function
 
-    } //end of submit function
-    
-    // "HTML" code //
-
+    //beginning of "HTML" code//
     return (
-		<>
-        {/* beginning of head section */}
+        <>
+        <PageHeader />
 
-        {/* end of head section */}
+        <div className = "page_section">
+            <h1>Wordle Cheating Tool</h1>
+            <p>Built this for fun. If the tool says you need more information, that meanst that it would have taken more than 5 individual API calls to the API I am using, so it is a self-imposed rate limit, mostly becuase I'm on the free tier right now and... :3</p>
+            {/* Maybe put a 'how to play Wordle' thingie? */}
+            <div id = 'nytwordle'>
+                <Link to = {{ pathname: 'https://www.nytimes.com/games/wordle/index.html'}} target = '_blank'>Play Wordle!</Link>
+            </div>
 
-        {/* beginning of body section */}
+            <form onSubmit = {handleSubmit}>
+                <h5>Green Letters + Positions:</h5>
 
-            {/* begining of header section */}{" "}
-            <div className = "header_section">
-                <div className = "title_links">
-                    <div className = "title_section">
-                        <h1>Stellar Sakura</h1>
-                    </div>
+                <label className = "green_letter_input">
+                    <input name = 'firstGreenLetter' />
+                </label>
 
-                    <div className = "navlinks">
-                        {/* Home */}
-                        <div>
-                            <Link to = '/'>
-                                <button id = "home_button"> Home </button>
-                            </Link>
-                        </div>
+                <label className = "green_letter_input">
+                    <input name = 'secondGreenLetter' />
+                </label>
 
-                        {/* Blog */}
-                        <div>
-                            <Link to = "/blog">
-                                <button id = "blog_button"> Blog </button>
-                            </Link>
-                        </div>
+                <label className = "green_letter_input">
+                    <input name = 'thirdGreenLetter' />
+                </label>
 
-                        {/* Stories */}
-                        <div className = "dropdown">
-                            <button className = "dropdown_button"> Stories </button>
-                            <div className = "dropdown_content">
-                                <Link to = '/stories/crescendo/overview'> Crescendo </Link>
-                            </div>
-                        </div>
+                <label className = "green_letter_input">
+                    <input name = 'fourthGreenLetter' />
+                </label>
 
-                        {/* Zenith and Nadir */}
-                        <div className = "dropdown">
-                        <button className = "dropdown_button"> Zenith &amp; Nadir </button>
-                            <div className = "dropdown_content">
-                                <Link to = '/zenithnadir/overview'> Overview </Link>
-                            </div>
-                        </div>
+                <label className = "green_letter_input">
+                    <input name = 'fifthGreenLetter' />
+                </label>
 
-                        {/* Warframe */}
-                        <div className = "dropdown">
-                        <button className = "dropdown_button"> Warframe </button>
-                            <div className = "dropdown_content">
-                                <Link to = '/warframe/tracker'> Tracker </Link>
-                            </div>
-                        </div>
-
-                        {/* Mabinogi */}
-                        <div className = "dropdown">
-                        <button className = "dropdown_button"> Mabinogi </button>
-                            <div className = "dropdown_content">
-                                <Link to = '/mabinogi/tracker'> Tracker </Link>
-                            </div>
-                        </div>
-
-                        {/* Misc */}
-                        <div className = "dropdown">
-                        <button className = "dropdown_button"> Misc </button>
-                            <div className = "dropdown_content">
-                                <Link to = '/misc/wordletool'> Wordle Tool </Link>
-                            </div>
-                        </div>
-
-                    </div>
+                <h5>Yellow Letter Combinations</h5>
+                <p>Click the button to add a new row, then place letters in the locations where they were yellow.</p>
+                <button type = "button" id = "add_yellow_row" onClick = {addYellowRow}>
+                    Add Yellow Letter Combination
+                </button>
+                <div id = "added_yellow_rows">
+                    {yellowRows}
                 </div>
 
-                <div className = "login_area">
-                    <p> blep </p>
-                    {/* eventual goal will have people using Google's auth to login to their google account to access their drive
-			            for object storage */}
-                    {/* light background dark text vs dark background light text */}
-                </div>
+                <h5>Gray Letters:</h5>
+                <p>List letters WITHOUT spaces, commas or other delimiters.</p>
+                <label className = "gray_letter_input">
+                    <input name = "grayLetters" />
+                </label>
 
-            </div>
-            {/* ending of header section */}
+                <br />
+                <br />
 
-            {/* beginning of page section */}{" "}
-            <div className = "page_section">
+                <button id = "find_button" type = "submit">
+                    Find Words
+                </button>
+            </form>
 
-                <div className = "main_section">
-                    <h1>Wordle Cheating Tool</h1>
-                    <p>Built this for fun. As of right now, you can't really insert yellow letters, and you need to know some letter positions for it to work the most effecitvely.</p>
+            <h3>Possible Words:</h3>
+            <p id = "words_list"> {possibleWords} </p>
+        </div>
 
-                    {/* so the idea is that there are five slots you can slot in the letters you know and see possible words based on that
-                        at least to start
-                        
-                        so we need five input fields, a button to capture them, and then a small script to take that and fashion and api call,
-                        and then of course show the results of the API call
-                        
-                        hopefully eventually we can have the system know what letters aren't available or what are yellow but we'll start
-                        small*/}
-                    <form onSubmit = {handleSubmit}>
-                        <h5>Known Letters + Positions:</h5>
-                        <label className = "letter_input">
-                            <input name = "firstLetter" />
-                        </label>
-
-                        <label className = "letter_input">
-                            <input name = "secondLetter" />
-                        </label>
-
-                        <label className = "letter_input">
-                            <input name = "thirdLetter" />
-                        </label>
-
-                        <label className = "letter_input">
-                            <input name = "fourthLetter" />
-                        </label>
-
-                        <label className = "letter_input">
-                            <input name = "fifthLetter" />
-                        </label>
-
-                        <h5>Other Known Letters:</h5>
-                        <p>List letters without spaces or other delimiters.</p>
-                        <label>
-                            <input name = "goodLetters" />
-                        </label>
-
-                        <h5>Letters Not In Word:</h5>
-                        <p>List letters without spaces or other delimiters.</p>
-                        <label>
-                            <input name = "badLetters" />
-                        </label>
-
-                        <button id = "findbutton" type = "submit">
-                            Find Words
-                        </button>
-
-                    </form>
-
-                    <h3>Possible Words:</h3>
-                    <p id = "words_list"> {possibleWords} </p>
-
-                </div>
-    
-            </div>
-            {/* ending of page section */}{" "}
-
-            {/* beginnig of footer section */}{" "} 
-            <div className = "footer_section">
-   
-            </div>
-            {/* ending of footer section */}
-
-        {/* end of body section */}
+        <div>
+            {/* footer goes here */}
+        </div>  
         </>
+    );
 
-	);
-  
-}
+    ReactDom.render(<getYellowRow />, document.getElementById("getyellowrow"));
 
-
-
-
+} //end of page function

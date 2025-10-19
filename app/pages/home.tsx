@@ -42,36 +42,44 @@ export default function Home() {
                         </div>
 
                         {/* Stories */}
+                        {/*
                         <div className = "dropdown">
                             <button className = "dropdown_button"> Stories </button>
                             <div className = "dropdown_content">
                                 <Link to = '/stories/crescendo/overview'> Crescendo </Link>
                             </div>
                         </div>
+                        */}
 
-                        {/* Zenith and Nadir */}{" "}
+                        {/* Zenith and Nadir */}
+                        {/*
                         <div className = "dropdown">
                         <button className = "dropdown_button"> Zenith &amp; Nadir </button>
                             <div className = "dropdown_content">
                                 <Link to = '/zenithnadir/overview'> Overview </Link>
                             </div>
                         </div>
+                        */}
 
                         {/* Warframe */}{" "}
+                        {/*
                         <div className = "dropdown">
                         <button className = "dropdown_button"> Warframe </button>
                             <div className = "dropdown_content">
                                 <Link to = '/warframe/tracker'> Tracker </Link>
                             </div>
                         </div>
+                        */}
 
-                        {/* Mabinogi */}{" "}
+                        {/* Mabinogi */}
+                        {/*
                         <div className = "dropdown">
                         <button className = "dropdown_button"> Mabinogi </button>
                             <div className = "dropdown_content">
                                 <Link to = '/mabinogi/tracker'> Tracker </Link>
                             </div>
                         </div>
+                        */}
 
                         {/* Misc */}
                         <div className = "dropdown">
@@ -85,7 +93,7 @@ export default function Home() {
                 </div>
 
                 <div className = "login_area">
-                    <p> blep </p>
+                    <p> TBD </p>
                     {/* eventual goal will have people using Google's auth to login to their google account to access their drive
 			            for object storage */}
                     {/* light background dark text vs dark background light text */}
