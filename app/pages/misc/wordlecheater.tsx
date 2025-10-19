@@ -189,10 +189,10 @@ export default function WordleTool() {
                             if (index == 4) { //on the last check if we haven't broken yet
                                 //console.log('We are on the final check for this word...');
                                 //console.log('Returned word: ' + results.results.data[word]);
-                                const yellowLettersSet = new Set(yellowLetters);
+                                const exclude = '.';
+                                const filteredYellowLetters = yellowLetters.filter(item => item !== exclude); //this should have the yellow letters without the periods
                                 const wordAsArray = results.results.data[word].split('');
-                                if (!wordAsArray.some(item => yellowLettersSet.has(item))) { //if the two don't share any letters between them
-                                    //console.log('This word has no yellow letters in it!');
+                                if (!filteredYellowLetters.every(value => wordAsArray.includes(value))) { //if the word doesn't have all yellow letters in it
                                     goodWord = false;
                                     break;
                                 }
