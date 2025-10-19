@@ -1,6 +1,9 @@
 //KNOWN MINOR ISSUES
 //1. There is a space in front of the first word in the possible word list. Might be due to starting with an empty string and building on it.
 
+//THINGS TO ADD EVENTUALLY
+//1. User input validation
+
 import React, { useState, useEffect } from 'react';
 import type { Route } from './+types/home';
 import ReactDom from 'react-dom';
@@ -11,15 +14,15 @@ import '../../../csssheets/wordletool.css';
 
 import PageHeader from '../../components/pageheader.tsx';
 import '../../../csssheets/pageheader.css';
-//import PageFooter from '../../../components/pagefooter.tsx';
-//import '../../../cssheets/pagefooter.css';
+//import PageFooter from '../../components/pagefooter.tsx';
+//import '../../../csssheets/pagefooter.css';
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Stellar Sakura - Wordle Tool" },
-    { name: "description", content: "beep" },
-  ];
-}
+    return [
+        { title: "Stellar Sakura - Wordle Tool" },
+        { name: "description", content: "beep" },
+    ];
+};
 
 export default function WordleTool() {
 
@@ -27,17 +30,17 @@ export default function WordleTool() {
     interface WordQuery {
         limit: number;
         page: number;
-    }
+    };
 
     interface WordResults {
         data: [string];
         total: number;
-    }
+    };
 
     interface WordResponse {
         query: WordQuery;
         results: WordResults;
-    }
+    };
 
     //constants and variables//
     var wordList: string = '';
@@ -88,12 +91,12 @@ export default function WordleTool() {
         const request: RequestInfo = new Request(apiCall, {
             method: 'GET',
             headers: headers
-        })
+        });
 
         const response = await fetch(request);
         const data = await response.json();
         return data;
-    } //end of getWord function
+    }; //end of getWord function
 
     const addYellowRow = event => {
         setYellowRows(yellowRows.concat(<YellowRow key = {yellowRowCount} />));
@@ -107,18 +110,18 @@ export default function WordleTool() {
                 currentYellowWord = '.';
             } else {
                 currentYellowWord = currentYellowWord + '.';
-            }
+            };
         } else {
             if (currentYellowWord == '') {
                 currentYellowWord = letter;
             } else {
                 currentYellowWord = currentYellowWord + letter;
-            } 
-        }
+            };
+        };
 
         if (currentYellowWord.length == 5) {
             isFullWord = true;
-        }
+        };
     }; //end of procesYellowRow function
 
     async function processResult(results: WordResponse, yellowWords: [string], grayLetters: string, currentPage: number) {
@@ -127,7 +130,7 @@ export default function WordleTool() {
             setPossibleWords('I need more information to narrow down my search.');
             wordList = '';
             return
-        }
+        };
 
         var grayLettersArray : [];
         if (grayLetters != '') { //if there are gray letters
@@ -139,7 +142,7 @@ export default function WordleTool() {
             };
         } else { //if there are no gray letters
             grayLettersArray = [''];
-        }
+        };
 
         var returnedWordCount: number = 0; //used to keeep track of how many words are in the response
         var displayWordCount: number = 1; //used to keep track of how many words we have pulled to display
@@ -147,14 +150,13 @@ export default function WordleTool() {
         for (const word in results.results.data) {
             returnedWordCount += 1;
             goodWord = true; //reset goodWord
-
             for (let index: number = 0; index < 5; index++) {
                 if (grayLettersArray.includes(results.results.data[word][index])) {
                     //console.log('There is a gray letter in this word.')
                     goodWord = false;
                     break; //if the letter is a known gray letter
-                }
-            }
+                };
+            };
             
             if (goodWord) {
                 if (yellowRowCount == 0) {
@@ -202,16 +204,15 @@ export default function WordleTool() {
                     if (goodWord) {
                         wordList = wordList + (((currentPage - 1) * 100) + displayWordCount).toString() + '. ' + results.results.data[word] + '\n';
                         displayWordCount += 1;
-                    }
-                }
-            }
-        }
+                    };
+                };
+            };   
+        };
 
         if (returnedWordCount != 100) {
             needToPagenate = false; //the api returns 100 words per page, so if we don't get 100 then we don't need to keep going
-        }
-
-    } //end of processResult function
+        };
+    }; //end of processResult function
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -273,7 +274,7 @@ export default function WordleTool() {
             };
 
             dataCount += 1;
-        }
+        };
 
         var currentPage = 1;
         while (needToPagenate) {
@@ -299,7 +300,6 @@ export default function WordleTool() {
         <div className = "page_section">
             <h1>Wordle Cheating Tool</h1>
             <p>Built this for fun. If the tool says you need more information, that meanst that it would have taken more than 5 individual API calls to the API I am using, so it is a self-imposed rate limit, mostly becuase I'm on the free tier right now and... :3</p>
-            {/* Maybe put a 'how to play Wordle' thingie? */}
             <div id = 'nytwordle'>
                 <Link to = {{ pathname: 'https://www.nytimes.com/games/wordle/index.html'}} target = '_blank'>Play Wordle!</Link>
             </div>
@@ -332,6 +332,7 @@ export default function WordleTool() {
                 <button type = "button" id = "add_yellow_row" onClick = {addYellowRow}>
                     Add Yellow Letter Combination
                 </button>
+                <br />
                 <div id = "added_yellow_rows">
                     {yellowRows}
                 </div>
@@ -354,12 +355,9 @@ export default function WordleTool() {
             <p id = "words_list"> {possibleWords} </p>
         </div>
 
-        <div>
-            {/* footer goes here */}
-        </div>  
+        {/* footer goes here */}
         </>
     );
 
     ReactDom.render(<getYellowRow />, document.getElementById("getyellowrow"));
-
-} //end of page function
+}; //end of page function
