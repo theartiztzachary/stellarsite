@@ -127,7 +127,7 @@ export default function WordleTool() {
     async function processResult(results: WordResponse, yellowWords: [string], grayLetters: string, currentPage: number) {
         if (results.results.total >= 500) { //checks if there is too much data to comb through, mostly to limit amount of api calls
             needToPagenate = false;
-            setPossibleWords('I need more information to narrow down my search.');
+            setPossibleWords('I need more green letters to narrow down my search.');
             wordList = '';
             return
         };
@@ -276,6 +276,12 @@ export default function WordleTool() {
             dataCount += 1;
         };
 
+        if (wordToSearch == '.{1}.{1}.{1}.{1}.{1}') {
+            console.log('Beep');
+            setPossibleWords('I need at least one green letter in order to complete my search.')
+            return
+        }
+
         var currentPage = 1;
         while (needToPagenate) {
             const results = await getWord(wordToSearch, currentPage);
@@ -283,10 +289,10 @@ export default function WordleTool() {
             currentPage += 1;
         };
 
-        if (wordList != '') {
+        if ((wordList != '') && (possibleWords == 'Loading...')) {
             //console.log('Word list has something.');
             setPossibleWords(wordList);
-        } else {
+        } else if ((possibleWords == 'Loading...') && (wordList == '')) {
             //console.log('Word list is empty!');
             setPossibleWords('Something went wrong. Please double check your inputs or, if you are certain your inputs are correct,log an issue on our GitHub page. https://github.com/theartiztzachary/stellarsite/issues');
         };
