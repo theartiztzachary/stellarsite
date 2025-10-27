@@ -18,7 +18,11 @@ export function meta({}: Route.MetaArgs) {
 };
 
 //tags//
+export const name = 'Test Page';
 export const tags = ['test'];
+export const id = 'testpage';
+export const routelink = '/blog/testpage';
+export const description = 'Test description.'
 
 export default function BlogHome() {
 
