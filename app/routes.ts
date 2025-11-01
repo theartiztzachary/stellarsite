@@ -10,6 +10,7 @@ export default [
 
 	// Blog
 	route("/blog", "pages/blogpages/bloghome.tsx"),
+	route("/blog/testpage", "pages/blogpages/blog/testpage.tsx"),
 
 	// Stories
 	//--Crescendo
