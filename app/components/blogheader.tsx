@@ -1,5 +1,4 @@
-import { readdir } from 'fs';
-import React, { useState, useCallBack, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const BlogHeader = () => {
@@ -14,31 +13,29 @@ const BlogHeader = () => {
 	//functions//
 
 	function getBlogDirectory(): [string] {
-		readdir(blogDirectory, (error, pages) => {
-			if (error) {
-				console.error('Error pulling blog pages.', error);
-				return;
-			}
-
-			console.log('Blog pages pulled successfully.');
-			return pages;
-		});
+		var pages: [string] = [];
+		const blogPages = import.meta.glob('../pages/blogpages/blog/*');
+		//console.log(blogPages);
+		for (const [key, value] of Object.entries(blogPages)) {
+			pages.push(key);
+		}
+		//console.log(pages);
+		return pages;
 	}; //end of getBlogDirectory function
 
 	async function getPageInformation(pages: [string]) {
-		const pageNavPart = '../pages/blogpages/blog';
-		for (page in pages) {
-			const pageNav = pageNavPart + '/' + page;
-			const currentPage = await import(pageNav);
+		for (const page of pages) {
+			//const currentPage = await import(/* @vite-ignore */page);
+			// http://localhost:5173/app/pages/blogpages/pages/blogpages/blog/testpage.tsx?import
 			const currentDictionary = {
-				'name': currentPage.name,
-				'tags': currentPage.tags,
-				'id': currentPage.id,
-				'routelink': currentPage.routelink,
-				'description': currentPage.description
+				'name': page.name,
+				'tags': page.tags,
+				'id': page.id,
+				'routelink': page.routelink,
+				'description': page.description
 			};
+			console.log(currentDictionary);
 
-				
 			setPageInformation(pageInformation.push(currentDictionary));
 		};
 	}; //end of getPageInformtion function
@@ -82,36 +79,40 @@ const BlogHeader = () => {
 			setSearchTerm(e.target.value)
 		};
 
-		return( //"HMTL"
-			<div className = "search_bar">
-				<form onSubmit = {(e) => e.preventDefault()}>
-					<input value = {SearchTerm} onChange = {handleInputChange} placeholder = "Search the Blog" />
-					<button type = "submit">
-						Search
-					</button>
-				</form>
-			</div>
-
-			{searchResults.length > 0 && (
-				<div className = "search_results">
-					<h2>Search Results: </h2>
-					<ul = "search_results_list">
-						{searchResults.map((result) => (
-							<li key = {result.id} clasName = "single_result">
-								{result.name}
-								{result.description}
-							</li>
-						))}
-					</ul>
+		return( //"HTML"
+			<div className = "search_bar_component">
+				<div className = "search_bar">
+					<form onSubmit = {(e) => e.preventDefault()}>
+						<input value = {searchTerm} onChange = {handleInputChange} placeholder = "Search the Blog" />
+						<button type = "submit">
+							Search
+						</button>
+					</form>
 				</div>
-			)}
+
+				{searchResults.length > 0 && (
+					<div className = "search results">
+						<h2>Search Results: </h2>
+						<ul className = "search_result_list">
+							{searchResults.map((result) => (
+								<li key = {result.id} className = "signle_result">
+									{result.name}
+									{result.description}
+								</li>
+							))}
+						</ul>
+					</div>
+				)};
+			</div>
 		); //end of return
 	}; //end of SearchBar component
 
 	//beginning of "HTML" code//
 	return(
+		<>
 		<p>testing</p>
 		<SearchBar />
+		</>
 	);
 }; //end of BlogHeader component
 
