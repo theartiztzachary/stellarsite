@@ -47,6 +47,8 @@ export default function WordleTool() {
     var needToPagenate: boolean = true;
     var currentYellowWord: string = '';
     var isFullWord = false;
+    var goodResults = null;
+    var neutralResults = null;
 
     //useState variables//
     const [possibleWords, setPossibleWords] = useState('Possible words will appear here after searching.');
@@ -126,11 +128,14 @@ export default function WordleTool() {
 
     async function processResult(results: WordResponse, yellowWords: [string], grayLetters: string, currentPage: number) {
         if (results.results.total >= 500) { //checks if there is too much data to comb through, mostly to limit amount of api calls
+            //console.log('Beep.');
             needToPagenate = false;
             setPossibleWords('I need more green letters to narrow down my search.');
-            wordList = '';
+            neutralResults = true;
             return
         };
+
+        //console.log(neutralResults); //should be null
 
         var grayLettersArray : [];
         if (grayLetters != '') { //if there are gray letters
@@ -147,6 +152,7 @@ export default function WordleTool() {
         var returnedWordCount: number = 0; //used to keeep track of how many words are in the response
         var displayWordCount: number = 1; //used to keep track of how many words we have pulled to display
         var goodWord: boolean = true; //used to confirm if the current word in the call is valid
+        goodResults = false; //sets this to false so if there is no returns at all then it will show the 'double check your inputs' message
         for (const word in results.results.data) {
             returnedWordCount += 1;
             goodWord = true; //reset goodWord
@@ -163,6 +169,7 @@ export default function WordleTool() {
                     //console.log('No yellow words.');
                     wordList = wordList + (((currentPage - 1) * 100) + displayWordCount).toString() + '. ' + results.results.data[word] + '\n';
                     displayWordCount += 1;
+                    goodResults = true;
                 } else {
                     var yellowLetters: [string] = [];
                     for (const yWord in yellowWords) {
@@ -204,6 +211,7 @@ export default function WordleTool() {
                     if (goodWord) {
                         wordList = wordList + (((currentPage - 1) * 100) + displayWordCount).toString() + '. ' + results.results.data[word] + '\n';
                         displayWordCount += 1;
+                        goodResults = true;
                     };
                 };
             };   
@@ -218,6 +226,8 @@ export default function WordleTool() {
         e.preventDefault();
         setPossibleWords('Loading...');
         wordList = '';
+        goodResults = null;
+        neutralResults = null;
         
         const data = e.target;
         const formedData = new FormData(data);
@@ -277,8 +287,9 @@ export default function WordleTool() {
         };
 
         if (wordToSearch == '.{1}.{1}.{1}.{1}.{1}') {
-            console.log('Beep');
+            //console.log('Beep');
             setPossibleWords('I need at least one green letter in order to complete my search.')
+            neutralResults = true; //we shouldn't even hit that check but just in case :)
             return
         }
 
@@ -289,12 +300,17 @@ export default function WordleTool() {
             currentPage += 1;
         };
 
-        if ((wordList != '') && (possibleWords == 'Loading...')) {
-            //console.log('Word list has something.');
+        //console.log('goodResults: ' + goodResults);
+        //console.log('neutralResults: ' + neutralResults);
+
+        if (goodResults) {
             setPossibleWords(wordList);
-        } else if ((possibleWords == 'Loading...') && (wordList == '')) {
-            //console.log('Word list is empty!');
-            setPossibleWords('Something went wrong. Please double check your inputs or, if you are certain your inputs are correct,log an issue on our GitHub page. https://github.com/theartiztzachary/stellarsite/issues');
+        } else if (goodResults == false) { //note to self: when using !boolean, null is the same as false (probably specifically checks for not true xd)
+            setPossibleWords('Something went wrong. Please double check your inputs or, if you are certain your inputs are correct, log an issue on our GitHub page. https://github.com/theartiztzachary/stellarsite/issues');
+        } else if (neutralResults) {
+            //nothing happens
+        } else {
+            setPossibleWords('Something went terribly wrong. Please log an issue on our GitHub page, and include the console output (if any). https://github.com/theartiztzachary/stellarsite/issues');
         };
     }; //end of handleSubmit function
 
