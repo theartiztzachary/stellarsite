@@ -13,6 +13,7 @@ const BlogHeader = () => {
 	//functions//
 
 	function getBlogDirectory(): [string] {
+		console.log('getBlogDirectory is running...');
 		var pages: [string] = [];
 		const blogPages = import.meta.glob('../pages/blogpages/blog/*');
 		//console.log(blogPages);
@@ -25,26 +26,33 @@ const BlogHeader = () => {
 
 	async function getPageInformation(pages: [string]) {
 		for (const page of pages) {
-			//const currentPage = await import(/* @vite-ignore */page);
-			// http://localhost:5173/app/pages/blogpages/pages/blogpages/blog/testpage.tsx?import
-			const currentDictionary = {
-				'name': page.name,
-				'tags': page.tags,
-				'id': page.id,
-				'routelink': page.routelink,
-				'description': page.description
-			};
-			console.log(currentDictionary);
-
-			setPageInformation(pageInformation.push(currentDictionary));
+			const pageObject = loadPageData(page);
 		};
 	}; //end of getPageInformtion function
 
-	//this will run once when the page loads
+	async function loadPageData(fileNav) {
+		console.log('loadPageData is running...');
+		const pageObject = await import(/* @vite-ignore */`${fileNav}`);
+		//console.log(pageObject.name); //testing
+		const currentDictionary = {
+			'name': pageObject.name,
+			'tags': pageObject.tags,
+			'id': pageObject.id,
+			'routelink': pageObject.routelink,
+			'description': pageObject.description
+		};
+		//console.log(currentDictionary);
+
+		setPageInformation(pageInformation.push(currentDictionary));
+	}; //end of loadPageData function
+
+	//this will run once when the page loads - why is it running twice??? lmao
+	/*
 	useEffect(() => {
 		const pagenames = getBlogDirectory();
 		getPageInformation(pagenames);
 	}, []);
+	*/
 
 	//internal components//
 	const SearchBar = () => {
@@ -60,7 +68,7 @@ const BlogHeader = () => {
 		const handleSearch = useCallback(
 			debounce((term) => {
 				if (term.trim() === '') { //if the search is empty 
-				setSearchResults([]);
+					setSearchResults([]);
 				} else {
 					const results = pageInformation.filter((item) =>
 						item.name.toLowerCase().includes(term.toLowerCase()), //compares the search term to the page names
@@ -71,7 +79,8 @@ const BlogHeader = () => {
 			[],
 		); //end of handleSearch delcaration
 
-		useEffect(() => {
+		useEffect(() => { //this is running constantly! i thought it was only supposed to run when searchTerm changed...
+			//console.log('inner useEffect is triggering!');
 			handleSearch(searchTerm)
 		}, [searchTerm, handleSearch]);
 
@@ -83,7 +92,7 @@ const BlogHeader = () => {
 			<div className = "search_bar_component">
 				<div className = "search_bar">
 					<form onSubmit = {(e) => e.preventDefault()}>
-						<input value = {searchTerm} onChange = {handleInputChange} placeholder = "Search the Blog" />
+						<input id = "search_bar_input" value = {searchTerm} onChange = {handleInputChange} placeholder = "Search the Blog" />
 						<button type = "submit">
 							Search
 						</button>
@@ -114,6 +123,13 @@ const BlogHeader = () => {
 		<SearchBar />
 		</>
 	);
+
+	document.addEventListener("DOMContentLoaded", () => {
+		console.log('DOM has loaded.');
+		const pagenames = getBlogDirectory();
+		getPageInformation(pagenames);
+	});
+
 }; //end of BlogHeader component
 
 export default BlogHeader;

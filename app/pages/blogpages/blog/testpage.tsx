@@ -24,7 +24,7 @@ export const id = 'testpage';
 export const routelink = '/blog/testpage';
 export const description = 'Test description.'
 
-export default function BlogHome() {
+export default function TestPage() {
 
 //beginning of "HTML" code//
   return (
