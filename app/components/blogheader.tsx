@@ -1,22 +1,29 @@
-import React, { useState, useCallback, useEffect } from 'react';
+//KNOWN MINOR ISSUES//
+
+//from the top
+//i need an input bar that captures user input - done
+//i need to pull all the pages in the blog directory to search through - done
+//i need the paga data to be pulled as part of the dom load - done
+//i need to compare the two and get search results
+//i need a way to show the results to the user
+//the user should be able to click on a result and navigate to that pages
+
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const BlogHeader = () => {
-	//constants and variables//
-	const blogDirectory = '../pages/blogpages/blog';
-
+const BlogHeader = (props) => {
 	//useState variables//
-	const [searchTerm, setSearchTerm] = useState('');
-	const [searchResults, setSearchResults] = useState('');
 	const [pageInformation, setPageInformation] = useState([]);
+	const [searchQuery, setSearchQuery] = useState('');
+	const [searchResults, setSearchResults] = useState('');
+
+	//variables//
 
 	//functions//
-
-	function getBlogDirectory(): [string] {
-		console.log('getBlogDirectory is running...');
+	function getBlogDirectory(): [string] { //returns an array of page navs relative to component folder
+		//console.log('getBlogDirectory is running...');
 		var pages: [string] = [];
 		const blogPages = import.meta.glob('../pages/blogpages/blog/*');
-		//console.log(blogPages);
 		for (const [key, value] of Object.entries(blogPages)) {
 			pages.push(key);
 		}
@@ -24,16 +31,24 @@ const BlogHeader = () => {
 		return pages;
 	}; //end of getBlogDirectory function
 
-	async function getPageInformation(pages: [string]) {
+	async function getPageInformation(pages: [string]) { //linker function between getBlogDirectory and loadPageData for the async usage
 		for (const page of pages) {
-			const pageObject = loadPageData(page);
+			loadPageData(page);
+			//console.log(pageInformation);
 		};
-	}; //end of getPageInformtion function
+	}; //end of getPageInformation function
 
-	async function loadPageData(fileNav) {
-		console.log('loadPageData is running...');
+	//useEffects//
+	useEffect(() => { //hypothetically this runs twice in dev run and only once in prd run, so will have to check prd to confirm
+		console.log('I should only show once in the console.');
+		const pagedirs = getBlogDirectory();
+		getPageInformation(pagedirs);
+	}, []);
+
+	async function loadPageData(fileNav) { //loads page data into pageInformation for use
+		//console.log('loadPageData is running...');
 		const pageObject = await import(/* @vite-ignore */`${fileNav}`);
-		//console.log(pageObject.name); //testing
+		//console.log(pageObject.name);
 		const currentDictionary = {
 			'name': pageObject.name,
 			'tags': pageObject.tags,
@@ -42,94 +57,48 @@ const BlogHeader = () => {
 			'description': pageObject.description
 		};
 		//console.log(currentDictionary);
-
-		setPageInformation(pageInformation.push(currentDictionary));
+		setPageInformation(prevArray => [...prevArray, currentDictionary]);
 	}; //end of loadPageData function
 
-	//this will run once when the page loads - why is it running twice??? lmao
-	/*
-	useEffect(() => {
-		const pagenames = getBlogDirectory();
-		getPageInformation(pagenames);
-	}, []);
-	*/
+	useEffect(() => { //updates search results
+		if (searchQuery != '') {
+			console.log('I am comparing the query to the directory info!');
+			//console.log(searchQuery);
+			//console.log(pageInformation);
 
-	//internal components//
-	const SearchBar = () => {
-		//this sets a small timeout window so search results will calculate a few moments after the user stops typing instead of after every keystroke
-		const debounce = (func, delay) => {
-			let timeoutId;
-			return (...args) => {
-				clearTimeout(timeoutId);
-				timeoutId = setTimeout(() => func(...args), delay);
-			};
-		}; //end of debounce delcaration
+			var sResults = [];
+			for (const dic in pageInformation) { //for each page entry
+				console.log(dic);
+				for (const [key, value] of dic) { //for each part of information on each page
+					//if (value.toString().includes(searchQuery)) {
+					//	sResults.push(key);
+					//	break
+					//}
+					console.log("holy shit the key is: " + key);
+					console.log("holy shit the value is: " + value);
+				}
+			}
 
-		const handleSearch = useCallback(
-			debounce((term) => {
-				if (term.trim() === '') { //if the search is empty 
-					setSearchResults([]);
-				} else {
-					const results = pageInformation.filter((item) =>
-						item.name.toLowerCase().includes(term.toLowerCase()), //compares the search term to the page names
-					);
-					setSearchResults(results);
+			if (sResults.length != 0) {
+				resString = '';
+				for (res in sResults) {
+					resString = resString + '\n'
 				};
-			}, 300),
-			[],
-		); //end of handleSearch delcaration
-
-		useEffect(() => { //this is running constantly! i thought it was only supposed to run when searchTerm changed...
-			//console.log('inner useEffect is triggering!');
-			handleSearch(searchTerm)
-		}, [searchTerm, handleSearch]);
-
-		const handleInputChange = (e) => {
-			setSearchTerm(e.target.value)
+				setSearchResults(resString);
+			};
 		};
+	}, [searchQuery]);
 
-		return( //"HTML"
-			<div className = "search_bar_component">
-				<div className = "search_bar">
-					<form onSubmit = {(e) => e.preventDefault()}>
-						<input id = "search_bar_input" value = {searchTerm} onChange = {handleInputChange} placeholder = "Search the Blog" />
-						<button type = "submit">
-							Search
-						</button>
-					</form>
-				</div>
-
-				{searchResults.length > 0 && (
-					<div className = "search results">
-						<h2>Search Results: </h2>
-						<ul className = "search_result_list">
-							{searchResults.map((result) => (
-								<li key = {result.id} className = "signle_result">
-									{result.name}
-									{result.description}
-								</li>
-							))}
-						</ul>
-					</div>
-				)};
-			</div>
-		); //end of return
-	}; //end of SearchBar component
-
-	//beginning of "HTML" code//
-	return(
-		<>
-		<p>testing</p>
-		<SearchBar />
-		</>
+	//'HTML' code
+	return (
+		<div id = 'search_bar_full'>
+			<label>Search: </label>
+			{/* dropdown to specify search to improve performance */}
+			<input type = "text" id = "search_input" value = {searchQuery} onChange = {(e) => setSearchQuery(e.target.value)}/>
+			<p>Testing - current search query: {searchQuery}</p>
+			<p>Testing - current search results: {searchResults}</p>
+		</div>
 	);
-
-	document.addEventListener("DOMContentLoaded", () => {
-		console.log('DOM has loaded.');
-		const pagenames = getBlogDirectory();
-		getPageInformation(pagenames);
-	});
-
 }; //end of BlogHeader component
 
 export default BlogHeader;

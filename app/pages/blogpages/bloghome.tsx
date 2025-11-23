@@ -24,6 +24,7 @@ export default function BlogHome() {
   return (
       <>
       <PageHeader />
+      <br/>
       <BlogHeader />
 
       <div className = "page_section">
