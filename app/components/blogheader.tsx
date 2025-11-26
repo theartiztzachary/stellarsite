@@ -5,8 +5,8 @@
 //i need an input bar that captures user input - done
 //i need to pull all the pages in the blog directory to search through - done
 //i need the paga data to be pulled as part of the dom load - done
-//i need to compare the two and get search results
-//i need a way to show the results to the user
+//i need to compare the two and get search results - done
+//i need a way to show the results to the user - done ish, i show results but it's not pretty xd
 //the user should be able to click on a result and navigate to that pages
 
 import React, { useState, useEffect } from 'react';
