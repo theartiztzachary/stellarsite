@@ -1,4 +1,5 @@
 //KNOWN MINOR ISSUES//
+//1. if the search bar is emptied, the search is not cleared
 
 //from the top
 //i need an input bar that captures user input - done
@@ -18,6 +19,7 @@ const BlogHeader = (props) => {
 	const [searchResults, setSearchResults] = useState('');
 
 	//variables//
+	var pageLoaded: boolean = false;
 
 	//functions//
 	function getBlogDirectory(): [string] { //returns an array of page navs relative to component folder
@@ -40,9 +42,12 @@ const BlogHeader = (props) => {
 
 	//useEffects//
 	useEffect(() => { //hypothetically this runs twice in dev run and only once in prd run, so will have to check prd to confirm
-		console.log('I should only show once in the console.');
-		const pagedirs = getBlogDirectory();
-		getPageInformation(pagedirs);
+		if (!pageLoaded) {
+			console.log('I should only show once in the console.');
+			pageLoaded = true;
+			const pagedirs = getBlogDirectory();
+			getPageInformation(pagedirs);
+		}
 	}, []);
 
 	async function loadPageData(fileNav) { //loads page data into pageInformation for use
@@ -62,30 +67,35 @@ const BlogHeader = (props) => {
 
 	useEffect(() => { //updates search results
 		if (searchQuery != '') {
-			console.log('I am comparing the query to the directory info!');
+			//console.log('I am comparing the query to the directory info!');
 			//console.log(searchQuery);
 			//console.log(pageInformation);
-
+			//console.log(pageInformation.length);
 			var sResults = [];
-			for (const dic in pageInformation) { //for each page entry
-				console.log(dic);
-				for (const [key, value] of dic) { //for each part of information on each page
-					//if (value.toString().includes(searchQuery)) {
-					//	sResults.push(key);
-					//	break
-					//}
-					console.log("holy shit the key is: " + key);
-					console.log("holy shit the value is: " + value);
+			
+			for (let i = 0; i < pageInformation.length; i++) {
+				//console.log(pageInformation[i]);
+				for (const [key, value] of Object.entries(pageInformation[i])) {
+					console.log("The key is: " + key);
+					//console.log("The value is: " + value);
+					if (value.includes(searchQuery)) {
+						console.log('The value has the search term in it!')
+						sResults.push(pageInformation[i])
+						break
+					}
 				}
 			}
 
+			var resString = '';
+			//console.log(sResults);
 			if (sResults.length != 0) {
-				resString = '';
-				for (res in sResults) {
-					resString = resString + '\n'
+				for (let i = 0; i < sResults.length; i++) {
+					console.log(sResults[i]);
+					resString = resString + sResults[i].name + '\n';
 				};
-				setSearchResults(resString);
 			};
+			//console.log(resString);
+			setSearchResults(resString);
 		};
 	}, [searchQuery]);
 
@@ -96,7 +106,8 @@ const BlogHeader = (props) => {
 			{/* dropdown to specify search to improve performance */}
 			<input type = "text" id = "search_input" value = {searchQuery} onChange = {(e) => setSearchQuery(e.target.value)}/>
 			<p>Testing - current search query: {searchQuery}</p>
-			<p>Testing - current search results: {searchResults}</p>
+			<p>Testing - current search results:</p>
+			<p>{searchResults}</p>
 		</div>
 	);
 }; //end of BlogHeader component
