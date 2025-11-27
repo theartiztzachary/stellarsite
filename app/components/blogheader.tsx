@@ -96,11 +96,21 @@ const BlogHeader = (props) => {
             } //end of pageInformation iteration
         } else if ((searchResultPages.length > 0) && (searchResultPages[0] != '')) {
             //console.log(searchResultPages);
-            console.log('Removing search results...');
+            //console.log('Removing search results...');
             //setSearchResultPages(searchResultPages.length = 0);
             //setSearchResults(searchResults.length = 0);
         }
-	}, [searchQuery]);
+    }, [searchQuery]);
+
+    useEffect(() => {
+        if (searchResults.length > 0) {
+            console.log('Showing search results!');
+            document.documentElement.style.setProperty("--search-results-show", "block");
+        } else {
+            console.log('Hiding search results!');
+            document.documentElement.style.setProperty("--search-results-show", "hidden");
+        }
+    }, [searchResults]);
 
 	//internal components//
 	const SearchResult = ({ pageInfo }) => {
@@ -115,13 +125,15 @@ const BlogHeader = (props) => {
 
 	//'HTML' code//
 	return (
-		<div id = 'search_bar_full'>
+        <div className = "search_bar_full">
 			<label>Search: </label>
 			{/* dropdown to specify search to improve performance */}
 			<input type = "text" id = "search_input" value = {searchQuery} onChange = {(e) => setSearchQuery(e.target.value)}/>
 			<p>Testing - current search query: {searchQuery}</p>
-			<p>Testing - current search results:</p>
-			{searchResults}
+            <p>Testing - current search results:</p>
+            <div className = "search_results">
+                {searchResults}
+            </div>
 		</div>
 	);
 }; //end of BlogHeader component
