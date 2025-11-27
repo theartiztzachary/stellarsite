@@ -1,14 +1,3 @@
-//KNOWN MINOR ISSUES//
-//1. if the search bar is emptied, the search is not cleared
-
-//from the top
-//i need an input bar that captures user input - done
-//i need to pull all the pages in the blog directory to search through - done
-//i need the paga data to be pulled as part of the dom load - done
-//i need to compare the two and get search results - done
-//i need a way to show the results to the user - done ish, i show results but it's not pretty xd
-//the user should be able to click on a result and navigate to that pages
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -16,7 +5,8 @@ const BlogHeader = (props) => {
 	//useState variables//
 	const [pageInformation, setPageInformation] = useState([]);
 	const [searchQuery, setSearchQuery] = useState('');
-	const [searchResults, setSearchResults] = useState('');
+	const [searchResultPages, setSearchResultPages] = useState([]);
+	const [searchResults, setSearchResults] = useState([]);
 
 	//variables//
 	var pageLoaded: boolean = false;
@@ -40,16 +30,6 @@ const BlogHeader = (props) => {
 		};
 	}; //end of getPageInformation function
 
-	//useEffects//
-	useEffect(() => { //hypothetically this runs twice in dev run and only once in prd run, so will have to check prd to confirm
-		if (!pageLoaded) {
-			console.log('I should only show once in the console.');
-			pageLoaded = true;
-			const pagedirs = getBlogDirectory();
-			getPageInformation(pagedirs);
-		}
-	}, []);
-
 	async function loadPageData(fileNav) { //loads page data into pageInformation for use
 		//console.log('loadPageData is running...');
 		const pageObject = await import(/* @vite-ignore */`${fileNav}`);
@@ -65,41 +45,75 @@ const BlogHeader = (props) => {
 		setPageInformation(prevArray => [...prevArray, currentDictionary]);
 	}; //end of loadPageData function
 
-	useEffect(() => { //updates search results
-		if (searchQuery != '') {
-			//console.log('I am comparing the query to the directory info!');
-			//console.log(searchQuery);
-			//console.log(pageInformation);
-			//console.log(pageInformation.length);
-			var sResults = [];
-			
-			for (let i = 0; i < pageInformation.length; i++) {
-				//console.log(pageInformation[i]);
-				for (const [key, value] of Object.entries(pageInformation[i])) {
-					console.log("The key is: " + key);
-					//console.log("The value is: " + value);
-					if (value.includes(searchQuery)) {
-						console.log('The value has the search term in it!')
-						sResults.push(pageInformation[i])
-						break
-					}
-				}
-			}
+	//useEffects//
+	useEffect(() => { //hypothetically this runs twice in dev run and only once in prd run, so will have to check prd to confirm
+		if (!pageLoaded) {
+			console.log('I should only show once in the console.');
+			pageLoaded = true;
+			const pagedirs = getBlogDirectory();
+			getPageInformation(pagedirs);
+		}
+	}, []);
 
-			var resString = '';
-			//console.log(sResults);
-			if (sResults.length != 0) {
-				for (let i = 0; i < sResults.length; i++) {
-					console.log(sResults[i]);
-					resString = resString + sResults[i].name + '\n';
-				};
-			};
-			//console.log(resString);
-			setSearchResults(resString);
-		};
+    useEffect(() => { //updates search results
+        //console.log('searchResultPages is currently: ' + searchResultPages);
+        if (searchQuery.length > 2) {
+            //this will need some kind of ascyn/loading function bc pages are gonna get...wild xd but for now
+            for (let index = 0; index < pageInformation.length; index++) {
+                if (searchResultPages.includes(pageInformation[index].name)) {
+                    console.log('This page is already logged.');
+                    //check if the result is still valid and if not remove it
+                    var validResult: boolean = false;
+                    for (const [key, value] of Object.entries(pageInformation[index])) {
+                        if (value.includes(searchQuery)) {
+                            validResult = true;
+                            console.log('This page is still valid.');
+                            break; //removes us from the for loop bc we are good
+                        }
+                    }
+
+                    if (!validResult) {
+                        console.log('This page is invalid.');
+                        const invalidIndex = searchResultPages.indexOf(pageInformation[index].name);
+                        //console.log(invalidIndex);
+                        setSearchResultPages(searchResultPages.splice(invalidIndex, 1));
+                        setSearchResults(searchResults.splice(invalidIndex, 1));
+                    }
+
+                    break
+                } else {
+                    //console.log('This result is not already logged.');
+                    for (const [key, value] of Object.entries(pageInformation[index])) {
+                        if (value.includes(searchQuery)) {
+                            console.log('The value has the search term in it!');
+                            //removal is not working
+                            setSearchResultPages(searchResultPages.concat(pageInformation[index].name))
+                            setSearchResults(searchResults.concat(<SearchResult pageInfo = {pageInformation[index]} key = {pageInformation[index].id} />));
+                            break
+                        }
+                    } //end of dictionary check
+                }
+            } //end of pageInformation iteration
+        } else if ((searchResultPages.length > 0) && (searchResultPages[0] != '')) {
+            //console.log(searchResultPages);
+            console.log('Removing search results...');
+            //setSearchResultPages(searchResultPages.length = 0);
+            //setSearchResults(searchResults.length = 0);
+        }
 	}, [searchQuery]);
 
-	//'HTML' code
+	//internal components//
+	const SearchResult = ({ pageInfo }) => {
+        return (
+            <div id="search_result">
+                <Link to = {pageInfo.routelink}>
+                    <h3>{pageInfo.name}</h3>
+                </Link>
+            </div>
+		);
+	}; //end of SearchResult component
+
+	//'HTML' code//
 	return (
 		<div id = 'search_bar_full'>
 			<label>Search: </label>
@@ -107,7 +121,7 @@ const BlogHeader = (props) => {
 			<input type = "text" id = "search_input" value = {searchQuery} onChange = {(e) => setSearchQuery(e.target.value)}/>
 			<p>Testing - current search query: {searchQuery}</p>
 			<p>Testing - current search results:</p>
-			<p>{searchResults}</p>
+			{searchResults}
 		</div>
 	);
 }; //end of BlogHeader component
