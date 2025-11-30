@@ -1,6 +1,5 @@
 import React from 'react';
 import type { Route } from "./+types/home";
-import { Link } from 'react-router-dom';
 
 import '../../csssheets/homestyle.css';
 
