@@ -10,7 +10,8 @@ export default [
 
 	// Blog
 	route("/blog", "pages/blogpages/bloghome.tsx"),
-	route("/blog/testpage", "pages/blogpages/blog/testpage.tsx"),
+    route("/blog/testpage", "pages/blogpages/blog/testpage.tsx"),
+    route("/blog/mabiskillcurve", "pages/blogpages/blog/mabiskillcurve.tsx"),
 
 	// Stories
 	// Copper Eye
