@@ -10,10 +10,11 @@ export default [
 
 	// Blog
 	route("/blog", "pages/blogpages/bloghome.tsx"),
+	route("/blog/testpage", "pages/blogpages/blog/testpage.tsx"),
 
 	// Stories
-	//--Crescendo
-	route("/stories/crescendo/overview", "pages/stories/crescendo/cresoverview.tsx"),
+	// Copper Eye
+	route("/stories/copper_eye/overview", "pages/stories/coppereye/ceoverview.tsx"),
 
 	// Mabinogi
     route("/mabinogi/tracker", "pages/mabinogi/mabitracker.tsx"),

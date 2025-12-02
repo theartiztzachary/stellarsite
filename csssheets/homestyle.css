@@ -1,4 +1,4 @@
-/* ----- GENERAL CSS ----- */
+/* ----- GENERAL CSS -----*/
 
 /* ----- CLASS-BASED CSS ----- */
 .login_section {
@@ -17,8 +17,8 @@
 }
 
 .external_links {
-    width: 10%;
-    float: left;
+	width: 10%;
+	float: right;
 }
 
 /* ----- ID-BASED CSS -----*/
