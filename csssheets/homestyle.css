@@ -1,15 +1,19 @@
 /* ----- GENERAL CSS -----*/
 
-/* ----- CLASS-BASED CSS -----*/
+/* ----- CLASS-BASED CSS ----- */
+.login_section {
+    width: 10%;
+    float: left;
+}
 
 .page_section {
-	width: 100%;
-	overflow: auto;
+    width: 100%;
+    overflow: auto;
 }
 
 .main_section {
-	width: 90%;
-	float: left;
+    width: 90%;
+    float: left;
 }
 
 .external_links {

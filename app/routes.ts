@@ -17,7 +17,8 @@ export default [
 	route("/stories/copper_eye/overview", "pages/stories/coppereye/ceoverview.tsx"),
 
 	// Mabinogi
-	route("/mabinogi/tracker", "pages/mabinogi/mabitracker.tsx"),
+    route("/mabinogi/tracker", "pages/mabinogi/mabitracker.tsx"),
+    route("/mabinogi/bripizza", "pages/mabinogi/bripizza.tsx"),
 
 	// Warframe
 	route("/warframe/tracker", "pages/warframe/wftracker.tsx"),
