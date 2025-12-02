@@ -27,7 +27,7 @@ export function meta({ }: Route.MetaArgs) {
 export default function BriPizza() {
     //sound constants//
     const [pizzaTimeSong, { stopPizzaTime }] = useSound(pizzaTime, {volume: 0.25,});
-    const [beepSound, { stopBeep }] = useSound(beep);
+    const [beepSound] = useSound(beep);
 
     //constants and variables//
     const { start, pause, reset, isRunning, finished } = timer(3.5);
