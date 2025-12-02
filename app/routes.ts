@@ -16,7 +16,8 @@ export default [
 	route("/stories/crescendo/overview", "pages/stories/crescendo/cresoverview.tsx"),
 
 	// Mabinogi
-	route("/mabinogi/tracker", "pages/mabinogi/mabitracker.tsx"),
+    route("/mabinogi/tracker", "pages/mabinogi/mabitracker.tsx"),
+    route("/mabinogi/bripizza", "pages/mabinogi/bripizza.tsx"),
 
 	// Warframe
 	route("/warframe/tracker", "pages/warframe/wftracker.tsx"),

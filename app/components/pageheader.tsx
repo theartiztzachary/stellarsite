@@ -55,14 +55,13 @@ const PageHeader = () => {
                     */}
 
                     {/* Mabinogi */}
-                    {/*
                     <div className = "dropdown">
                         <button className = "dropdown_button"> Mabinogi </button>
                         <div className = "dropdown_content">
-                            <Link to = '/mabinogi/tracker'> Tracker </Link>
+                            {/* <Link to = '/mabinogi/tracker'> Tracker </Link> */}
+                            <Link to = '/mabinogi/bripizza'> Bri G1 Pizza </Link>
                         </div>
                     </div>
-                    /*}
 
                     {/* Misc */}
                     <div className = "dropdown">
