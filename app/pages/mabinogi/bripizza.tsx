@@ -31,83 +31,197 @@ export default function BriPizza() {
 
     //constants and variables//
     const { start, pause, reset, isRunning, finished } = timer(3.5);
+    const [currentSequence, setCurrentSequence] = useState(1); //1 is 55%, 2 is 15%
+    const [spotSequence, setSpotSequence] = useState(1); //1 - 10
     const [currentSpot, setCurrentSpot] = useState('Click the appropriate button to begin.')
     var currentSpotIMG;
     const [nextSpot, setNextSpot] = useState('Click the appropriate button to begin.')
     var nextSpotIMG;
 
-    //functions//
-    async function beginSequenceOne() {
-        var itsPizzaTime = true;
-        var spotSequence = 1;
-        console.log('PIZZA TIME!')
+    //when timer hits the end and returns "true", increment a the 'state' -> a UseEffect hooked into the state
+    //UseEffect + timer... so probably need to redo how this is implemented
 
-        while (itsPizzaTime) {
-            //pizzaTimeSong();
+    //useEffects//
+    useEffect(() => {
+        if (isRunning) {
             switch (spotSequence) {
                 case 1:
                     console.log('One!');
-                    spotSequence++;
-                    setCurrentSpot('SOUTH');
-                    setNextSpot('SOUTH');
+                    if (currentSequence == 1) {
+                        setCurrentSpot('SOUTH');
+                        //set current spot IMG
+                        setNextSpot('SOUTH');
+                        //set next spot IMG
+                    } else if (currentSequence == 2) {
+                        setCurrentSpot('NORTH');
+                        //set current spot IMG
+                        setNextSpot('SOUTHEAST');
+                        //set next spot IMG
+                    }
                     break;
                 case 2:
                     console.log('Two!');
-                    spotSequence++;
-                    setCurrentSpot('SOUTH');
-                    setNextSpot('WEST');
+                    beepSound();
+                    if (currentSequence == 1) {
+                        setCurrentSpot('SOUTH');
+                        //set current spot IMG
+                        setNextSpot('WEST');
+                        //set next spot IMG
+                    } else if (currentSequence == 2) {
+                        setCurrentSpot('SOUTHEAST');
+                        //set current spot IMG
+                        setNextSpot('SOUTHWEST');
+                        //set next spot IMG
+                    }
                     break;
                 case 3:
                     console.log('Three!');
-                    spotSequence++;
-                    setCurrentSpot('WEST');
-                    setNextSpot('NORTH');
+                    beepSound();
+                    if (currentSequence == 1) {
+                        setCurrentSpot('WEST');
+                        //set current spot IMG
+                        setNextSpot('NORTH');
+                        //set next spot IMG
+                    } else if (currentSequence == 2) {
+                        setCurrentSpot('SOUTHWEST');
+                        //set current spot IMG
+                        setNextSpot('NORTH');
+                        //set next spot IMG
+                    }
                     break;
                 case 4:
                     console.log('Four!');
-                    spotSequence++;
-                    setCurrentSpot('NORTH');
-                    setNextSpot('EAST');
+                    beepSound();
+                    if (currentSequence == 1) {
+                        setCurrentSpot('NORTH');
+                        //set current spot IMG
+                        setNextSpot('EAST');
+                        //set next spot IMG
+                    } else if (currentSequence == 2) {
+                        setCurrentSpot('NORTH');
+                        //set current spot IMG
+                        setNextSpot('SOUTH');
+                        //set next spot IMG
+                    }
                     break;
                 case 5:
                     console.log('Five!');
-                    spotSequence++;
-                    setCurrentSpot('EAST');
-                    setNextSpot('SOUTH');
+                    beepSound();
+                    if (currentSequence == 1) {
+                        setCurrentSpot('EAST');
+                        //set current spot IMG
+                        setNextSpot('SOUTH');
+                        //set next spot IMG
+                    } else if (currentSequence == 2) {
+                        setCurrentSpot('SOUTH');
+                        //set current spot IMG
+                        setNextSpot('NORTHEAST');
+                        //set next spot IMG
+                    }
                     break;
                 case 6:
                     console.log('Six!');
-                    spotSequence++;
-                    setCurrentSpot('SOUTH');
-                    setNextSpot('WEST');
+                    beepSound();
+                    if (currentSequence == 1) {
+                        setCurrentSpot('SOUTH');
+                        //set current spot IMG
+                        setNextSpot('EAST');
+                        //set next spot IMG
+                    } else if (currentSequence == 2) {
+                        setCurrentSpot('NORTHEAST');
+                        //set current spot IMG
+                        setNextSpot('NORTH');
+                        //set next spot IMG
+                    }
                     break;
                 case 7:
                     console.log('Seven!');
-                    spotSequence++;
-                    setCurrentSpot('WEST');
-                    setNextSpot('NORTHWEST');
+                    beepSound();
+                    if (currentSequence == 1) {
+                        setCurrentSpot('EAST');
+                        //set current spot IMG
+                        setNextSpot('NORTHEAST');
+                        //set next spot IMG
+                    } else if (currentSequence == 2) {
+                        setCurrentSpot('NORTH');
+                        //set current spot IMG
+                        setNextSpot('SOUTH');
+                        //set next spot IMG
+                    }
                     break;
                 case 8:
                     console.log('Eight!');
-                    spotSequence++;
-                    setCurrentSpot('NORTHWEST');
-                    setNextSpot('NORTH');
+                    beepSound();
+                    if (currentSequence == 1) {
+                        setCurrentSpot('NORTHEAST');
+                        //set current spot IMG
+                        setNextSpot('NORTH');
+                        //set next spot IMG
+                    } else if (currentSequence == 2) {
+                        setCurrentSpot('SOUTH');
+                        //set current spot IMG
+                        setNextSpot('WEST');
+                        //set next spot IMG
+                    }
                     break;
                 case 9:
                     console.log('Nine!');
-                    spotSequence++;
-                    setCurrentSpot('NORTH');
-                    setNextSpot('NORTH');
+                    beepSound();
+                    if (currentSequence == 1) {
+                        setCurrentSpot('NORTH');
+                        //set current spot IMG
+                        setNextSpot('NORTH');
+                        //set next spot IMG
+                    } else if (currentSequence == 2) {
+                        setCurrentSpot('WEST');
+                        //set current spot IMG
+                        setNextSpot('NORTH');
+                        //set next spot IMG
+                    }
                     break;
                 case 10:
                     console.log('Ten!');
-                    itsPizzaTime = false;
-                    setCurrentSpot('NORTH');
-                    setNextSpot('DONE!');
+                    beepSound();
+                    if (currentSequence == 1) {
+                        setCurrentSpot('NORTH');
+                        //set current spot IMG
+                        setNextSpot('DONE!');
+                        //set next spot IMG
+                    } else if (currentSequence == 2) {
+                        setCurrentSpot('NORTH');
+                        //set current spot IMG
+                        setNextSpot('DONE!');
+                        //set next spot IMG
+                    }
                     break;
                 default: //how
                     console.log('...how');
+                    break;
             };
+        };
+    }, [spotSequence]);
+
+    //functions//
+    async function pizzaTimeSequence() {
+        //pizzaTimeSong();
+        console.log('PIZZA TIME!')
+        var itsPizzaTime = true;
+
+        while (itsPizzaTime) {
+            console.log('Pizza time is happening.');
+            if (finished) {
+                console.log('Pizza time finished!');
+                if (spotSequence != 10) {
+                    setSpotSequence(prevCount => prevCount + 1);
+                } else {
+                    itsPizzaTime = false;
+                    setSpotSequence(1);
+                }
+                
+            } else if (!isRunning) {
+                console.log('Start pizza time.');
+                start;
+            }
         };
         //stopPizzaTime();
         console.log('Pizza time is over.');
@@ -115,8 +229,9 @@ export default function BriPizza() {
         setNextSpot('Click the appropriate button to begin.');
     };
 
-    async function beginSequenceTwo() {
-
+    function resetSequence() {
+        reset;
+        setSpotSequence(1);
     };
 
 	return ( //'HTML' code
@@ -131,9 +246,19 @@ export default function BriPizza() {
             <Link to={{ pathname: 'https://di-wen25.github.io/Mabinogi-Bri-Leith-Practice-Tool/' }} target='_blank'>You can also directly practice using this site!</Link>
             <br />
             <br />
-            <button onClick = {beginSequenceOne}> 55% Pizza </button>
-            <button onClick = {beginSequenceTwo}> 15% Pizza </button>
-            <button onClick={reset}> Reset Timer </button>
+            <button onClick={() => {
+                    pizzaTimeSequence();
+                    setCurrentSequence(1);
+                }}>
+                55% Pizza
+            </button>
+            <button onClick={() => {
+                    pizzaTimeSequence();
+                    setCurrentSequence(2);
+                }}>
+                15% Pizza
+            </button>
+            <button onClick={resetSequence}> Reset Sequence </button>
 
             <h2>CURRENT SPOT:</h2>
             <p>{currentSpot}</p>
