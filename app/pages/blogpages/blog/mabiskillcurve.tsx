@@ -123,7 +123,39 @@ export default function MabiSillCurve() {
                     When I first started playing, there wasn't a very clear gear tier system. Outside of knowing the
                     precise numbers or what weapons can be given what upgrades, there wasn't a quick and fast way to say
                     that one piece of equipment was better than another. Then, a set of weapons was released - the Celtic
-                    weapon series. 
+                    weapon series. Alright, cool! Let's go farm the materials needed to craft these weapons. So you'd run
+                    a dungeon, get a few common mats, run another dungeon, get a few common mats, run another dungeon...
+                </p>
+                <p>
+                    No problem so far, right?
+                </p>
+                <p>
+                    Except you open up your inventory and check how many more mats you need, and you realize you're missing
+                    a key component you need to finish the weapon. No worries! So you do another run, and another run, and
+                    another run, and another run, and another, run...
+                </p>
+                <p>
+                    I'm not saying I should be able to farm everything in a single two-hour session (I play Warframe, after
+                    all!), but if it's been a whole week of multi-hour farming sessions with zero progress, that's a bit of
+                    an issue. And, in terms of the Celtic weapons, this was back when running the dungeons where those
+                    materials dropped was a real chore. And then new content that is released is usually balanced around the
+                    idea that you have decent to maxed gear of the previous tier (we'll get into enchants and reforges
+                    later). Mabi's drop tables work on what I call a 'dual roll' system - when you get a drop, the game first
+                    rolls to see what <i>type</i> of drop you'll get, and then it rolls off of the actual drop table for that
+                    type of drop. So for those rarer drops, you essentially have to get lucky twice in order to actually get
+                    your drop. So if you struggle to clear the dungeon, and can't find people to run with you (which was more
+                    common back then)...
+                </p>
+                <p>
+                    Well, you could just buy things off the in-game market... right? Right???
+                </p>
+
+                <h3>Problem Two: The Market Skill Curve</h3>
+                <p>
+                    Oh if only things were that easy.
+                </p>
+                <p>
+                    
                 </p>
 
             </div>
