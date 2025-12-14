@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { Route } from './+types/home';
 import { Link } from 'react-router-dom';
-import { timer } from '../../util.tsx';
+import { SimpleTimer } from '../../util.tsx';
 
 import '../../../csssheets/bripizzastyle.css';
 
@@ -21,29 +21,23 @@ export function meta({ }: Route.MetaArgs) {
 	];
 };
 
-// fist pizza: ~1 sec setup (5:09 - 5:10), ~2 seconds until first spot starts filling (5:10 - 5:12),
-// ~4 seconds for second, third, ~3 for the fourth, ~4 for fifth, sixth, ~3 for seventh... 
-
 export default function BriPizza() {
     //sound constants//
-    const [pizzaTimeSong, { stopPizzaTime }] = useSound(pizzaTime, {volume: 0.25,});
+    //const [pizzaTimeSong, { stopPizzaTime }] = useSound(pizzaTime, {volume: 0.25,});
     const [beepSound] = useSound(beep);
 
     //constants and variables//
-    const { start, pause, reset, isRunning, finished } = timer(3.5);
-    const [currentSequence, setCurrentSequence] = useState(1); //1 is 55%, 2 is 15%
+    const timer = new SimpleTimer(2.5);
+    const [currentSequence, setCurrentSequence] = useState(0); //1 is 55%, 2 is 15%
     const [spotSequence, setSpotSequence] = useState(1); //1 - 10
     const [currentSpot, setCurrentSpot] = useState('Click the appropriate button to begin.')
     var currentSpotIMG;
     const [nextSpot, setNextSpot] = useState('Click the appropriate button to begin.')
     var nextSpotIMG;
 
-    //when timer hits the end and returns "true", increment a the 'state' -> a UseEffect hooked into the state
-    //UseEffect + timer... so probably need to redo how this is implemented
-
     //useEffects//
     useEffect(() => {
-        if (isRunning) {
+        if (currentSequence != 0) {
             switch (spotSequence) {
                 case 1:
                     console.log('One!');
@@ -61,7 +55,7 @@ export default function BriPizza() {
                     break;
                 case 2:
                     console.log('Two!');
-                    beepSound();
+                    //beepSound();
                     if (currentSequence == 1) {
                         setCurrentSpot('SOUTH');
                         //set current spot IMG
@@ -76,7 +70,7 @@ export default function BriPizza() {
                     break;
                 case 3:
                     console.log('Three!');
-                    beepSound();
+                    //beepSound();
                     if (currentSequence == 1) {
                         setCurrentSpot('WEST');
                         //set current spot IMG
@@ -91,7 +85,7 @@ export default function BriPizza() {
                     break;
                 case 4:
                     console.log('Four!');
-                    beepSound();
+                    //beepSound();
                     if (currentSequence == 1) {
                         setCurrentSpot('NORTH');
                         //set current spot IMG
@@ -106,7 +100,7 @@ export default function BriPizza() {
                     break;
                 case 5:
                     console.log('Five!');
-                    beepSound();
+                    //beepSound();
                     if (currentSequence == 1) {
                         setCurrentSpot('EAST');
                         //set current spot IMG
@@ -121,7 +115,7 @@ export default function BriPizza() {
                     break;
                 case 6:
                     console.log('Six!');
-                    beepSound();
+                    //beepSound();
                     if (currentSequence == 1) {
                         setCurrentSpot('SOUTH');
                         //set current spot IMG
@@ -136,7 +130,7 @@ export default function BriPizza() {
                     break;
                 case 7:
                     console.log('Seven!');
-                    beepSound();
+                    //beepSound();
                     if (currentSequence == 1) {
                         setCurrentSpot('EAST');
                         //set current spot IMG
@@ -151,7 +145,7 @@ export default function BriPizza() {
                     break;
                 case 8:
                     console.log('Eight!');
-                    beepSound();
+                    //beepSound();
                     if (currentSequence == 1) {
                         setCurrentSpot('NORTHEAST');
                         //set current spot IMG
@@ -166,7 +160,7 @@ export default function BriPizza() {
                     break;
                 case 9:
                     console.log('Nine!');
-                    beepSound();
+                    //beepSound();
                     if (currentSequence == 1) {
                         setCurrentSpot('NORTH');
                         //set current spot IMG
@@ -181,7 +175,7 @@ export default function BriPizza() {
                     break;
                 case 10:
                     console.log('Ten!');
-                    beepSound();
+                    //beepSound();
                     if (currentSequence == 1) {
                         setCurrentSpot('NORTH');
                         //set current spot IMG
@@ -201,37 +195,24 @@ export default function BriPizza() {
         };
     }, [spotSequence]);
 
-    //functions//
-    async function pizzaTimeSequence() {
-        //pizzaTimeSong();
-        console.log('PIZZA TIME!')
-        var itsPizzaTime = true;
-
-        while (itsPizzaTime) {
-            console.log('Pizza time is happening.');
-            if (finished) {
-                console.log('Pizza time finished!');
-                if (spotSequence != 10) {
-                    setSpotSequence(prevCount => prevCount + 1);
-                } else {
-                    itsPizzaTime = false;
-                    setSpotSequence(1);
-                }
-                
-            } else if (!isRunning) {
-                console.log('Start pizza time.');
-                start;
+    useEffect(() => {
+        if (timer.state.finished) {
+            if (spotSequence != 10) {
+                setSpotSequence(prevCount => prevCount + 1);
+                timer.start;
+            } else {
+                timer.reset;
+                setSpotSequence(0);
             }
-        };
-        //stopPizzaTime();
-        console.log('Pizza time is over.');
-        setCurrentSpot('Click the appropriate button to begin.');
-        setNextSpot('Click the appropriate button to begin.');
-    };
+        }
 
+    }, [timer.state.finished]);
+
+    //functions//
     function resetSequence() {
-        reset;
-        setSpotSequence(1);
+        console.log('Click! Reset Sequence');
+        timer.reset;
+        setSpotSequence(0);
     };
 
 	return ( //'HTML' code
@@ -247,14 +228,18 @@ export default function BriPizza() {
             <br />
             <br />
             <button onClick={() => {
-                    pizzaTimeSequence();
+                    //pizzaTimeSong();
+                    console.log('Click! 55%');
                     setCurrentSequence(1);
+                    timer.start;
                 }}>
                 55% Pizza
             </button>
             <button onClick={() => {
-                    pizzaTimeSequence();
+                    //pizzaTimeSong();
+                    console.log('Click! 15%');
                     setCurrentSequence(2);
+                    timer.start;
                 }}>
                 15% Pizza
             </button>
