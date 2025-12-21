@@ -1,0 +1,23 @@
+:root {
+    --search-results-show: hidden;
+}
+
+/* ----- GENERAL CSS ----- */
+
+/* ----- CLASS-BASED CSS ----- */
+.search_bar_full {
+    float: left;
+    display: inline-block;
+    overflow: var(--search_results-show);
+}
+
+.search_results {
+    display: none;
+    position: absolute;
+    background-color: #F1F1F1;
+    width: 140px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* ----- ID-BASED CSS -----*/

@@ -29,7 +29,7 @@ const PageHeader = () => {
                     <div className = "dropdown">
                         <button className = "dropdown_button"> Stories </button>
                         <div className = "dropdown_content">
-                            <Link to = '/stories/crescendo/overview'> Crescendo </Link>
+                            <Link to = '/stories/copper_eye/overview'> Copper Eye </Link>
                         </div>
                     </div>
                     */}
@@ -82,7 +82,7 @@ const PageHeader = () => {
              </div>
 
         </div>
-    )
+    );
 };
 
 export default PageHeader;
