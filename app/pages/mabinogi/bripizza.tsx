@@ -10,7 +10,7 @@ import '../../../csssheets/pageheader.css';
 //import PageFooter from '../../components/pagefooter.tsx';
 //import '../../../csssheets/pagefooter.css';
 
-import useSound from 'use-sound';
+//import useSound from 'use-sound';
 import pizzaTime from '../../../sounds/pizza-time-theme.mp3';
 import beep from '../../../sounds/price-is-right-wheel-beep.mp3';
 
@@ -24,7 +24,7 @@ export function meta({ }: Route.MetaArgs) {
 export default function BriPizza() {
     //sound constants//
     //const [pizzaTimeSong, { stopPizzaTime }] = useSound(pizzaTime, {volume: 0.25,});
-    const [beepSound] = useSound(beep);
+    //const [beepSound] = useSound(beep);
 
     //constants and variables//
     const timer = new SimpleTimer(2.5);
