@@ -16,41 +16,42 @@ export class SimpleTimer {
     timeInSeconds: number;
     controller: AbortController;
     signal: AbortController['signal'];
+    running: boolean = false;
+    finished: boolean = false;
 
     constructor(timeInSeconds: number) {
         this.timeInSeconds = timeInSeconds;
         this.controller = new AbortController();
         this.signal = this.controller.signal;
-
-        this.state = {
-            running: false,
-            finished: false
-        };
+        this.running = false;
+        this.finished = false;
     }; //end of constructor
 
     async start() {
         console.log('Timer has started!');
-        this.setState({ running: true });
+        this.running = true;
         await new Promise(res => setTimeout(res, (this.timeInSeconds * 1000)))
             .catch(error => {
                 if (error.name == 'AbortError') {
                     console.log('Timer operation aborted.');
-                    this.setState({ running: false });
+                    this.running = false;
                     return;
                 } else {
                     console.log('Something went wrong.');
                     console.error(error);
-                    this.setState({ running: false });
+                    this.running = false;
                 }
             });
         console.log('Timer has finished.');
-        this.setState({ running: false, finished: true });
+        this.running = false;
+        this.finished = true;
     };
 
     reset() {
         console.log('Timer has been reset.');
-        if (!this.state.running) this.controller.abort();
-        this.setState({ running: false, finished: false })
-    }
+        if (!this.running) this.controller.abort();
+        this.running = false;
+        this.finished = false;
+    };
 
 }; //end of timer class

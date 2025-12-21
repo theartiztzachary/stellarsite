@@ -37,7 +37,8 @@ export default function BriPizza() {
 
     //useEffects//
     useEffect(() => {
-        if (currentSequence != 0) {
+        if (timer.running) {
+            console.log('Spot sequence is: ' + console.log(spotSequence));
             switch (spotSequence) {
                 case 1:
                     console.log('One!');
@@ -196,22 +197,24 @@ export default function BriPizza() {
     }, [spotSequence]);
 
     useEffect(() => {
-        if (timer.state.finished) {
+        console.log('Timer finished state has changed.');
+        if (timer.finished) {
+            console.log('Timer finished (bripizzahelper).');
             if (spotSequence != 10) {
                 setSpotSequence(prevCount => prevCount + 1);
-                timer.start;
+                timer.start();
             } else {
-                timer.reset;
+                timer.reset();
                 setSpotSequence(0);
             }
         }
 
-    }, [timer.state.finished]);
+    }, [timer.finished]);
 
     //functions//
     function resetSequence() {
         console.log('Click! Reset Sequence');
-        timer.reset;
+        timer.reset();
         setSpotSequence(0);
     };
 
@@ -231,7 +234,7 @@ export default function BriPizza() {
                     //pizzaTimeSong();
                     console.log('Click! 55%');
                     setCurrentSequence(1);
-                    timer.start;
+                    timer.start();
                 }}>
                 55% Pizza
             </button>
@@ -239,7 +242,7 @@ export default function BriPizza() {
                     //pizzaTimeSong();
                     console.log('Click! 15%');
                     setCurrentSequence(2);
-                    timer.start;
+                    timer.start();
                 }}>
                 15% Pizza
             </button>
