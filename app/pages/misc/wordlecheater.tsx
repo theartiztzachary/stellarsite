@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react';
 import type { Route } from './+types/home';
 import ReactDom from 'react-dom';
 import { Link } from 'react-router-dom';
-import { isNumericString } from '../../util.tsx';
+import isNumericString from '../../util/isNumericString.tsx';
 
 import '../../../csssheets/wordletool.css';
 
