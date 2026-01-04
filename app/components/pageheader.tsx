@@ -1,6 +1,78 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+//need to better align navigation links with the center of the window at some point but it's working for now so
+//getting 'Cross-Origin-Opener-Policy policy would block the window.closed call.' error when logging in... the flow appears to be working fine, need more research
 
+import React, { useState, useEffect } from 'react';
+import ReactDom from 'react-dom';
+import { Link } from 'react-router-dom';
+import { useGoogleLogin, googleLogout, GoogleOAuthProvider } from '@react-oauth/google';
+
+//consts and variables//
+
+//functions//
+
+//internal components
+const LoginApp = () => {
+    const [currentUser, setCurrentUser] = useState(); //foundational user information
+    const [currentProfile, setCurrentProfile] = useState(); //user profile information
+    
+    const headers: Headers = new Headers();
+    headers.set('Accept', 'application/json');
+
+
+    const logIn = useGoogleLogin({
+        onSuccess: (codeResponse) => setCurrentUser(codeResponse),
+        onError: (error) => console.log('Error with login:', error)
+    });
+
+    useEffect(() => {
+        const fetchProfile = async (user) => {
+            console.log(user);
+            try {
+                headers.set('Authorization', `Bearer ${user.access_token}`);
+
+                const request: RequestInfo = new Request(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                    method: 'GET',
+                    headers: headers
+                });
+
+                const response = await fetch(request);
+                const profileData = await response.json();
+                setCurrentProfile(profileData);
+            } catch (err) {
+                console.log('Error logging in:' + err);
+            }
+        }
+
+        if (currentUser != null) {
+            fetchProfile(currentUser);
+        }
+    }, [currentUser]);
+
+    const logOut = () => {
+        googleLogout();
+        setCurrentUser(null);
+        setCurrentProfile(null);
+    }
+
+    return(
+        <div>
+            {currentProfile ? (
+                <div className = 'is_logged_in'>
+                    <p>Logged In As: {currentProfile.email}</p>
+                    <button onClick = {logOut}> Log Out </button>
+                </div>
+            ) : (
+                <div className = 'to_log_in'>
+                    <p>Log In with Google Auth</p>
+                    <button onClick = {logIn}> Log In </button>
+                </div>
+            )}
+            <Link to = '/privacystatement'> Privacy Statement </Link>
+        </div>
+    ); //end of LoginApp return
+}; //end of LoginApp component
+
+//pageHeaer export//
 const PageHeader = () => {
     return(
         <div className = "header_section">
@@ -75,10 +147,12 @@ const PageHeader = () => {
             </div>
 
             <div className = "login_area">
-                <p> TBD </p>
-                {/* eventual goal will have people using Google's auth to login to their google account to access their drive
-			        for object storage */}
-                {/* light background dark text vs dark background light text */}
+                <GoogleOAuthProvider clientId = {import.meta.env.VITE_REACT_APP_GOOGLE_AUTH_CLIENT_ID}>
+                    <React.StrictMode>
+                        <LoginApp />
+                    </React.StrictMode>
+                </GoogleOAuthProvider>
+                {/*if logged in, log out*/}
              </div>
 
         </div>

@@ -5,11 +5,13 @@
 .header_section {
     width: 100%;
     overflow: auto;
+    display: flex;
 }
 
 .title_links {
-    width: 90%;
+    width: 80%;
     float: left;
+    justify-content: center;
 }
 
 .title_section {
@@ -64,6 +66,11 @@
 
 .dropdown:hover .dropdown_button {
     background-color: #3E8E41;
+}
+
+.login_area {
+    width: 20%;
+    float: right;
 }
 
 /* ----- ID-BASED CSS -----*/
