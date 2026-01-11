@@ -26,7 +26,7 @@ const LoginApp = () => {
 
     useEffect(() => {
         const fetchProfile = async (user) => {
-            console.log(user);
+            //user.access_token
             try {
                 headers.set('Authorization', `Bearer ${user.access_token}`);
 
@@ -35,8 +35,8 @@ const LoginApp = () => {
                     headers: headers
                 });
 
-                const response = await fetch(request);
-                const profileData = await response.json();
+                const response = await fetch(request); //JWT token
+                const profileData = await response.json(); 
                 setCurrentProfile(profileData);
             } catch (err) {
                 console.log('Error logging in:' + err);
