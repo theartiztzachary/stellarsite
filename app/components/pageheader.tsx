@@ -12,7 +12,6 @@ import { useGoogleLogin, googleLogout, GoogleOAuthProvider } from '@react-oauth/
 
 //internal components
 const LoginApp = () => {
-    const [currentUser, setCurrentUser] = useState(); //foundational user information
     const [currentProfile, setCurrentProfile] = useState(); //user profile information
     
     const headers: Headers = new Headers();
@@ -20,39 +19,22 @@ const LoginApp = () => {
 
 
     const logIn = useGoogleLogin({
-        onSuccess: (codeResponse) => setCurrentUser(codeResponse),
+        onSuccess: (codeResponse) => getUser(),
         onError: (error) => console.log('Error with login:', error)
     });
 
-    useEffect(() => {
-        const fetchProfile = async (user) => {
-            //user.access_token
-            try {
-                headers.set('Authorization', `Bearer ${user.access_token}`);
-
-                const request: RequestInfo = new Request(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                    method: 'GET',
-                    headers: headers
-                });
-
-                const response = await fetch(request); //JWT token
-                const profileData = await response.json(); 
-                setCurrentProfile(profileData);
-            } catch (err) {
-                console.log('Error logging in:' + err);
-            }
-        }
-
-        if (currentUser != null) {
-            fetchProfile(currentUser);
-        }
-    }, [currentUser]);
+    function getUser() {
+        //specifically talks with the backend
+        //GET api call to the backend
+        //some kind of cookie sent through HttpOnly
+        //backend then either sends back an okay, and we update the global stat with the loged-in user
+        //OR
+        //backend sends back a not okay, and we ask the user to login
+    };
 
     const logOut = () => {
-        googleLogout();
-        setCurrentUser(null);
-        setCurrentProfile(null);
-    }
+        //log the user out
+    };
 
     return(
         <div>
