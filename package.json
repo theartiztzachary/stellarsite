@@ -14,13 +14,14 @@
     "@react-router/fs-routes": "^7.9.6",
     "@react-router/node": "^7.9.6",
     "@react-router/serve": "^7.9.6",
+    "axios": "^1.13.2",
     "google-auth-library": "^10.5.0",
     "isbot": "^5.1.32",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router": "^7.9.6",
     "react-router-dom": "^7.9.6",
-    "ts-node": "^10.9.2"
+    "ts-node": "^1.7.1"
   },
   "devDependencies": {
     "@netlify/vite-plugin-react-router": "^2.1.2",

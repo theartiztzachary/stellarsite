@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ReactDom from 'react-dom';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useGoogleLogin, googleLogout, GoogleOAuthProvider } from '@react-oauth/google';
 
@@ -12,41 +13,37 @@ import { useGoogleLogin, googleLogout, GoogleOAuthProvider } from '@react-oauth/
 
 //internal components
 const LoginApp = () => {
-    const [currentProfile, setCurrentProfile] = useState(); //user profile information
-    
-    const headers: Headers = new Headers();
-    headers.set('Accept', 'application/json');
+    const [currentProfile, setCurrentProfile] = useState(); 
 
+    const [currentUser, setCurrentUser] = useState();
 
-    const logIn = useGoogleLogin({
-        onSuccess: (codeResponse) => getUser(),
-        onError: (error) => console.log('Error with login:', error)
+    const verifyUser = (jtwCode) => {
+        //import.meta.env.VITE_REACT_APP_BACKEND_URI/googleauth/verifytoken/jtwCode
+    }
+
+    const userLogin = useGoogleLogin({
+        onSuccess: response => {
+            verifyUser(response.code);
+        },
+        flow: 'auth-code',
     });
 
-    function getUser() {
-        //specifically talks with the backend
-        //GET api call to the backend
-        //some kind of cookie sent through HttpOnly
-        //backend then either sends back an okay, and we update the global stat with the loged-in user
-        //OR
-        //backend sends back a not okay, and we ask the user to login
-    };
-
-    const logOut = () => {
-        //log the user out
-    };
+    const userLogout = () => {
+        googleLogout;
+        //some other cleanup
+    }
 
     return(
         <div>
-            {currentProfile ? (
+            {currentUser.access_token ? (
                 <div className = 'is_logged_in'>
-                    <p>Logged In As: {currentProfile.email}</p>
-                    <button onClick = {logOut}> Log Out </button>
+                    <p>Logged In As: {}</p>
+                    <button onClick = {userLogout}> Log Out </button>
                 </div>
             ) : (
                 <div className = 'to_log_in'>
                     <p>Log In with Google Auth</p>
-                    <button onClick = {logIn}> Log In </button>
+                    <button onClick = {userLogin}> Log In </button>
                 </div>
             )}
             <Link to = '/privacystatement'> Privacy Statement </Link>
@@ -134,7 +131,6 @@ const PageHeader = () => {
                         <LoginApp />
                     </React.StrictMode>
                 </GoogleOAuthProvider>
-                {/*if logged in, log out*/}
              </div>
 
         </div>
