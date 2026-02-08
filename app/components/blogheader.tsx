@@ -1,59 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const BlogHeader = (props) => {
-	//useState variables//
-	const [pageInformation, setPageInformation] = useState([]);
-	const [searchQuery, setSearchQuery] = useState('');
-	const [searchResultPages, setSearchResultPages] = useState([]);
-	const [searchResults, setSearchResults] = useState([]);
+const BlogHeader = () => {
+    //useState variables//
+    const [pageInformation, setPageInformation] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
-	//variables//
-	var pageLoaded: boolean = false;
+    //standard variables//
+    var pageLoaded: boolean = false;
 
-	//functions//
-	function getBlogDirectory(): [string] { //returns an array of page navs relative to component folder
-		//console.log('getBlogDirectory is running...');
-		var pages: [string] = [];
-		const blogPages = import.meta.glob('../pages/blogpages/blog/*');
-		for (const [key, value] of Object.entries(blogPages)) {
-			pages.push(key);
-		}
-		//console.log(pages);
-		return pages;
-	}; //end of getBlogDirectory function
+    //functions//
+    function getBlogDirectory(): [string] { //returns an array of page navigations relative to component folder
+        var pages: [string] = [];
+        const blogPages = import.meta.glob('../pages/blogpages/blog/*');
+        for (const key in blogPages) {
+            pages.push(key);
+        };
+        return pages;
+    }; //end of getBlogDirectory function
 
-	async function getPageInformation(pages: [string]) { //linker function between getBlogDirectory and loadPageData for the async usage
-		for (const page of pages) {
-			loadPageData(page);
-			//console.log(pageInformation);
-		};
-	}; //end of getPageInformation function
+    async function getPageInformation(pages: [string]) { //linker function between getBlogDirectory and loadPageData
+        for (const page of pages) {
+            loadPageData(page);
+        };
+    }; //end of getPageInformation function
 
-	async function loadPageData(fileNav) { //loads page data into pageInformation for use
-		//console.log('loadPageData is running...');
-		const pageObject = await import(/* @vite-ignore */`${fileNav}`);
-		//console.log(pageObject.name);
-		const currentDictionary = {
-			'name': pageObject.name,
-			'tags': pageObject.tags,
-			'id': pageObject.id,
-			'routelink': pageObject.routelink,
-			'description': pageObject.description
-		};
-		//console.log(currentDictionary);
-		setPageInformation(prevArray => [...prevArray, currentDictionary]);
-	}; //end of loadPageData function
+    async function loadPageData(fileNav: string) { //loads page data into pageInformation for use
+        const pageObject = await import(/* @vite-ignore */`${fileNav}`);
+        const currentDictionary = {
+            'name': pageObject.name,
+            'tags': pageObject.tags,
+            'id': pageObject.id,
+            'routelink': pageObject.routelink,
+            'description': pageObject.description,
+            'date': pageObject.date
+        };
 
-	//useEffects//
-	useEffect(() => { //hypothetically this runs twice in dev run and only once in prd run, so will have to check prd to confirm
-		if (!pageLoaded) {
-			console.log('I should only show once in the console.');
-			pageLoaded = true;
-			const pagedirs = getBlogDirectory();
-			getPageInformation(pagedirs);
-		}
-	}, []);
+        setPageInformation(prevArray => [...prevArray, currentDictionary]);
+    }; //end of loadPageData function
+
+    //useEffects//
+    useEffect(() => { //on page load
+        if (!pageLoaded) {
+            pageLoaded = true;
+            const pagedirs = getBlogDirectory();
+            getPageInformation(pagedirs);
+        }
+    }, []);
+
+    useEffect(() => { //updates search results
+        if (searchQuery.length > 2) {
+            //eventually replace this with some kind of ascyn loading function
+            //check current query + results against page information
+            //confirm current results are all still valid
+        }
+    },[searchQuery]);
+
+}; //end of BlogHeader component
 
     useEffect(() => { //updates search results
         //console.log('searchResultPages is currently: ' + searchResultPages);
@@ -131,6 +135,7 @@ const BlogHeader = (props) => {
 			<input type = "text" id = "search_input" value = {searchQuery} onChange = {(e) => setSearchQuery(e.target.value)}/>
 			<p>Testing - current search query: {searchQuery}</p>
             <p>Testing - current search results:</p>
+            <div>{searchResults}</div>
             <div className = "search_results">
                 {searchResults}
             </div>

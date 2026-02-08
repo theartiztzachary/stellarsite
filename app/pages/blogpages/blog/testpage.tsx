@@ -23,6 +23,7 @@ export const tags = ['test'];
 export const id = 'testpage';
 export const routelink = '/blog/testpage';
 export const description = 'Test description.'
+export const date = '2025-01-01T10:00:00Z'
 
 export default function TestPage() {
 
