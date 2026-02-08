@@ -13,11 +13,7 @@ import { useGoogleLogin, googleLogout, GoogleOAuthProvider } from '@react-oauth/
 
 //internal components
 const LoginApp = () => {
-    const [currentProfile, setCurrentProfile] = useState(); 
-
-    const [currentUser, setCurrentUser] = useState();
-
-    const verifyUser = (jtwCode) => {
+    async function verifyUser(jtwCode) {
         //import.meta.env.VITE_REACT_APP_BACKEND_URI/googleauth/verifytoken/jtwCode
     }
 
@@ -35,7 +31,7 @@ const LoginApp = () => {
 
     return(
         <div>
-            {currentUser.access_token ? (
+            {true ? (
                 <div className = 'is_logged_in'>
                     <p>Logged In As: {}</p>
                     <button onClick = {userLogout}> Log Out </button>
