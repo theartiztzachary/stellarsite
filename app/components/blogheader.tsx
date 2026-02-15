@@ -6,6 +6,7 @@ const BlogHeader = () => {
     const [pageInformation, setPageInformation] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const [searchResultNames, setSearchResultNames] = useState([]);
 
     //standard variables//
     var pageLoaded: boolean = false;
@@ -52,95 +53,74 @@ const BlogHeader = () => {
     useEffect(() => { //updates search results
         if (searchQuery.length > 2) {
             //eventually replace this with some kind of ascyn loading function
-            //check current query + results against page information
-            //confirm current results are all still valid
-        }
-    },[searchQuery]);
-
-}; //end of BlogHeader component
-
-    useEffect(() => { //updates search results
-        //console.log('searchResultPages is currently: ' + searchResultPages);
-        if (searchQuery.length > 2) {
-            //this will need some kind of ascyn/loading function bc pages are gonna get...wild xd but for now
             for (let index = 0; index < pageInformation.length; index++) {
-                if (searchResultPages.includes(pageInformation[index].name)) {
-                    console.log('This page is already logged.');
-                    //check if the result is still valid and if not remove it
+                if (searchResultNames.includes(pageInformation[index].name)) { //if the search result is already logged
+                    //console.log('This page is already logged!')
                     var validResult: boolean = false;
                     for (const [key, value] of Object.entries(pageInformation[index])) {
-                        if (value.includes(searchQuery)) {
+                        if (value.includes(searchQuery)) { //if the page still applies to the search query
+                            //console.log('This page is still valid.');
                             validResult = true;
-                            console.log('This page is still valid.');
-                            break; //removes us from the for loop bc we are good
-                        }
-                    }
+                            break;
+                        };
+                    };
 
-                    if (!validResult) {
-                        console.log('This page is invalid.');
-                        const invalidIndex = searchResultPages.indexOf(pageInformation[index].name);
-                        //console.log(invalidIndex);
-                        setSearchResultPages(searchResultPages.splice(invalidIndex, 1));
-                        setSearchResults(searchResults.splice(invalidIndex, 1));
-                    }
-
-                    break
-                } else {
-                    //console.log('This result is not already logged.');
+                    if (!validResult) { //if the page does not apply to the search query
+                        //console.log('This page is invalid.');
+                        const invalidIndex = searchResultNames.indexOf(pageInformation[index].name);
+                        //console.log('Index: ' + invalidIndex);
+                        //console.log('searchResultNames at ' + invalidIndex + ': ' + searchResultNames[index]);
+                        var holdSearchResultNames = searchResultNames;
+                        holdSearchResultNames.splice(invalidIndex, 1);
+                        setSearchResultNames(holdSearchResultNames);
+                        //console.log(searchResultNames);
+                        //console.log('searchResults at ' + invalidIndex + ': ' + searchResults[index]);
+                        var holdSearchResults = searchResults;
+                        holdSearchResults.splice(invalidIndex, 1);
+                        setSearchResults(holdSearchResults);
+                        //console.log(searchResults);
+                    };
+                } else { //if the search result is not already logged
+                    //console.log('This page is not already logged!');
                     for (const [key, value] of Object.entries(pageInformation[index])) {
                         if (value.includes(searchQuery)) {
-                            console.log('The value has the search term in it!');
-                            //removal is not working
-                            setSearchResultPages(searchResultPages.concat(pageInformation[index].name))
+                            //console.log('This value has the search term in it!');
+                            setSearchResultNames(searchResultNames.concat(pageInformation[index].name));
                             setSearchResults(searchResults.concat(<SearchResult pageInfo = {pageInformation[index]} key = {pageInformation[index].id} />));
-                            break
-                        }
-                    } //end of dictionary check
-                }
-            } //end of pageInformation iteration
-        } else if ((searchResultPages.length > 0) && (searchResultPages[0] != '')) {
-            //console.log(searchResultPages);
-            //console.log('Removing search results...');
-            //setSearchResultPages(searchResultPages.length = 0);
-            //setSearchResults(searchResults.length = 0);
-        }
-    }, [searchQuery]);
-
-    useEffect(() => {
-        if (searchResults.length > 0) {
-            console.log('Showing search results!');
-            document.documentElement.style.setProperty("--search-results-show", "block");
+                        };
+                    };        
+                };
+            }; //end of pageInformation iteration
         } else {
-            console.log('Hiding search results!');
-            document.documentElement.style.setProperty("--search-results-show", "hidden");
+            setSearchResultNames([]);
+            setSearchResults([]);
         }
-    }, [searchResults]);
+        console.log(searchResults); //seems to be a letter behind
+    },[searchQuery]);
 
-	//internal components//
-	const SearchResult = ({ pageInfo }) => {
-        return (
-            <div id="search_result">
-                <Link to = {pageInfo.routelink}>
-                    <h3>{pageInfo.name}</h3>
+    //internal components//
+    const SearchResult = ({ pageInfo }) => {
+        return(
+            <div id = "search_result">
+                <Link to = {pageInfo.routeLink}>
+                    <p>{pageInfo.name}</p>
                 </Link>
             </div>
-		);
-	}; //end of SearchResult component
+        );
+    };
 
-	//'HTML' code//
-	return (
+    //HTML 'code'//
+    return(
         <div className = "search_bar_full">
-			<label>Search: </label>
-			{/* dropdown to specify search to improve performance */}
-			<input type = "text" id = "search_input" value = {searchQuery} onChange = {(e) => setSearchQuery(e.target.value)}/>
-			<p>Testing - current search query: {searchQuery}</p>
-            <p>Testing - current search results:</p>
-            <div>{searchResults}</div>
+            <label>Search: </label>
+            {/*dropdown to specify search to imporve performance eventually*/}
+            <input type = "text" className = "search_input" value = {searchQuery} onChange = {(e) => setSearchQuery(e.target.value)}/>
             <div className = "search_results">
                 {searchResults}
             </div>
-		</div>
-	);
+        </div>
+    );
+
 }; //end of BlogHeader component
 
 export default BlogHeader;
