@@ -30,5 +30,8 @@ export default [
 	//Misc
 	route("/misc/wordletool", "pages/misc/wordlecheater.tsx"),
 
+    //Other Pages
+    route("/privacystatement", "pages/privacystatement.tsx"),
+
 	...(await flatRoutes()),
 ] satisfies RouteConfig;
