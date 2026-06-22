@@ -30,8 +30,8 @@
 }
 
 .dropdown_button {
-    background-color: #04AA6D;
-    color: white;
+    background-color: #f6a3d6;
+    color: rgb(0, 0, 0);
     padding: 16px;
     font-size: 16px;
     border: none;
@@ -63,13 +63,13 @@
 }
 
 .dropdown:hover .dropdown_button {
-    background-color: #3E8E41;
+    background-color: #e88fd4;
 }
 
 /* ----- ID-BASED CSS -----*/
 #home_button {
-    background-color: #04AA6D;
-    color: white;
+    background-color: #f6a3d6;
+    color: rgb(0, 0, 0);
     padding: 16px;
     font-size: 16px;
     border: none;
@@ -78,11 +78,12 @@
 
     #home_button:hover {
         background-image: url("../images/sakurapetals.png");
+        color: white;
     }
 
 #blog_button {
-    background-color: #04AA6D;
-    color: white;
+    background-color: #f6a3d6;
+    color: rgb(0, 0, 0);
     padding: 16px;
     font-size: 16px;
     border: none;
@@ -91,4 +92,18 @@
 
     #blog_button:hover {
         background-image: url("../images/nebula.jpg");
+        color: white;
     }
+
+#instagram_link {
+    background-color: #f6a3d6;
+    color: rgb(0, 0, 0);
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    width: 140px;
+
+    #instagram_link:hover {
+        background-image: url("../images/instagram-logo-colored.jpg");
+    }
+}

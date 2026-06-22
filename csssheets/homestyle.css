@@ -12,13 +12,8 @@
 }
 
 .main_section {
-    width: 90%;
+    width: 100%;
     float: left;
-}
-
-.external_links {
-	width: 10%;
-	float: right;
 }
 
 /* ----- ID-BASED CSS -----*/

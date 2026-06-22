@@ -25,15 +25,6 @@ export default function Home() {
 
                 <div className = "main_section">
                 </div>
-
-                <div className = "external_links">
-                    <p>Instagram</p>
-                    <p>Bluesky</p>
-                    <p>Youtube</p>
-                    <p>TikTok</p>
-                    <p>GitHub</p>
-                    <p>Itch.io</p>
-                </div>
     
             </div>
            

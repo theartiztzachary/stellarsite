@@ -55,11 +55,23 @@ const PageHeader = () => {
                     */}
 
                     {/* Mabinogi */}
+                    {/*
                     <div className = "dropdown">
                         <button className = "dropdown_button"> Mabinogi </button>
                         <div className = "dropdown_content">
-                            {/* <Link to = '/mabinogi/tracker'> Tracker </Link> */}
+                            <Link to = '/mabinogi/tracker'> Tracker </Link>
                             <Link to = '/mabinogi/bripizza'> Bri G1 Pizza </Link>
+                        </div>
+                    </div>
+                    */}
+
+                    {/* External Links */}
+                    <div className = "dropdown">
+                        <button className = "dropdown_button"> External Links </button>
+                        <div className = "dropdown_content">
+                            <Link to = {{ pathname: 'https://www.instagram.com/sakurafoxfyre'}} target = '_blank' id = "instagram_link">
+                                Instagram
+                            </Link>
                         </div>
                     </div>
 
@@ -75,7 +87,7 @@ const PageHeader = () => {
             </div>
 
             <div className = "login_area">
-                <p> TBD </p>
+                <p> </p>
                 {/* eventual goal will have people using Google's auth to login to their google account to access their drive
 			        for object storage */}
                 {/* light background dark text vs dark background light text */}
