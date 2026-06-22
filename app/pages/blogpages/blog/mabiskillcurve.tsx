@@ -23,6 +23,7 @@ export const tags = ['mabinogi', 'game development'];
 export const id = 'mabiskillcurve';
 export const routelink = '/blog/mabiskillcurve';
 export const description = 'Placeholder description.'
+export const date = '2024-01-01T10:00:00Z'
 
 export default function MabiSillCurve() {
 
