@@ -8,8 +8,8 @@ import '../../../csssheets/bripizzastyle.css';
 
 import PageHeader from '../../components/pageheader.tsx';
 import '../../../csssheets/pageheader.css';
-//import PageFooter from '../../components/pagefooter.tsx';
-//import '../../../csssheets/pagefooter.css';
+import PageFooter from '../../components/pagefooter.tsx';
+import '../../../csssheets/pagefooter.css';
 
 import { audioPlayer } from '../../util/audioPlayer.tsx';
 import pizzaTime from '../../../sounds/pizza-time-theme.mp3';

@@ -5,8 +5,8 @@ import '../../csssheets/homestyle.css';
 
 import PageHeader from '../components/pageheader.tsx';
 import '../../csssheets/pageheader.css';
-//import PageFooter from '../components/pagefooter.tsx';
-//import '../../csssheets/pagefooter.css';
+import PageFooter from '../components/pagefooter.tsx';
+import '../../csssheets/pagefooter.css';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -28,7 +28,7 @@ export default function Home() {
     
             </div>
            
-        {/* footer goes here */}
+        <PageFooter />
         </>
     );
 }; //end of page function

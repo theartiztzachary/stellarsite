@@ -65,13 +65,12 @@ const PageHeader = () => {
                     </div>
                     */}
 
-                    {/* External Links */}
+                    {/* Portfolio */}
                     <div className = "dropdown">
-                        <button className = "dropdown_button"> External Links </button>
+                        <Link to = '/portfolio'>
+                            <button className = "dropdown_button"> Portfolio </button>
+                        </Link>
                         <div className = "dropdown_content">
-                            <Link to = {{ pathname: 'https://www.instagram.com/sakurafoxfyre'}} target = '_blank' id = "instagram_link">
-                                Instagram
-                            </Link>
                         </div>
                     </div>
 
@@ -80,6 +79,31 @@ const PageHeader = () => {
                         <button className = "dropdown_button"> Misc </button>
                         <div className = "dropdown_content">
                             <Link to = '/misc/wordletool'> Wordle Tool </Link>
+                        </div>
+                    </div>
+
+                    {/* External Links */}
+                    <div className = "dropdown">
+                        <button className = "dropdown_button"> External Links </button>
+                        <div className = "dropdown_content">
+                            <Link to = {{ pathname: 'https://www.instagram.com/sakurafoxfyre'}} target = '_blank' id = "instagram_link">
+                                Instagram
+                            </Link>
+                            <Link to = {{ pathname: 'https://www.youtube.com/@sakurafoxfyre'}} target = '_blank' id = "youtube_link">
+                                YouTube
+                            </Link>
+                            {/*<Link to = {{ pathname: 'bluesky'}} target = '_blank' id = "bluesky_link">
+                                Bluesky
+                            </Link>*/}
+                            {/*<Link to = {{ pathname: 'itch.io'}} target = '_blank' id = "itchio_link">
+                                Itch.io
+                            </Link>*/}
+                            {/*<Link to = {{ pathname: 'tiktok'}} target = '_blank' id = "tiktok_link">
+                                TikTok
+                            </Link>*/}
+                            <Link to = {{ pathname: 'https://artfight.net/~sakurafoxfyre'}} target = '_blank' id = "artfight_link">
+                                ArtFight
+                            </Link>
                         </div>
                     </div>
 
