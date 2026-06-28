@@ -10,7 +10,7 @@ import '../../csssheets/pagefooter.css';
 
 export function meta({}: Route.MetaArgs) {
     return [
-        { title: "Stellar Sakura - Home" },
+        { title: "Sakura Fox Fyre Dreams - Home" },
         { name: "description", content: "beep" },
     ];
 };
@@ -21,12 +21,16 @@ export default function Home() {
     return (
 		<>
         <PageHeader />
-            <div className = "page_section">
 
-                <div className = "main_section">
-                </div>
-    
+        <div className = "page_section">
+            <div className = "spacer"></div>
+
+            <div className = "main_section">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
+
+            <div className = "spacer"></div>
+        </div>
            
         <PageFooter />
         </>

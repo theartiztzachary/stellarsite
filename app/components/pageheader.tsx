@@ -6,7 +6,8 @@ const PageHeader = () => {
         <div className = "header_section">
             <div className = "title_links">
                 <div className = "title_section">
-                    <h1>Stellar Sakura</h1>
+                    <h1>Sakura Fox Fyre Dreams</h1>
+                    <img src = '../../images/placeholder_fox.jpg' id = "dreams_logo" />
                 </div>
 
                 <div className = "navlinks">
@@ -23,26 +24,6 @@ const PageHeader = () => {
                             <button id = "blog_button"> Blog </button>
                         </Link>
                     </div>
-
-                    {/* Stories */}
-                    {/*
-                    <div className = "dropdown">
-                        <button className = "dropdown_button"> Stories </button>
-                        <div className = "dropdown_content">
-                            <Link to = '/stories/copper_eye/overview'> Copper Eye </Link>
-                        </div>
-                    </div>
-                    */}
-
-                    {/* Zenith and Nadir */}
-                    {/*
-                    <div className = "dropdown">
-                        <button className = "dropdown_button"> Zenith &amp; Nadir </button>
-                        <div className = "dropdown_content">
-                            <Link to = '/zenithnadir/overview'> Overview </Link>
-                        </div>
-                    </div>
-                    */}
 
                     {/* Warframe */}
                     {/*
@@ -68,9 +49,12 @@ const PageHeader = () => {
                     {/* Portfolio */}
                     <div className = "dropdown">
                         <Link to = '/portfolio'>
-                            <button className = "dropdown_button"> Portfolio </button>
+                            <button className = "dropdown_button" id = "portfolio_link"> Portfolio </button>
                         </Link>
                         <div className = "dropdown_content">
+                            <Link to = '/zenithnadir/overview' id = "znoverview_link">
+                                Zenith and Nadir
+                            </Link>
                         </div>
                     </div>
 
@@ -89,9 +73,9 @@ const PageHeader = () => {
                             <Link to = {{ pathname: 'https://www.instagram.com/sakurafoxfyre'}} target = '_blank' id = "instagram_link">
                                 Instagram
                             </Link>
-                            <Link to = {{ pathname: 'https://www.youtube.com/@sakurafoxfyre'}} target = '_blank' id = "youtube_link">
+                            {/*<Link to = {{ pathname: 'https://www.youtube.com/@sakurafoxfyre'}} target = '_blank' id = "youtube_link">
                                 YouTube
-                            </Link>
+                            </Link>*/}
                             {/*<Link to = {{ pathname: 'bluesky'}} target = '_blank' id = "bluesky_link">
                                 Bluesky
                             </Link>*/}
@@ -100,6 +84,12 @@ const PageHeader = () => {
                             </Link>*/}
                             {/*<Link to = {{ pathname: 'tiktok'}} target = '_blank' id = "tiktok_link">
                                 TikTok
+                            </Link>*/}
+                            {/*<Link to = {{ pathname: 'twitch'}} target = '_blank' id = "twitch_link">
+                                Twitch
+                            </Link>*/}
+                            {/*<Link to = {{ pathname: 'redbubble'}} target = '_blank' id = "redbubble_link">
+                                Redbubble
                             </Link>*/}
                             <Link to = {{ pathname: 'https://artfight.net/~sakurafoxfyre'}} target = '_blank' id = "artfight_link">
                                 ArtFight

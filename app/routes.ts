@@ -14,6 +14,7 @@ export default [
 
 	//Portfolio
 	route("/portfolio", "pages/portfolio/portfoliooverview.tsx"),
+	route("/zenithnadir/overview", "pages/zenithnadir/znoverview.tsx"),
 
 	//Misc
 	route("/misc/wordletool", "pages/misc/wordlecheater.tsx"),
@@ -23,6 +24,8 @@ export default [
 	// Other Exposed Links//
 	//Portfolio Pages
 	route("/portfolio/artfight2026", "pages/portfolio/artfight2026.tsx"),
+
+	// Zenith and Nadir
 
 	// Not Exposed //
 	//Blog Pages
@@ -34,9 +37,6 @@ export default [
 
 	// Warframe
 	route("/warframe/tracker", "pages/warframe/wftracker.tsx"),
-
-	// Zenith and Nadir
-	route("/zenithnadir/overview", "pages/zenithnadir/znoverview.tsx"),
 
 	...(await flatRoutes()),
 ] satisfies RouteConfig;
