@@ -7,7 +7,7 @@ const PageHeader = () => {
             <div className = "title_links">
                 <div className = "title_section">
                     <h1>Sakura Fox Fyre Dreams</h1>
-                    <img src = '../../images/eepysff.png' id = "dreams_logo" />
+                    <img src = '/eepysff.png' id = "dreams_logo" />
                 </div>
 
                 <div className = "navlinks">
