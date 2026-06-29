@@ -27,7 +27,7 @@
     flex-direction: column;
     justify-content: left;
     font-family: 'Reenie Beanie', sans-serif;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .navlinks {
@@ -87,8 +87,9 @@
 
 /* ----- ID-BASED CSS -----*/
 #dreams_logo {
-    width: 100px;
-    height: 100px;
+    width: 179px;
+    height: 150px;
+    margin-left: 10%;
 }
 
 #home_button {
@@ -119,6 +120,11 @@
         color: white;
     }
 
+#wordletool_link:hover {
+    background-image: url("../images/wordletool.png");
+    text-align: right;
+}
+
 #instagram_link {
     background-color: #F1F1F1;
     color: rgb(0, 0, 0);
@@ -131,6 +137,11 @@
         color: white;
     }
 
+#artfight_link:hover {
+    background-image: url("../images/artfightimage.png");
+    text-align: right;
+}
+
 #portfolio_link:hover {
     background-image: url("../images/portfolioimage.png");
 }
@@ -138,3 +149,8 @@
 #znoverview_link {
     font-size: 14px;
 }
+
+    #znoverview_link:hover {
+        background-image: url("../images/znnoverviewlink.png");
+        color: white;
+    }

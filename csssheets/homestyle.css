@@ -1,18 +1,22 @@
 /* ----- GENERAL CSS -----*/
 body{
-    background-color: rgba(120, 110, 122, 0.5);
+    background-color: rgb(255, 233, 254);
 }
+
+p {
+    padding: 10px;
+}
+
 /* ----- CLASS-BASED CSS ----- */
 .page_section {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 50px;
 }
 
 .main_section {
     width: 80%;
-    background-color: rgba(61, 61, 66, 50%);
+    background-color: rgba(31, 31, 33, 0.859);
     color: white;
 }
 

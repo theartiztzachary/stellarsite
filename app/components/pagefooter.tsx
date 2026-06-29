@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const PageFooter = () => {
     return(
-        <p>yippee</p>
+        <p>footer</p>
     )
 };
 

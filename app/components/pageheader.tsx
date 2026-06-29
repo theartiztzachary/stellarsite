@@ -7,7 +7,7 @@ const PageHeader = () => {
             <div className = "title_links">
                 <div className = "title_section">
                     <h1>Sakura Fox Fyre Dreams</h1>
-                    <img src = '../../images/placeholder_fox.jpg' id = "dreams_logo" />
+                    <img src = '../../images/eepysff.png' id = "dreams_logo" />
                 </div>
 
                 <div className = "navlinks">
@@ -19,11 +19,13 @@ const PageHeader = () => {
                     </div>
 
                     {/* Blog */}
+                    {/*
                     <div>
                         <Link to = "/blog">
                             <button id = "blog_button"> Blog </button>
                         </Link>
                     </div>
+                    */}
 
                     {/* Warframe */}
                     {/*
@@ -62,7 +64,7 @@ const PageHeader = () => {
                     <div className = "dropdown">
                         <button className = "dropdown_button"> Misc </button>
                         <div className = "dropdown_content">
-                            <Link to = '/misc/wordletool'> Wordle Tool </Link>
+                            <Link to = '/misc/wordletool' id = "wordletool_link"> Wordle Tool </Link> 
                         </div>
                     </div>
 
