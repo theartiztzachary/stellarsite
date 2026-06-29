@@ -1,24 +1,27 @@
 /* ----- GENERAL CSS -----*/
-
-/* ----- CLASS-BASED CSS ----- */
-.login_section {
-    width: 10%;
-    float: left;
+body{
+    background-color: rgb(255, 233, 254);
 }
 
+p {
+    padding: 10px;
+}
+
+/* ----- CLASS-BASED CSS ----- */
 .page_section {
-    width: 100%;
-    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main_section {
-    width: 90%;
-    float: left;
+    width: 80%;
+    background-color: rgba(31, 31, 33, 0.859);
+    color: white;
 }
 
-.external_links {
-	width: 10%;
-	float: right;
+.spacer {
+    width: 10%;
 }
 
 /* ----- ID-BASED CSS -----*/

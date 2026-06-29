@@ -1,59 +1,13 @@
-//need to better align navigation links with the center of the window at some point but it's working for now so
-//getting 'Cross-Origin-Opener-Policy policy would block the window.closed call.' error when logging in... the flow appears to be working fine, need more research
-
-import React, { useState, useEffect } from 'react';
-import ReactDom from 'react-dom';
-import axios from 'axios';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useGoogleLogin, googleLogout, GoogleOAuthProvider } from '@react-oauth/google';
 
-//consts and variables//
-
-//functions//
-
-//internal components
-const LoginApp = () => {
-    async function verifyUser(jtwCode) {
-        //import.meta.env.VITE_REACT_APP_BACKEND_URI/googleauth/verifytoken/jtwCode
-    }
-
-    const userLogin = useGoogleLogin({
-        onSuccess: response => {
-            verifyUser(response.code);
-        },
-        flow: 'auth-code',
-    });
-
-    const userLogout = () => {
-        googleLogout;
-        //some other cleanup
-    }
-
-    return(
-        <div>
-            {true ? (
-                <div className = 'is_logged_in'>
-                    <p>Logged In As: {}</p>
-                    <button onClick = {userLogout}> Log Out </button>
-                </div>
-            ) : (
-                <div className = 'to_log_in'>
-                    <p>Log In with Google Auth</p>
-                    <button onClick = {userLogin}> Log In </button>
-                </div>
-            )}
-            <Link to = '/privacystatement'> Privacy Statement </Link>
-        </div>
-    ); //end of LoginApp return
-}; //end of LoginApp component
-
-//pageHeaer export//
 const PageHeader = () => {
     return(
         <div className = "header_section">
             <div className = "title_links">
                 <div className = "title_section">
-                    <h1>Stellar Sakura</h1>
+                    <h1>Sakura Fox Fyre Dreams</h1>
+                    <img src = '../../images/eepysff.png' id = "dreams_logo" />
                 </div>
 
                 <div className = "navlinks">
@@ -65,29 +19,11 @@ const PageHeader = () => {
                     </div>
 
                     {/* Blog */}
+                    {/*
                     <div>
                         <Link to = "/blog">
                             <button id = "blog_button"> Blog </button>
                         </Link>
-                    </div>
-
-                    {/* Stories */}
-                    {/*
-                    <div className = "dropdown">
-                        <button className = "dropdown_button"> Stories </button>
-                        <div className = "dropdown_content">
-                            <Link to = '/stories/copper_eye/overview'> Copper Eye </Link>
-                        </div>
-                    </div>
-                    */}
-
-                    {/* Zenith and Nadir */}
-                    {/*
-                    <div className = "dropdown">
-                        <button className = "dropdown_button"> Zenith &amp; Nadir </button>
-                        <div className = "dropdown_content">
-                            <Link to = '/zenithnadir/overview'> Overview </Link>
-                        </div>
                     </div>
                     */}
 
@@ -102,11 +38,25 @@ const PageHeader = () => {
                     */}
 
                     {/* Mabinogi */}
+                    {/*
                     <div className = "dropdown">
                         <button className = "dropdown_button"> Mabinogi </button>
                         <div className = "dropdown_content">
-                            {/* <Link to = '/mabinogi/tracker'> Tracker </Link> */}
+                            <Link to = '/mabinogi/tracker'> Tracker </Link>
                             <Link to = '/mabinogi/bripizza'> Bri G1 Pizza </Link>
+                        </div>
+                    </div>
+                    */}
+
+                    {/* Portfolio */}
+                    <div className = "dropdown">
+                        <Link to = '/portfolio'>
+                            <button className = "dropdown_button" id = "portfolio_link"> Portfolio </button>
+                        </Link>
+                        <div className = "dropdown_content">
+                            <Link to = '/zenithnadir/overview' id = "znoverview_link">
+                                Zenith and Nadir
+                            </Link>
                         </div>
                     </div>
 
@@ -114,7 +64,38 @@ const PageHeader = () => {
                     <div className = "dropdown">
                         <button className = "dropdown_button"> Misc </button>
                         <div className = "dropdown_content">
-                            <Link to = '/misc/wordletool'> Wordle Tool </Link>
+                            <Link to = '/misc/wordletool' id = "wordletool_link"> Wordle Tool </Link> 
+                        </div>
+                    </div>
+
+                    {/* External Links */}
+                    <div className = "dropdown">
+                        <button className = "dropdown_button"> External Links </button>
+                        <div className = "dropdown_content">
+                            <Link to = {{ pathname: 'https://www.instagram.com/sakurafoxfyre'}} target = '_blank' id = "instagram_link">
+                                Instagram
+                            </Link>
+                            {/*<Link to = {{ pathname: 'https://www.youtube.com/@sakurafoxfyre'}} target = '_blank' id = "youtube_link">
+                                YouTube
+                            </Link>*/}
+                            {/*<Link to = {{ pathname: 'bluesky'}} target = '_blank' id = "bluesky_link">
+                                Bluesky
+                            </Link>*/}
+                            {/*<Link to = {{ pathname: 'itch.io'}} target = '_blank' id = "itchio_link">
+                                Itch.io
+                            </Link>*/}
+                            {/*<Link to = {{ pathname: 'tiktok'}} target = '_blank' id = "tiktok_link">
+                                TikTok
+                            </Link>*/}
+                            {/*<Link to = {{ pathname: 'twitch'}} target = '_blank' id = "twitch_link">
+                                Twitch
+                            </Link>*/}
+                            {/*<Link to = {{ pathname: 'redbubble'}} target = '_blank' id = "redbubble_link">
+                                Redbubble
+                            </Link>*/}
+                            <Link to = {{ pathname: 'https://artfight.net/~sakurafoxfyre'}} target = '_blank' id = "artfight_link">
+                                ArtFight
+                            </Link>
                         </div>
                     </div>
 
@@ -122,11 +103,10 @@ const PageHeader = () => {
             </div>
 
             <div className = "login_area">
-                <GoogleOAuthProvider clientId = {import.meta.env.VITE_REACT_APP_GOOGLE_AUTH_CLIENT_ID}>
-                    <React.StrictMode>
-                        <LoginApp />
-                    </React.StrictMode>
-                </GoogleOAuthProvider>
+                <p> </p>
+                {/* eventual goal will have people using Google's auth to login to their google account to access their drive
+			        for object storage */}
+                {/* light background dark text vs dark background light text */}
              </div>
 
         </div>

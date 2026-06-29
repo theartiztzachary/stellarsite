@@ -1,13 +1,12 @@
 import React from 'react';
 import type { Route } from './+types/home';
-import mostRecentDate from '~/util/mostRecentDate';
 
 import '../../../csssheets/bloghomestyle.css';
 
 import PageHeader from '../../components/pageheader.tsx';
 import '../../../csssheets/pageheader.css';
-//import PageFooter from '../../components/pagefooter.tsx';
-//import '../../../csssheets/pagefooter.css';
+import PageFooter from '../../components/pagefooter.tsx';
+import '../../../csssheets/pagefooter.css';
 import BlogHeader from '../../components/blogheader.tsx';
 import '../../../csssheets/blogheaderstyle.css';
 
@@ -33,7 +32,7 @@ export default function BlogHome() {
         <p>:)</p>
       </div>
 
-      {/* footer goes here */}
+      <PageFooter />
       </>
   );
 }

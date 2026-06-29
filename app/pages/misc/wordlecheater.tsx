@@ -14,8 +14,8 @@ import '../../../csssheets/wordletool.css';
 
 import PageHeader from '../../components/pageheader.tsx';
 import '../../../csssheets/pageheader.css';
-//import PageFooter from '../../components/pagefooter.tsx';
-//import '../../../csssheets/pagefooter.css';
+import PageFooter from '../../components/pagefooter.tsx';
+import '../../../csssheets/pagefooter.css';
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -377,7 +377,7 @@ export default function WordleTool() {
             <p id = "words_list"> {possibleWords} </p>
         </div>
 
-        {/* footer goes here */}
+        <PageFooter />
         </>
     );
 

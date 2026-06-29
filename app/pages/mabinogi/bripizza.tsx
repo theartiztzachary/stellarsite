@@ -8,8 +8,8 @@ import '../../../csssheets/bripizzastyle.css';
 
 import PageHeader from '../../components/pageheader.tsx';
 import '../../../csssheets/pageheader.css';
-//import PageFooter from '../../components/pagefooter.tsx';
-//import '../../../csssheets/pagefooter.css';
+import PageFooter from '../../components/pagefooter.tsx';
+import '../../../csssheets/pagefooter.css';
 
 import { audioPlayer } from '../../util/audioPlayer.tsx';
 import pizzaTime from '../../../sounds/pizza-time-theme.mp3';
@@ -287,16 +287,16 @@ export default function BriPizza() {
             <img src={briPizzaLegend} />
 
             <div id = 'spot_tracker'>
-                <div id = 'current_spot' className = 'tracker_div'>
+                <div id = 'current_spot' class = 'tracker_div'>
                     <h2>CURRENT SPOT:</h2>
                     <p>{currentSpot}</p>
-                    <img src = {currentSpotIMG} />
+                    <img src={currentSpotIMG} />
                 </div>
 
-                <div id = 'next_spot' className = 'tracker_div'>
+                <div id = 'next_spot' class = 'tracker_div'>
                     <h2>NEXT SPOT:</h2>
                     <p>{nextSpot}</p>
-                    <img src = {nextSpotIMG} />
+                    <img src={nextSpotIMG} />
                 </div>
             </div>
 		</div>

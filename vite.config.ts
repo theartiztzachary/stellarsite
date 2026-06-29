@@ -5,11 +5,5 @@ import netlifyPlugin from "@netlify/vite-plugin-react-router";
 import netlify from "@netlify/vite-plugin";
 
 export default defineConfig({
-  plugins: [reactRouter(), tsconfigPaths(), netlifyPlugin(), netlify()],
-  server : {
-      headers : {
-          'Cross-Origin-Opener-Policy': 'same-origin',
-          'Cross-Origin-Embedder-Policy': 'require-corp'
-      },
-  },
+  plugins: [reactRouter(), tsconfigPaths(), netlifyPlugin(), netlify()]
 });

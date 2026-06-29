@@ -5,8 +5,8 @@ import '../../../../csssheets/bloghomestyle.css';
 
 import PageHeader from '../../../components/pageheader.tsx';
 import '../../../../csssheets/pageheader.css';
-//import PageFooter from '../../components/pagefooter.tsx';
-//import '../../../csssheets/pagefooter.css';
+import PageFooter from '../../../components/pagefooter.tsx';
+import '../../../../csssheets/pagefooter.css';
 import BlogHeader from '../../../components/blogheader.tsx';
 import '../../../../csssheets/blogheaderstyle.css';
 
@@ -23,7 +23,6 @@ export const tags = ['test'];
 export const id = 'testpage';
 export const routelink = '/blog/testpage';
 export const description = 'Test description.'
-export const date = '2025-01-01T10:00:00Z'
 
 export default function TestPage() {
 
@@ -38,7 +37,7 @@ export default function TestPage() {
         <p>:)</p>
       </div>
 
-      {/* footer goes here */}
+      <PageFooter />
       </>
   );
 }
