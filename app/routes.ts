@@ -22,10 +22,19 @@ export default [
 	//External Links are here//
 
 	// Other Exposed Links//
+	route("/contactme", "pages/contactme.tsx"),
+
 	//Portfolio Pages
-	route("/portfolio/artfight2026", "pages/portfolio/artfight2026.tsx"),
+	//Art Fights
+	route("/portfolio/artfight2026", "pages/portfolio/artfights/artfight2026.tsx"),
+
+	//Game Jams
+	route("/portfolio/gamejams/overview", "pages/portfolio/gamejams/gamejamsoverview.tsx"),
+	route("/portfolio/gamejams/loveandmurder", "pages/portfolio/gamejams/loveandmurder.tsx"),
+	route("/portfolio/gamejams/catditributionmachine", "pages/portfolio/gamejams/catdistribution.tsx"),
 
 	// Zenith and Nadir
+	route("/zenithnadir/characterbios/dejin", "pages/zenithnadir/characterbios/dejinbio.tsx"),
 
 	// Not Exposed //
 	//Blog Pages

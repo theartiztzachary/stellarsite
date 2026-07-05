@@ -54,9 +54,8 @@ const PageHeader = () => {
                             <button className = "dropdown_button" id = "portfolio_link"> Portfolio </button>
                         </Link>
                         <div className = "dropdown_content">
-                            <Link to = '/zenithnadir/overview' id = "znoverview_link">
-                                Zenith and Nadir
-                            </Link>
+                            <Link to = '/portfolio/gamejams/overview' id = "gamejams_link"> Game Jams </Link>
+                            <Link to = '/zenithnadir/overview' id = "znoverview_link"> Zenith and Nadir </Link>
                         </div>
                     </div>
 

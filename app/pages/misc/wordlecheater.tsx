@@ -320,61 +320,69 @@ export default function WordleTool() {
         <PageHeader />
 
         <div className = "page_section">
-            <h1>Wordle Cheating Tool</h1>
-            <p>Built this for fun. If the tool says you need more information, that meanst that it would have taken more than 5 individual API calls to the API I am using, so it is a self-imposed rate limit, mostly becuase I'm on the free tier right now and... :3</p>
-            <div id = 'nytwordle'>
-                <Link to = {{ pathname: 'https://www.nytimes.com/games/wordle/index.html'}} target = '_blank'>Play Wordle!</Link>
-            </div>
 
-            <form onSubmit = {handleSubmit}>
-                <h5>Green Letters + Positions:</h5>
+            <div className = "spacer" />
 
-                <label className = "green_letter_input">
-                    <input name = 'firstGreenLetter' />
-                </label>
-
-                <label className = "green_letter_input">
-                    <input name = 'secondGreenLetter' />
-                </label>
-
-                <label className = "green_letter_input">
-                    <input name = 'thirdGreenLetter' />
-                </label>
-
-                <label className = "green_letter_input">
-                    <input name = 'fourthGreenLetter' />
-                </label>
-
-                <label className = "green_letter_input">
-                    <input name = 'fifthGreenLetter' />
-                </label>
-
-                <h5>Yellow Letter Combinations</h5>
-                <p>Click the button to add a new row, then place letters in the locations where they were yellow.</p>
-                <button type = "button" id = "add_yellow_row" onClick = {addYellowRow}>
-                    Add Yellow Letter Combination
-                </button>
-                <br />
-                <div id = "added_yellow_rows">
-                    {yellowRows}
+            <div className = "main_section">
+                <h1>Wordle Cheating Tool</h1>
+                <p>Built this for fun. If the tool says you need more information, that meanst that it would have taken more than 5 individual API calls to the API I am using, so it is a self-imposed rate limit, mostly becuase I'm on the free tier right now and... :3</p>
+                <div id = 'nytwordle'>
+                    <Link to = {{ pathname: 'https://www.nytimes.com/games/wordle/index.html'}} target = '_blank'>Play Wordle!</Link>
                 </div>
 
-                <h5>Gray Letters:</h5>
-                <p>List letters WITHOUT spaces, commas or other delimiters.</p>
-                <label className = "gray_letter_input">
-                    <input name = "grayLetters" />
-                </label>
+                <form onSubmit = {handleSubmit}>
+                    <h5>Green Letters + Positions:</h5>
 
-                <br />
-                <br />
+                    <label className = "green_letter_input">
+                        <input name = 'firstGreenLetter' />
+                    </label>
 
-                <button id = "find_button" type = "submit">
-                    Find Words
-                </button>
-            </form>
+                    <label className = "green_letter_input">
+                        <input name = 'secondGreenLetter' />
+                    </label>
 
-            <h3>Possible Words:</h3>
-            <p id = "words_list"> {possibleWords} </p>
+                    <label className = "green_letter_input">
+                        <input name = 'thirdGreenLetter' />
+                    </label>
+
+                    <label className = "green_letter_input">
+                        <input name = 'fourthGreenLetter' />
+                    </label>
+
+                    <label className = "green_letter_input">
+                        <input name = 'fifthGreenLetter' />
+                    </label>
+
+                    <h5>Yellow Letter Combinations</h5>
+                    <p>Click the button to add a new row, then place letters in the locations where they were yellow.</p>
+                    <button type = "button" id = "add_yellow_row" onClick = {addYellowRow}>
+                        Add Yellow Letter Combination
+                    </button>
+                    <br />
+                    <div id = "added_yellow_rows">
+                        {yellowRows}
+                    </div>
+
+                    <h5>Gray Letters:</h5>
+                    <p>List letters WITHOUT spaces, commas or other delimiters.</p>
+                    <label className = "gray_letter_input">
+                        <input name = "grayLetters" />
+                    </label>
+
+                    <br />
+                    <br />
+
+                    <button id = "find_button" type = "submit">
+                        Find Words
+                    </button>
+                </form>
+
+                <h3>Possible Words:</h3>
+                <p id = "words_list"> {possibleWords} </p>
+            </div>
+
+            <div className = "spacer" />
+
         </div>
 
         <PageFooter />

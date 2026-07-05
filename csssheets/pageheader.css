@@ -10,7 +10,6 @@
 /* ----- GENERAL CSS ----- */
 
 /* ----- CLASS-BASED CSS ----- */
-
 .header_section {
     width: 100%;
     overflow: auto;
@@ -31,7 +30,7 @@
 }
 
 .navlinks {
-    position: fixed;
+    position: sticky;
     top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);

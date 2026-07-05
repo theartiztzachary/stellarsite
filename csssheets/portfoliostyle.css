@@ -1,0 +1,34 @@
+/* ----- GENERAL CSS -----*/
+body{
+    background-color: rgb(255, 233, 254);
+}
+
+p {
+    padding: 10px;
+}
+
+/* ----- CLASS-BASED CSS ----- */
+.page_section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_section {
+    width: 80%;
+    background-color: none;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spacer {
+    width: 10%;
+}
+
+.portfolilo_banner {
+    padding: 16px;
+}
+
+/* ----- ID-BASED CSS -----*/
