@@ -1,0 +1,28 @@
+/* ----- GENERAL CSS -----*/
+body{
+    background-color: rgb(255, 233, 254);
+}
+
+p {
+    padding: 10px;
+}
+
+/* ----- CLASS-BASED CSS ----- */
+.page_section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 0;
+}
+
+.main_section {
+    width: 80%;
+    background-color: rgba(31, 31, 33, 0.859);
+    color: white;
+}
+
+.spacer {
+    width: 10%;
+}
+
+/* ----- ID-BASED CSS -----*/

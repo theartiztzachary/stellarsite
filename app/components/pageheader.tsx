@@ -55,9 +55,17 @@ const PageHeader = () => {
                         </Link>
                         <div className = "dropdown_content">
                             <Link to = '/portfolio/gamejams/overview' id = "gamejams_link"> Game Jams </Link>
+                            <Link to = '/portfolio/artfight2026' id = "artfight_link"> Last ArtFight </Link>
                             <Link to = '/zenithnadir/overview' id = "znoverview_link"> Zenith and Nadir </Link>
                         </div>
                     </div>
+
+                    {/* Shop */}
+                    {/* <div>
+                        <Link to = '/shop'>
+                            <button id = "shop"> Shop </button>
+                        </Link>
+                    </div> */}
 
                     {/* Misc */}
                     <div className = "dropdown">
@@ -74,12 +82,12 @@ const PageHeader = () => {
                             <Link to = {{ pathname: 'https://www.instagram.com/sakurafoxfyre'}} target = '_blank' id = "instagram_link">
                                 Instagram
                             </Link>
-                            {/*<Link to = {{ pathname: 'https://www.youtube.com/@sakurafoxfyre'}} target = '_blank' id = "youtube_link">
+                            <Link to = {{ pathname: 'https://www.youtube.com/@sakurafoxfyre'}} target = '_blank' id = "youtube_link">
                                 YouTube
-                            </Link>*/}
-                            {/*<Link to = {{ pathname: 'bluesky'}} target = '_blank' id = "bluesky_link">
+                            </Link>
+                            <Link to = {{ pathname: 'bluesky'}} target = '_blank' id = "bluesky_link">
                                 Bluesky
-                            </Link>*/}
+                            </Link>
                             {/*<Link to = {{ pathname: 'itch.io'}} target = '_blank' id = "itchio_link">
                                 Itch.io
                             </Link>*/}

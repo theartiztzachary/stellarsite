@@ -5,26 +5,17 @@ import {
 import { flatRoutes } from "@react-router/fs-routes";
 
 export default [
-	// HEADER LINKS//
-	// Home
+	// -- Home -- //
 	route("/", "pages/home.tsx"),
-
-	// Blog
-	route("/blog", "pages/blogpages/bloghome.tsx"),
-
-	//Portfolio
-	route("/portfolio", "pages/portfolio/portfoliooverview.tsx"),
-	route("/zenithnadir/overview", "pages/zenithnadir/znoverview.tsx"),
-
-	//Misc
-	route("/misc/wordletool", "pages/misc/wordlecheater.tsx"),
-
-	//External Links are here//
-
-	// Other Exposed Links//
 	route("/contactme", "pages/contactme.tsx"),
 
-	//Portfolio Pages
+	// -- Blog -- //
+	route("/blog", "pages/blogpages/bloghome.tsx"),
+	route("/blog/testpage", "pages/blogpages/blog/testpage.tsx"),
+
+	// -- Portfolio -- //
+	route("/portfolio", "pages/portfolio/portfoliooverview.tsx"),
+
 	//Art Fights
 	route("/portfolio/artfight2026", "pages/portfolio/artfights/artfight2026.tsx"),
 
@@ -33,19 +24,23 @@ export default [
 	route("/portfolio/gamejams/loveandmurder", "pages/portfolio/gamejams/loveandmurder.tsx"),
 	route("/portfolio/gamejams/catditributionmachine", "pages/portfolio/gamejams/catdistribution.tsx"),
 
-	// Zenith and Nadir
+	// -- Zenith and Nadir -- //
+	route("/zenithnadir/overview", "pages/zenithnadir/znoverview.tsx"),
+	route("/zenithnadir/tebithmap", "pages/zenithnadir/theworldof/tebithmap.tsx"),
+
+	//Character Bios
 	route("/zenithnadir/characterbios/dejin", "pages/zenithnadir/characterbios/dejinbio.tsx"),
 
-	// Not Exposed //
-	//Blog Pages
-	route("/blog/testpage", "pages/blogpages/blog/testpage.tsx"),
-
-	// Mabinogi
+	// -- Mabinogi -- //
 	route("/mabinogi/bripizza", "pages/mabinogi/bripizza.tsx"),
     route("/mabinogi/tracker", "pages/mabinogi/mabitracker.tsx"),
 
-	// Warframe
+	// -- Warframe -- //
 	route("/warframe/tracker", "pages/warframe/wftracker.tsx"),
+
+
+	// -- Misc -- //
+	route("/misc/wordletool", "pages/misc/wordlecheater.tsx"),
 
 	...(await flatRoutes()),
 ] satisfies RouteConfig;

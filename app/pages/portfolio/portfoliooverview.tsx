@@ -25,9 +25,15 @@ export default function PortfolioOverview() {
             <div className = "spacer"></div>
 
             <div className = "main_section">
-                <div className = "portfolio_banner">
+                <div className = "banners">
                     <Link to = '/portfolio/gamejams/overview'>
-                        <img src = '/testbanner.png' id = 'gamejam_banner' />
+                        <img src = '/testbanner.png' id = 'gamejam_banner' className = 'portfolio_banner'/>
+                    </Link>
+                    <Link to = '/portfolio/artfight2026'>
+                        <img src = '/testbanner.png' id = 'artfight_banner' className = 'portfolio_banner' />
+                    </Link>
+                    <Link to ='/zenithnadir/overview'>
+                        <img src = '/testbanner.png' id = 'zenithnadir_banner' className = 'portfolio_banner' />
                     </Link>
                 </div>
             </div>
