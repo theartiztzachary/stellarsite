@@ -38,7 +38,6 @@ export default [
 	// -- Warframe -- //
 	route("/warframe/tracker", "pages/warframe/wftracker.tsx"),
 
-
 	// -- Misc -- //
 	route("/misc/wordletool", "pages/misc/wordlecheater.tsx"),
 
