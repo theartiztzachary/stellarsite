@@ -1,3 +1,8 @@
+/* ----- GENERAL CSS ----- */
+:root {
+    z-index: 0;
+}
+
 /* ----- CLASS-BASED CSS ----- */
 .footer_section {
     width: 100%;

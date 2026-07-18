@@ -8,6 +8,9 @@
 }
 
 /* ----- GENERAL CSS ----- */
+:root {
+    position: relative;
+}
 
 /* ----- CLASS-BASED CSS ----- */
 .header_section {
@@ -25,26 +28,29 @@
 .title_section {
     display: flex;
     flex-direction: column;
-    justify-content: left;
+    justify-content: center;
     font-family: 'Reenie Beanie', sans-serif;
     color: rgb(0, 0, 0);
 }
 
 .navlinks {
-    position: sticky;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     justify-content: center;
-    margin: auto;
-    font-family: 'Acumin Pro', sans-serif;                       
+    margin: 5% auto auto;
+    font-family: 'Acumin Pro', sans-serif;    
+    z-index: 9996;                   
 }
 
 .dropdown {
     float: left;
     display: inline-block;
-    overflow: hidden;
+    height: 180px;
+    z-index: 9997;
 }
 
 .dropdown_button {
@@ -58,10 +64,12 @@
 
 .dropdown_content {
     display: none;
-    position: absolute; 
+    position: relative; 
     background-color: #F1F1F1;
     width: 140px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    /* height: 180px; */
+    z-index: 9998;
 }
 
     .dropdown_content a {
@@ -70,6 +78,7 @@
         text-decoration: none;
         display: block;
         text-align: center;
+        z-index: 9999;
     }
 
         .dropdown_content a:hover {
