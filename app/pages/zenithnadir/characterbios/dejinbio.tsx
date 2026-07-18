@@ -43,6 +43,10 @@ export default function DejinBio() {
                     }} />
                 </div>
 
+                <div className = 'full_bio_section'>
+
+                </div>
+
             </div>
 
             <div className = "spacer"></div>
