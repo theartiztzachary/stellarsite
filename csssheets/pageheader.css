@@ -5,6 +5,7 @@
     font-weight: 400;
     font-style: normal;
     font-display: swap;
+    /* sans-serif */
 }
 
 /* ----- GENERAL CSS ----- */
@@ -16,7 +17,6 @@
 .header_section {
     width: 100%;
     overflow: auto;
-    z-index: 1;
 }
 
 .title_links {
@@ -42,15 +42,13 @@
     display: flex;
     justify-content: center;
     margin: 5% auto auto;
-    font-family: 'Acumin Pro', sans-serif;    
-    z-index: 9996;                   
+    font-family: 'Acumin Pro', sans-serif;      
+    height: fit-content;                
 }
 
 .dropdown {
     float: left;
     display: inline-block;
-    height: 180px;
-    z-index: 9997;
 }
 
 .dropdown_button {
@@ -68,8 +66,7 @@
     background-color: #F1F1F1;
     width: 140px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    /* height: 180px; */
-    z-index: 9998;
+    z-index: 1;
 }
 
     .dropdown_content a {
@@ -78,7 +75,6 @@
         text-decoration: none;
         display: block;
         text-align: center;
-        z-index: 9999;
     }
 
         .dropdown_content a:hover {

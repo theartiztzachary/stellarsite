@@ -8,6 +8,7 @@ import PageFooter from '../../../components/pagefooter.tsx';
 import '../../../../csssheets/pagefooter.css';
 
 import '../../../../csssheets/znstyle.css';
+import ZNNHeader from "~/components/znnheader";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -22,16 +23,23 @@ export default function DejinBio() {
 
     return (
         <>
+        <div className = 'background-setup'>
+            <img src = '../../../../../images/zntreeimage.png' id = 'background-image' />
+        </div>
+        <div className = 'backgound-setup' id = 'background-opacity-filter'></div>
+
         <PageHeader />
 
         {imageModalVisible && <ImageModal imagePath = {imagePath} setImageModalVisible = {setImageModalVisible} />}
+
+        <ZNNHeader />
 
         <div className = "page_section">
             <div className = "spacer"></div>
 
             <div className = "main_section">
                 <div className = 'bio_section'>
-                    <h1 className = 'character_name'>Dejin</h1>
+                    <h1 className = 'character_name' id = 'dejin_name'>Dejin</h1>
                     <img src = '/testicon.png' className = 'character_icon' />
                     <p className = 'character_bio'></p>
                 </div>

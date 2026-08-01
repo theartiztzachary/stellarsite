@@ -1,7 +1,30 @@
+/* ----- FONTS ----- */
+@font-face {
+    font-family: "Finger Paint";
+    src: url('../fonts/FingerPaint-Regular.woff2') format('woff2'); 
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    /* sans-serif */
+}
+
+@font-face {
+    font-family: "Nanum Brush Script";
+    src: url('../fonts/NanumBrushScript-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    /* cursive */
+}
+
 /* ----- GENERAL CSS -----*/
 :root {
-    z-index: -1;
     position: relative;
+}
+
+* {
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -17,12 +40,11 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 0;
 }
 
 .main_section {
     width: 80%;
-    background-color: rgba(31, 31, 33, 0.859);
+    background-color: rgba(31, 31, 33, 0.95);
     color: white;
 }
 
@@ -89,4 +111,140 @@ p {
         cursor: pointer;
     }
 
+.background-setup {
+    margin: 0;
+    padding: 0;
+    width: 100wv;
+    z-index: -1;
+    position: fixed;
+}
+
+.znnheader {
+    width: 100%;
+    overflow: auto;
+    float: left;
+    display: flex;
+}
+
+.znnnavlinks {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    margin: 10% 5% auto;   
+    height: fit-content;               
+}
+
+.dropdown {
+    float: left;
+    display: inline-block;
+}
+
+.dropdown_button {
+    background-color: #f6a3d6;
+    color: rgb(0, 0, 0);
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    width: 140px;
+}
+
+.dropdown_content {
+    display: none;
+    position: relative; 
+    background-color: #F1F1F1;
+    width: 140px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+    .dropdown_content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+    }
+
+        .dropdown_content a:hover {
+            background-color: #ddd;
+        }
+
+.dropdown:hover .dropdown_content {
+    display: block;
+}
+
+.dropdown:hover .dropdown_button {
+    background-color: #e88fd4;
+}
+
 /* ----- ID-BASED CSS -----*/
+#background-image {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    z-index: -1;
+    position: fixed;
+}
+
+#background-opacity-filter {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    position: fixed;
+    background-color: rgba(200, 200, 200, 0.4);
+}
+
+#znnhome_button {
+    font-family: 'Nanum Brush Script', cursive;
+    font-size: 25px;
+    padding: 5px;
+    border: none;
+    width: 100px;
+    height: 35px;
+}
+
+#world_map_button {
+    font-family: 'Nanum Brush Script', cursive;
+    font-size: 25px;
+    padding: 5px;
+    border: none;
+    width: 100px;
+    height: 35px;
+}
+
+#stories_link {
+    font-family: 'Nanum Brush Script', cursive;
+    font-size: 25px;
+    padding: 5px;
+    border: none;
+    width: 100px;
+    height: 35px;
+}
+
+#floraandfauna_button {
+    font-family: 'Nanum Brush Script', cursive;
+    font-size: 15px;
+    padding: 5px;
+    border: none;
+    width: 100px;
+    height: 35px;
+}
+
+#characters_button {
+    font-family: 'Nanum Brush Script', cursive;
+    font-size: 25px;
+    padding: 5px;
+    border: none;
+    width: 100px;
+    height: 35px;
+}
+
+#dejin_name {
+    font-family: 'Finger Paint', sans-serif;
+}
