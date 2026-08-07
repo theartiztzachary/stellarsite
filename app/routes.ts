@@ -26,23 +26,24 @@ export default [
 
 	// -- Zenith and Nadir -- //
 	route("/zenithnadir/overview", "pages/zenithnadir/znoverview.tsx"),
-	route("/zenithnatir/storiesoverview", "pages/zenithnadir/storiesoverview.tsx"),
+	route("/zenithnadir/stories/overview", "pages/zenithnadir/storiesoverview.tsx"),
 	route("/zenithnadir/tebithmap", "pages/zenithnadir/theworldof/tebithmap.tsx"),
-	route("/zenithnnadir/floraandfauna", "pages/zenithnadir/floraandfauna/floraandfaunaoverview.tsx"),
-	route("/zenithnnadir/charactersearch", "pages/zenithnadir/characteroverview.tsx"),
+	route("/zenithnadir/floraandfauna", "pages/zenithnadir/floraandfauna/floraandfaunaoverview.tsx"),
+	route("/zenithnadir/charactersearch", "pages/zenithnadir/characteroverview.tsx"),
 
 	//Individual Stories
+	route("/zenithnadir/stories/thezenithtree", "pages/zenithnadir/stories/thezenithtree.tsx"),
 
 	//Locations
 	
 	//Flora and Fauna - Races
-	route("/zenithnnadir/floraandfauna/blexim", "pages/zenithnadir/floraandfauna/fauna/bleximrace.tsx"),
-	route("/zenithnnadir/floraandfauna/cyrenin", "pages/zenithnadir/floraandfauna/fauna/cyreninrace.tsx"),
-	route("/zenithnnadir/floraandfauna/flauos", "pages/zenithnadir/floraandfauna/fauna/flauosrace.tsx"),
-	route("/zenithnnadir/floraandfauna/gaudion", "pages/zenithnadir/floraandfauna/fauna/gaudionrace.tsx"),
-	route("/zenithnnadir/floraandfauna/maowav", "pages/zenithnadir/floraandfauna/fauna/maowavrace.tsx"),
-	route("/zenithnnadir/floraandfauna/paracya", "pages/zenithnadir/floraandfauna/fauna/paracyarace.tsx"),
-	route("/zenithnnadir/floraandfauna/vailiax", "pages/zenithnadir/floraandfauna/fauna/vailiaxrace.tsx"),
+	route("/zenithnadir/floraandfauna/blexim", "pages/zenithnadir/floraandfauna/fauna/bleximrace.tsx"),
+	route("/zenithnadir/floraandfauna/cyrenin", "pages/zenithnadir/floraandfauna/fauna/cyreninrace.tsx"),
+	route("/zenithnadir/floraandfauna/flauos", "pages/zenithnadir/floraandfauna/fauna/flauosrace.tsx"),
+	route("/zenithnadir/floraandfauna/gaudion", "pages/zenithnadir/floraandfauna/fauna/gaudionrace.tsx"),
+	route("/zenithnadir/floraandfauna/maowav", "pages/zenithnadir/floraandfauna/fauna/maowavrace.tsx"),
+	route("/zenithnadir/floraandfauna/paracya", "pages/zenithnadir/floraandfauna/fauna/paracyarace.tsx"),
+	route("/zenithnadir/floraandfauna/vailiax", "pages/zenithnadir/floraandfauna/fauna/vailiaxrace.tsx"),
 
 	//Character Bios
 	route("/zenithnadir/characterbios/dejin", "pages/zenithnadir/characterbios/dejinbio.tsx"),

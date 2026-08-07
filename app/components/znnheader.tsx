@@ -10,12 +10,12 @@ const ZNNHeader = () => {
                     </Link>
                 </div>
 
-                <div className = "dropdown">
-                    <Link to = "/zenithnatir/storiesoverview">
+                <div className = "znndropdown">
+                    <Link to = "/zenithnadir/stories/overview">
                         <button className = "dropdown_button" id = "stories_link"> Stories </button>
                     </Link>
-                    <div className = "dropdown_content">
-
+                    <div className = "znndropdown_content">
+                        <Link to = '/zenithnadir/stories/thezenithtree' id = 'thezenithtree_link'> The Zenith Tree </Link>
                     </div>
                 </div>
 
@@ -26,13 +26,13 @@ const ZNNHeader = () => {
                 </div>
 
                 <div>
-                    <Link to = '/zenithnnadir/floraandfauna'>
+                    <Link to = '/zenithnadir/floraandfauna'>
                         <button id = 'floraandfauna_button'> Flora and Fauna </button>
                     </Link>
                 </div>
 
                 <div>
-                    <Link to = '/zenithnnadir/charactersearch'>
+                    <Link to = '/zenithnadir/charactersearch'>
                         <button id = 'characters_button'> Characters </button>
                     </Link>
                 </div>          

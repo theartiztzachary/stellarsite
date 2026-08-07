@@ -35,6 +35,10 @@ p {
     padding: 10px;
 }
 
+button {
+    cursor: pointer;
+}
+
 /* ----- CLASS-BASED CSS ----- */
 .page_section {
     display: flex;
@@ -138,30 +142,33 @@ p {
     height: fit-content;               
 }
 
-.dropdown {
+.znndropdown {
     float: left;
     display: inline-block;
 }
 
-.dropdown_button {
+.znndropdown_button {
     background-color: #f6a3d6;
     color: rgb(0, 0, 0);
     padding: 16px;
     font-size: 16px;
     border: none;
-    width: 140px;
+    width: 100px;
 }
 
-.dropdown_content {
+.znndropdown_content {
     display: none;
-    position: relative; 
+    position: absolute; 
     background-color: #F1F1F1;
-    width: 140px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    cursor: pointer;
+    font-family: 'Nanum Brush Script', cursive;
+    font-size: 25px;
+    height: 35px;
 }
 
-    .dropdown_content a {
+    .znndropdown_content a {
         color: black;
         padding: 12px 16px;
         text-decoration: none;
@@ -169,15 +176,15 @@ p {
         text-align: center;
     }
 
-        .dropdown_content a:hover {
+        .znndropdown_content a:hover {
             background-color: #ddd;
         }
 
-.dropdown:hover .dropdown_content {
+.znndropdown:hover .znndropdown_content {
     display: block;
 }
 
-.dropdown:hover .dropdown_button {
+.znndropdown:hover .znndropdown_button {
     background-color: #e88fd4;
 }
 
@@ -242,7 +249,7 @@ p {
     padding: 5px;
     border: none;
     width: 100px;
-    height: 35px;
+    height: 35px;   
 }
 
 #dejin_name {

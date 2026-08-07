@@ -17,6 +17,13 @@ export function meta({}: Route.MetaArgs) {
     ];
 };
 
+//tags//
+export const name = 'Dejin'
+export const tags = [];
+export const id = 'dejinbio';
+export const routelink = '/zenithnadir/characterbios/dejin';
+export const description = 'Test description.'
+
 export default function DejinBio() {
     const [imageModalVisible, setImageModalVisible] = useState(false);
     const [imagePath, setImagePath] = useState('/testicon.png');
