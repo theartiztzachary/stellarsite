@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const BlogHeader = (props) => {
@@ -61,19 +61,19 @@ const BlogHeader = (props) => {
             //this will need some kind of ascyn/loading function bc pages are gonna get...wild xd but for now
             for (let index = 0; index < pageInformation.length; index++) {
                 if (searchResultPages.includes(pageInformation[index].name)) {
-                    console.log('This page is already logged.');
+                    //console.log('This page is already logged.');
                     //check if the result is still valid and if not remove it
                     var validResult: boolean = false;
                     for (const [key, value] of Object.entries(pageInformation[index])) {
                         if (value.includes(searchQuery)) {
                             validResult = true;
-                            console.log('This page is still valid.');
+                            //console.log('This page is still valid.');
                             break; //removes us from the for loop bc we are good
                         }
                     }
 
                     if (!validResult) {
-                        console.log('This page is invalid.');
+                        //console.log('This page is invalid.');
                         const invalidIndex = searchResultPages.indexOf(pageInformation[index].name);
                         //console.log(invalidIndex);
                         setSearchResultPages(searchResultPages.splice(invalidIndex, 1));

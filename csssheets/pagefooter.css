@@ -1,0 +1,18 @@
+/* ----- GENERAL CSS ----- */
+:root {
+    z-index: 0;
+}
+
+/* ----- CLASS-BASED CSS ----- */
+.footer_section {
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 16px;
+}
+
+.spacer {
+    width: 10%;
+}

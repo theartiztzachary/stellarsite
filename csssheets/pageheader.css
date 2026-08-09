@@ -5,12 +5,19 @@
     font-weight: 400;
     font-style: normal;
     font-display: swap;
+    /* sans-serif */
 }
 
 /* ----- GENERAL CSS ----- */
+:root {
+    position: relative;
+}
+
+button {
+    cursor: pointer;
+}
 
 /* ----- CLASS-BASED CSS ----- */
-
 .header_section {
     width: 100%;
     overflow: auto;
@@ -25,26 +32,27 @@
 .title_section {
     display: flex;
     flex-direction: column;
-    justify-content: left;
+    justify-content: center;
     font-family: 'Reenie Beanie', sans-serif;
     color: rgb(0, 0, 0);
 }
 
 .navlinks {
-    position: fixed;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     justify-content: center;
-    margin: auto;
-    font-family: 'Acumin Pro', sans-serif;                       
+    margin: 5% auto auto;
+    font-family: 'Acumin Pro', sans-serif;      
+    height: fit-content;             
 }
 
 .dropdown {
     float: left;
     display: inline-block;
-    overflow: hidden;
 }
 
 .dropdown_button {
@@ -58,11 +66,12 @@
 
 .dropdown_content {
     display: none;
-    position: absolute;
+    position: relative; 
     background-color: #F1F1F1;
     width: 140px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    cursor: pointer;
 }
 
     .dropdown_content a {

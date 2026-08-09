@@ -5,38 +5,58 @@ import {
 import { flatRoutes } from "@react-router/fs-routes";
 
 export default [
-	// HEADER LINKS//
-	// Home
+	// -- Home -- //
 	route("/", "pages/home.tsx"),
+	route("/contactme", "pages/contactme.tsx"),
 
-	// Blog
+	// -- Blog -- //
 	route("/blog", "pages/blogpages/bloghome.tsx"),
-
-	//Portfolio
-	route("/portfolio", "pages/portfolio/portfoliooverview.tsx"),
-	route("/zenithnadir/overview", "pages/zenithnadir/znoverview.tsx"),
-
-	//Misc
-	route("/misc/wordletool", "pages/misc/wordlecheater.tsx"),
-
-	//External Links are here//
-
-	// Other Exposed Links//
-	//Portfolio Pages
-	route("/portfolio/artfight2026", "pages/portfolio/artfight2026.tsx"),
-
-	// Zenith and Nadir
-
-	// Not Exposed //
-	//Blog Pages
 	route("/blog/testpage", "pages/blogpages/blog/testpage.tsx"),
 
-	// Mabinogi
+	// -- Portfolio -- //
+	route("/portfolio", "pages/portfolio/portfoliooverview.tsx"),
+
+	//Art Fights
+	route("/portfolio/artfight2026", "pages/portfolio/artfights/artfight2026.tsx"),
+
+	//Game Jams
+	route("/portfolio/gamejams/overview", "pages/portfolio/gamejams/gamejamsoverview.tsx"),
+	route("/portfolio/gamejams/loveandmurder", "pages/portfolio/gamejams/loveandmurder.tsx"),
+	route("/portfolio/gamejams/catditributionmachine", "pages/portfolio/gamejams/catdistribution.tsx"),
+
+	// -- Zenith and Nadir -- //
+	route("/zenithnadir/overview", "pages/zenithnadir/znoverview.tsx"),
+	route("/zenithnadir/stories/overview", "pages/zenithnadir/storiesoverview.tsx"),
+	route("/zenithnadir/tebithmap", "pages/zenithnadir/theworldof/tebithmap.tsx"),
+	route("/zenithnadir/floraandfauna", "pages/zenithnadir/floraandfauna/floraandfaunaoverview.tsx"),
+	route("/zenithnadir/charactersearch", "pages/zenithnadir/characteroverview.tsx"),
+
+	//Individual Stories
+	route("/zenithnadir/stories/thezenithtree", "pages/zenithnadir/stories/thezenithtree.tsx"),
+
+	//Locations
+	
+	//Flora and Fauna - Races
+	route("/zenithnadir/floraandfauna/blexim", "pages/zenithnadir/floraandfauna/fauna/bleximrace.tsx"),
+	route("/zenithnadir/floraandfauna/cyrenin", "pages/zenithnadir/floraandfauna/fauna/cyreninrace.tsx"),
+	route("/zenithnadir/floraandfauna/flauos", "pages/zenithnadir/floraandfauna/fauna/flauosrace.tsx"),
+	route("/zenithnadir/floraandfauna/gaudion", "pages/zenithnadir/floraandfauna/fauna/gaudionrace.tsx"),
+	route("/zenithnadir/floraandfauna/maowav", "pages/zenithnadir/floraandfauna/fauna/maowavrace.tsx"),
+	route("/zenithnadir/floraandfauna/paracya", "pages/zenithnadir/floraandfauna/fauna/paracyarace.tsx"),
+	route("/zenithnadir/floraandfauna/vailiax", "pages/zenithnadir/floraandfauna/fauna/vailiaxrace.tsx"),
+
+	//Character Bios
+	route("/zenithnadir/characterbios/dejin", "pages/zenithnadir/characterbios/dejinbio.tsx"),
+
+	// -- Mabinogi -- //
 	route("/mabinogi/bripizza", "pages/mabinogi/bripizza.tsx"),
     route("/mabinogi/tracker", "pages/mabinogi/mabitracker.tsx"),
 
-	// Warframe
+	// -- Warframe -- //
 	route("/warframe/tracker", "pages/warframe/wftracker.tsx"),
+
+	// -- Misc -- //
+	route("/misc/wordletool", "pages/misc/wordlecheater.tsx"),
 
 	...(await flatRoutes()),
 ] satisfies RouteConfig;

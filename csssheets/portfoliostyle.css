@@ -1,0 +1,45 @@
+/* ----- GENERAL CSS -----*/
+:root {
+    z-index: 0;
+}
+
+body {
+    background-color: rgb(255, 233, 254);
+}
+
+p {
+    padding: 10px;
+}
+
+/* ----- CLASS-BASED CSS ----- */
+.page_section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_section {
+    width: 80%;
+    background-color: none;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spacer {
+    width: 10%;
+}
+
+.banners {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.portfolilo_banner {
+    padding-top: 16px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* ----- ID-BASED CSS -----*/

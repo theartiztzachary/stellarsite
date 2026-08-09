@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 const PageHeader = () => {
@@ -37,28 +36,37 @@ const PageHeader = () => {
                     </div>
                     */}
 
-                    {/* Mabinogi */}
-                    {/*
-                    <div className = "dropdown">
-                        <button className = "dropdown_button"> Mabinogi </button>
-                        <div className = "dropdown_content">
-                            <Link to = '/mabinogi/tracker'> Tracker </Link>
-                            <Link to = '/mabinogi/bripizza'> Bri G1 Pizza </Link>
-                        </div>
-                    </div>
-                    */}
-
                     {/* Portfolio */}
                     <div className = "dropdown">
                         <Link to = '/portfolio'>
                             <button className = "dropdown_button" id = "portfolio_link"> Portfolio </button>
                         </Link>
                         <div className = "dropdown_content">
-                            <Link to = '/zenithnadir/overview' id = "znoverview_link">
-                                Zenith and Nadir
-                            </Link>
+                            <Link to = '/portfolio/gamejams/overview' id = "gamejams_link"> Game Jams </Link>
+                            <Link to = '/portfolio/artfight2026' id = "artfight_link"> Last ArtFight </Link>
+                            <Link to = '/zenithnadir/overview' id = "znoverview_link"> Zenith and Nadir </Link>
                         </div>
                     </div>
+
+                    {/* Game Tools */}
+                    {/*
+                    <div className = "dropdpown">
+                        <button className = "dropdown_button" id = "gametools_button"> Game Tools </button>
+                        <div className = "dropdown_content">
+                            <Link to = '/gametools/bripizza'> Bri G1 Pizza </Link>
+                            <Link to = '/gametools/mabitracker'> Mabi Tracker </Link>
+                            <Link to = '/gametools/wftracker'> Warframe Tracker </Link>
+                            <Link to = '/gametools/hsrstatcalc'> HSR Stat Calculator </link>
+                        </div>
+                    </div>
+                    */}
+
+                    {/* Shop */}
+                    {/* <div>
+                        <Link to = '/shop'>
+                            <button id = "shop"> Shop </button>
+                        </Link>
+                    </div> */}
 
                     {/* Misc */}
                     <div className = "dropdown">
@@ -75,12 +83,12 @@ const PageHeader = () => {
                             <Link to = {{ pathname: 'https://www.instagram.com/sakurafoxfyre'}} target = '_blank' id = "instagram_link">
                                 Instagram
                             </Link>
-                            {/*<Link to = {{ pathname: 'https://www.youtube.com/@sakurafoxfyre'}} target = '_blank' id = "youtube_link">
+                            {/* <Link to = {{ pathname: 'https://www.youtube.com/@sakurafoxfyre'}} target = '_blank' id = "youtube_link">
                                 YouTube
-                            </Link>*/}
-                            {/*<Link to = {{ pathname: 'bluesky'}} target = '_blank' id = "bluesky_link">
+                            </Link> */}
+                            {/* <Link to = {{ pathname: 'bluesky'}} target = '_blank' id = "bluesky_link">
                                 Bluesky
-                            </Link>*/}
+                            </Link> */}
                             {/*<Link to = {{ pathname: 'itch.io'}} target = '_blank' id = "itchio_link">
                                 Itch.io
                             </Link>*/}
@@ -93,9 +101,9 @@ const PageHeader = () => {
                             {/*<Link to = {{ pathname: 'redbubble'}} target = '_blank' id = "redbubble_link">
                                 Redbubble
                             </Link>*/}
-                            <Link to = {{ pathname: 'https://artfight.net/~sakurafoxfyre'}} target = '_blank' id = "artfight_link">
+                            {/*<Link to = {{ pathname: 'https://artfight.net/~sakurafoxfyre'}} target = '_blank' id = "artfight_link">
                                 ArtFight
-                            </Link>
+                            </Link>*/}
                         </div>
                     </div>
 
